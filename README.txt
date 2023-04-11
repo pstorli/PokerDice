@@ -10,6 +10,7 @@ PokerDice is a fun, dice based poker game that I thought up and implemented myse
 
 Resolved Issues Version 1000:
   0000 Init Commit
+  0000 Added transparent dice images
 
 Known Issues:
   0000 Create initial MVVM architecture
