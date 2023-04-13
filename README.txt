@@ -12,6 +12,7 @@ Resolved Issues Version 1000:
   0000 Init Commit
   0000 Added transparent dice images
   0000 Updatd 1-6 dice, they were shifted too far up and left.
+  0000 Added square and round corner empty background squares.
 
 Known Issues:
   0000 Create initial MVVM architecture
