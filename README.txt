@@ -2,7 +2,7 @@
 PokerDice is a fun, dice based poker game that I thought up and implemented myself.
 
 # Author:   Pete Storli
-# Date:     04/06/2023
+# Date:     04/24/2023
 # Website:  http://storlidesigns.com
 # Phone:    971-888-2534 or 971 375 7407
 # Company:  Storli Designs LLC
