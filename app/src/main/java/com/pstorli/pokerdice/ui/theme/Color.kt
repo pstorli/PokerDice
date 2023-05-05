@@ -13,10 +13,13 @@ val Pink40              = Color(0xFF7D5260)
 // Custom colors.
 val Orange              = Color(0xFFF78621)
 val Pink                = Color(0xFFFF00FF)
+val Silver              = Color(0xFFC0C0C0)
+val White_Pale          = Color(0xFFDFDFDF)
 
 // Named colors.
+val COLOR_BACK          = White_Pale
 var COLOR_BET_BORDER    = Color.Green
-var COLOR_BORDER        = Color.LightGray
+var COLOR_BORDER        = Color.DarkGray
 var COLOR_DICE1         = Color.Blue
 var COLOR_DICE2         = Color.Cyan
 var COLOR_DICE3         = Color.Red

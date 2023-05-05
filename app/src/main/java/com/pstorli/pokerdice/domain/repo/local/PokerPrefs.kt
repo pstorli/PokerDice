@@ -10,16 +10,12 @@ import com.pstorli.pokerdice.util.Consts.BET
 import com.pstorli.pokerdice.util.Consts.BLUE
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.CASH
-import com.pstorli.pokerdice.util.Consts.COLOR_BET_BORDER
-import com.pstorli.pokerdice.util.Consts.COLOR_BORDER
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE1
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE2
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE3
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE4
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE5
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE6
-import com.pstorli.pokerdice.util.Consts.COLOR_HOLD_BORDER
-import com.pstorli.pokerdice.util.Consts.COLOR_TEXT
 import com.pstorli.pokerdice.util.Consts.EMPTY_SQUARE
 import com.pstorli.pokerdice.util.Consts.GREEN
 import com.pstorli.pokerdice.util.Consts.RED
@@ -63,16 +59,12 @@ class PokerPrefs (application: Application) : PokerDS {
                 Persist.BET                 -> pokerDAO.bet             = getInt     (BET)
                 Persist.BOARD               -> pokerDAO.board           = loadBoard  ()
                 Persist.CASH                -> pokerDAO.cash            = getInt     (CASH)
-                Persist.COLOR_BET_BORDER    -> pokerDAO.colorBetBorder  = getColor   (COLOR_BET_BORDER)
-                Persist.COLOR_BORDER        -> pokerDAO.colorBorder     = getColor   (COLOR_BORDER)
                 Persist.COLOR_DICE1         -> pokerDAO.colorDice1      = getColor   (COLOR_DICE1)
                 Persist.COLOR_DICE2         -> pokerDAO.colorDice2      = getColor   (COLOR_DICE2)
                 Persist.COLOR_DICE3         -> pokerDAO.colorDice3      = getColor   (COLOR_DICE3)
                 Persist.COLOR_DICE4         -> pokerDAO.colorDice4      = getColor   (COLOR_DICE4)
                 Persist.COLOR_DICE5         -> pokerDAO.colorDice5      = getColor   (COLOR_DICE5)
                 Persist.COLOR_DICE6         -> pokerDAO.colorDice6      = getColor   (COLOR_DICE6)
-                Persist.COLOR_HOLD_BORDER   -> pokerDAO.colorHoldBorder = getColor   (COLOR_HOLD_BORDER)
-                Persist.COLOR_TEXT          -> pokerDAO.colorText       = getColor   (COLOR_TEXT)
                 Persist.ROLLS               -> pokerDAO.rolls           = getInt     (ROLLS)
             }
         }
@@ -92,16 +84,12 @@ class PokerPrefs (application: Application) : PokerDS {
                 Persist.BET                 -> putInt       (BET,               pokerDAO.bet)
                 Persist.BOARD               -> saveBoard    (                   pokerDAO.board)
                 Persist.CASH                -> putInt       (CASH,              pokerDAO.cash)
-                Persist.COLOR_BET_BORDER    -> putColor     (COLOR_BET_BORDER,  pokerDAO.colorBetBorder)
-                Persist.COLOR_BORDER        -> putColor     (COLOR_BORDER,  pokerDAO.colorBorder)
                 Persist.COLOR_DICE1         -> putColor     (COLOR_DICE1,       pokerDAO.colorDice1)
                 Persist.COLOR_DICE2         -> putColor     (COLOR_DICE2,       pokerDAO.colorDice2)
                 Persist.COLOR_DICE3         -> putColor     (COLOR_DICE3,       pokerDAO.colorDice3)
                 Persist.COLOR_DICE4         -> putColor     (COLOR_DICE4,       pokerDAO.colorDice4)
                 Persist.COLOR_DICE5         -> putColor     (COLOR_DICE5,       pokerDAO.colorDice5)
                 Persist.COLOR_DICE6         -> putColor     (COLOR_DICE6,       pokerDAO.colorDice6)
-                Persist.COLOR_HOLD_BORDER   -> putColor     (COLOR_HOLD_BORDER, pokerDAO.colorHoldBorder)
-                Persist.COLOR_TEXT          -> putColor     (COLOR_TEXT,        pokerDAO.colorText)
                 Persist.ROLLS               -> putInt       (ROLLS,             pokerDAO.rolls)
             }
         }

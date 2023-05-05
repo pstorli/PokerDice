@@ -20,7 +20,13 @@ Architecture notes:
     from the viewModel and have it emit actions back to the viewModel.
 
 2DO Issues:
-  0000 Create initial Jetpack Compose from poker dice screen shot
+  0000
+
+Resolved Issues Version 1003:
+  0000 Created initial Jetpack Compose from poker dice screen shot
+
+Resolved Issues Version 1002:
+    0000 Added Jetpack Compose test button
 
 Resolved Issues Version 1001:
   0000 Created initial MVVM architecture.

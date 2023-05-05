@@ -1,5 +1,6 @@
 package com.pstorli.pokerdice.domain.repo.dao
 
+import com.pstorli.pokerdice.ui.theme.COLOR_BACK
 import com.pstorli.pokerdice.ui.theme.COLOR_BET_BORDER
 import com.pstorli.pokerdice.ui.theme.COLOR_BORDER
 import com.pstorli.pokerdice.ui.theme.COLOR_DICE1
@@ -18,6 +19,7 @@ data class PokerDAO (val betInitial: Int = 0) {
     var bet                = betInitial
     var board              = Array(Consts.BOARD_SIZE) { IntArray(Consts.BOARD_SIZE) }
     var cash               = HUNDRED
+    var colorBack          = COLOR_BACK
     var colorBetBorder     = COLOR_BET_BORDER
     var colorBorder        = COLOR_BORDER
     var colorDice1         = COLOR_DICE1

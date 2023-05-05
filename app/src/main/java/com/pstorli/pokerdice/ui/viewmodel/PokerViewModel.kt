@@ -4,12 +4,12 @@ import androidx.lifecycle.viewModelScope
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import com.pstorli.pokerdice.*
 import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
 import com.pstorli.pokerdice.repo.PokerRepo
 
 import androidx.compose.ui.graphics.Color
+import com.pstorli.pokerdice.ui.theme.COLOR_BACK
 import com.pstorli.pokerdice.ui.theme.COLOR_BET_BORDER
 import com.pstorli.pokerdice.ui.theme.COLOR_BORDER
 import com.pstorli.pokerdice.ui.theme.COLOR_DICE1
@@ -26,6 +26,9 @@ import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Persist
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 @Suppress("unused")
 class PokerViewModel (application: Application) : AndroidViewModel(application) {
@@ -33,7 +36,8 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // *********************************************************************************************
     // Observerable data.
     // *********************************************************************************************
-    var what: MutableLiveData<Array<Persist>> = MutableLiveData(Persist.values())
+    private val _whatFlow = MutableSharedFlow<Array<Persist>>()
+    val whatFlow: SharedFlow<Array<Persist>> = _whatFlow.asSharedFlow()
 
     // *********************************************************************************************
     // Data.
@@ -43,6 +47,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     var board: Array<IntArray> = Array(BOARD_SIZE) { IntArray(BOARD_SIZE) }
 
     // How much cash, rolls and bets have we?
+    var backColor:          Color   = COLOR_BACK
     var bet:                Int     = 0
     var betBorderColor:     Color   = COLOR_BET_BORDER
     var btnBorderColor:     Color   = COLOR_BORDER
@@ -96,7 +101,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
                 updateModel (gameResultDAO)
 
                 // Then, notify them of what was changed. (Everything has changed!)
-                what.value = Persist.values()
+                _whatFlow.tryEmit (Persist.values())
             }
         }
     }
@@ -111,16 +116,12 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
                 Persist.BET                 -> bet              = pokerDAO.bet
                 Persist.BOARD               -> board            = pokerDAO.board
                 Persist.CASH                -> cash             = pokerDAO.cash
-                Persist.COLOR_BET_BORDER    -> betBorderColor   = pokerDAO.colorBetBorder
-                Persist.COLOR_BORDER        -> btnBorderColor   = pokerDAO.colorBorder
                 Persist.COLOR_DICE1         -> diceColor1       = pokerDAO.colorDice1
                 Persist.COLOR_DICE2         -> diceColor2       = pokerDAO.colorDice2
                 Persist.COLOR_DICE3         -> diceColor3       = pokerDAO.colorDice3
                 Persist.COLOR_DICE4         -> diceColor4       = pokerDAO.colorDice4
                 Persist.COLOR_DICE5         -> diceColor5       = pokerDAO.colorDice5
                 Persist.COLOR_DICE6         -> diceColor6       = pokerDAO.colorDice6
-                Persist.COLOR_HOLD_BORDER   -> holdBorderColor  = pokerDAO.colorHoldBorder
-                Persist.COLOR_TEXT          -> textColor        = pokerDAO.colorText
                 Persist.ROLLS               -> rolls            = pokerDAO.rolls
             }
         }
@@ -182,7 +183,11 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
      * Roll them bones.
      */
     private fun rollEvent () {
+        // TODO test
+        cash++
 
+        // Notify that cash has changed.
+        _whatFlow.tryEmit (arrayOf(Persist.CASH))
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
