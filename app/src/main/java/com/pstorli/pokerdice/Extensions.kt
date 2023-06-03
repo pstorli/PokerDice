@@ -4,6 +4,9 @@
 
 package com.pstorli.pokerdice
 
+import android.content.Context
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.pstorli.pokerdice.util.Consts
 
 // *********************************************************************************************
@@ -79,6 +82,36 @@ fun String.logInfo ()
 fun String.logInfo (tag: String)
 {
     Consts.logInfo (tag, this)
+}
+
+/**
+ * Log an info message.
+ */
+fun String.debug ()
+{
+    Consts.debug (this)
+}
+
+// *********************************************************************************************
+// More helper functions
+// *********************************************************************************************
+
+/**
+ * Get a color.
+ */
+fun Context.color (name: Pair <String,String>): Color {
+    return Consts.color(name, this)
+}
+
+/**
+ * Add a modifier conditionally.
+ */
+fun Modifier.conditional(condition : Boolean, modifier : Modifier.() -> Modifier) : Modifier {
+    return if (condition) {
+        then(modifier(Modifier))
+    } else {
+        this
+    }
 }
 
 

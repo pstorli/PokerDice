@@ -3,32 +3,33 @@ package com.pstorli.pokerdice.model
 import androidx.lifecycle.viewModelScope
 
 import android.app.Application
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.pstorli.pokerdice.*
-import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
 import com.pstorli.pokerdice.repo.PokerRepo
 
 import androidx.compose.ui.graphics.Color
-import com.pstorli.pokerdice.ui.theme.COLOR_BACK
-import com.pstorli.pokerdice.ui.theme.COLOR_BET_BORDER
-import com.pstorli.pokerdice.ui.theme.COLOR_BORDER
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE1
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE2
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE3
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE4
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE5
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE6
-import com.pstorli.pokerdice.ui.theme.COLOR_HOLD_BORDER
-import com.pstorli.pokerdice.ui.theme.COLOR_TEXT
+import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE1
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE2
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE3
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE4
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE5
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE6
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE1
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE2
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE3
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE4
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE5
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE6
 import com.pstorli.pokerdice.ui.viewmodel.PokerEvent
 
-import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
+import com.pstorli.pokerdice.util.Consts.BOARD_SIZE_VAL
 import com.pstorli.pokerdice.util.Persist
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 
 @Suppress("unused")
 class PokerViewModel (application: Application) : AndroidViewModel(application) {
@@ -36,31 +37,24 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // *********************************************************************************************
     // Observerable data.
     // *********************************************************************************************
-    private val _whatFlow = MutableSharedFlow<Array<Persist>>()
-    val whatFlow: SharedFlow<Array<Persist>> = _whatFlow.asSharedFlow()
-
-    // *********************************************************************************************
-    // Data.
-    // *********************************************************************************************
 
     // The game board.
-    var board: Array<IntArray> = Array(BOARD_SIZE) { IntArray(BOARD_SIZE) }
+    var board       by mutableStateOf<Array<IntArray>>(Array(BOARD_SIZE_VAL) { IntArray(BOARD_SIZE_VAL) })
 
     // How much cash, rolls and bets have we?
-    var backColor:          Color   = COLOR_BACK
-    var bet:                Int     = 0
-    var betBorderColor:     Color   = COLOR_BET_BORDER
-    var btnBorderColor:     Color   = COLOR_BORDER
-    var cash:               Int     = 0
-    var diceColor1:         Color   = COLOR_DICE1
-    var diceColor2:         Color   = COLOR_DICE2
-    var diceColor3:         Color   = COLOR_DICE3
-    var diceColor4:         Color   = COLOR_DICE4
-    var diceColor5:         Color   = COLOR_DICE5
-    var diceColor6:         Color   = COLOR_DICE6
-    var holdBorderColor:    Color   = COLOR_HOLD_BORDER
-    var rolls:              Int     = 0
-    var textColor:          Color   = COLOR_TEXT
+    var bet         by mutableStateOf<Int>(0)
+    var cash        by mutableStateOf<Int>(0)
+
+    // The dice colors. Pair with light color and dark color.
+    var diceColor1  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE1,COLOR_DK_DICE1))
+    var diceColor2  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE2,COLOR_DK_DICE2))
+    var diceColor3  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE3,COLOR_DK_DICE3))
+    var diceColor4  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE4,COLOR_DK_DICE4))
+    var diceColor5  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE5,COLOR_DK_DICE5))
+    var diceColor6  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE6,COLOR_DK_DICE6))
+
+    // How many rolls do we have left.
+    var rolls       by mutableStateOf<Int>(0)
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Vars
@@ -72,44 +66,54 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // First thing is to init the repo.
     // /////////////////////////////////////////////////////////////////////////////////////////////
+
     init {
         // Init the repo
-        pokerRepo = PokerRepo (application)
+        pokerRepo = PokerRepo(application)
 
         // Lets get this game started!
-        loadGame ()
+        loadGame()
     }
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Helkper Functions
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Load Game
+    // /////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Load game from repository.
      */
     @Suppress("unused")
-    private fun loadGame () {
+    private fun loadGame() {
         viewModelScope.launch {
             // Get the game, the whole enchilada.
             val gameDeferred = viewModelScope.async(Dispatchers.IO) {
                 "Load game started.".logInfo()
-                pokerRepo.loadDAO ()// Load everything.
+                pokerRepo.loadDAO()// Load everything.
             }
 
             // Wait for it.
-            val gameResultDAO = gameDeferred.await ()
+            val gameResultDAO = gameDeferred.await()
 
             // Go back on ui thread.
-            withContext (Dispatchers.Main) {
+            withContext(Dispatchers.Main) {
                 // Update the model.
-                updateModel (gameResultDAO)
-
-                // Then, notify them of what was changed. (Everything has changed!)
-                _whatFlow.tryEmit (Persist.values())
+                this@PokerViewModel.toModel(gameResultDAO)
             }
         }
     }
 
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Load / Save the model.
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * Update the viewModel with the pokerDAO based on what?
+     * Load the model. (Save PokerDAO to PokerViewModel)
      */
-    private fun updateModel (pokerDAO : PokerDAO, what: Array<Persist> = Persist.values()) {
+    private fun toModel (pokerDAO : PokerDAO, what: Array<Persist> = Persist.values()) {
         // Loop through items to save.
         for (which in what) {
             when (which) {
@@ -127,6 +131,31 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         }
     }
 
+    /**
+     * Save the model. (Save PokerViewModel to PokerDAO)
+     */
+    private fun fromModel (what: Array<Persist> = Persist.values()): PokerDAO {
+        val pokerDAO = PokerDAO ()
+
+        // Loop through items to save.
+        for (which in what) {
+            when (which) {
+                Persist.BET                 -> pokerDAO.bet         = bet
+                Persist.BOARD               -> pokerDAO.board       = board
+                Persist.CASH                -> pokerDAO.cash        = cash
+                Persist.COLOR_DICE1         -> pokerDAO.colorDice1  = diceColor1
+                Persist.COLOR_DICE2         -> pokerDAO.colorDice2  = diceColor3
+                Persist.COLOR_DICE3         -> pokerDAO.colorDice3  = diceColor4
+                Persist.COLOR_DICE4         -> pokerDAO.colorDice4  = diceColor4
+                Persist.COLOR_DICE5         -> pokerDAO.colorDice5  = diceColor5
+                Persist.COLOR_DICE6         -> pokerDAO.colorDice6  = diceColor6
+                Persist.ROLLS               -> pokerDAO.rolls       = rolls
+            }
+        }
+
+        return pokerDAO
+    }
+
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Handle PokerEvents
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,6 +164,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
      * User did something.
      */
     fun onEvent (pokerEvent: PokerEvent) {
+        "onEvent pokerEvent ${pokerEvent}".debug ()
         when (pokerEvent) {
             // Place your bets!
             is PokerEvent.BetEvent -> {
@@ -185,9 +215,6 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     private fun rollEvent () {
         // TODO test
         cash++
-
-        // Notify that cash has changed.
-        _whatFlow.tryEmit (arrayOf(Persist.CASH))
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////

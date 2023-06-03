@@ -1,34 +1,32 @@
 package com.pstorli.pokerdice.domain.repo.dao
 
-import com.pstorli.pokerdice.ui.theme.COLOR_BACK
-import com.pstorli.pokerdice.ui.theme.COLOR_BET_BORDER
-import com.pstorli.pokerdice.ui.theme.COLOR_BORDER
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE1
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE2
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE3
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE4
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE5
-import com.pstorli.pokerdice.ui.theme.COLOR_DICE6
-import com.pstorli.pokerdice.ui.theme.COLOR_HOLD_BORDER
-import com.pstorli.pokerdice.ui.theme.COLOR_TEXT
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE1
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE2
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE3
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE4
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE5
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE6
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE1
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE2
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE3
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE4
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE5
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE6
 import com.pstorli.pokerdice.util.Consts
-import com.pstorli.pokerdice.util.Consts.HUNDRED
-import com.pstorli.pokerdice.util.Consts.ZERO
+import com.pstorli.pokerdice.util.Consts.HUNDRED_VAL
+import com.pstorli.pokerdice.util.Consts.ZERO_VAL
 
 data class PokerDAO (val betInitial: Int = 0) {
     var bet                = betInitial
-    var board              = Array(Consts.BOARD_SIZE) { IntArray(Consts.BOARD_SIZE) }
-    var cash               = HUNDRED
-    var colorBack          = COLOR_BACK
-    var colorBetBorder     = COLOR_BET_BORDER
-    var colorBorder        = COLOR_BORDER
-    var colorDice1         = COLOR_DICE1
-    var colorDice2         = COLOR_DICE2
-    var colorDice3         = COLOR_DICE3
-    var colorDice4         = COLOR_DICE4
-    var colorDice5         = COLOR_DICE5
-    var colorDice6         = COLOR_DICE6
-    var colorHoldBorder    = COLOR_HOLD_BORDER
-    var colorText          = COLOR_TEXT
-    var rolls              = ZERO
+    var board              = Array(Consts.BOARD_SIZE_VAL) { IntArray(Consts.BOARD_SIZE_VAL) }
+    var cash               = HUNDRED_VAL
+
+    // The dice colors. Pair with light color and dark color.
+    var colorDice1         = (Pair (COLOR_LT_DICE1, COLOR_DK_DICE1))
+    var colorDice2         = (Pair (COLOR_LT_DICE2, COLOR_DK_DICE2))
+    var colorDice3         = (Pair (COLOR_LT_DICE3, COLOR_DK_DICE3))
+    var colorDice4         = (Pair (COLOR_LT_DICE4, COLOR_DK_DICE4))
+    var colorDice5         = (Pair (COLOR_LT_DICE5, COLOR_DK_DICE5))
+    var colorDice6         = (Pair (COLOR_LT_DICE6, COLOR_DK_DICE6))
+    var rolls              = ZERO_VAL
 }

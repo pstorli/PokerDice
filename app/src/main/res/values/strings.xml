@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PokerDice</string>
+    <string name="cash">Cash</string>
+    <string name="cash_out">Cash\nOut</string>
+    <string name="player">Player</string>
+    <string name="roll_dice">Roll\nDice</string>
+    <string name="rolls">Rolls</string>
+    <string name="won">Won</string>
 </resources>

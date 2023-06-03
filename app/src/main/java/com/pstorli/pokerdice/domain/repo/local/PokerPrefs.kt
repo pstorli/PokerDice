@@ -6,20 +6,20 @@ import android.content.SharedPreferences
 import androidx.compose.ui.graphics.Color
 import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
 import com.pstorli.pokerdice.repo.PokerDS
-import com.pstorli.pokerdice.util.Consts.BET
-import com.pstorli.pokerdice.util.Consts.BLUE
-import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
-import com.pstorli.pokerdice.util.Consts.CASH
-import com.pstorli.pokerdice.util.Consts.COLOR_DICE1
-import com.pstorli.pokerdice.util.Consts.COLOR_DICE2
-import com.pstorli.pokerdice.util.Consts.COLOR_DICE3
-import com.pstorli.pokerdice.util.Consts.COLOR_DICE4
-import com.pstorli.pokerdice.util.Consts.COLOR_DICE5
-import com.pstorli.pokerdice.util.Consts.COLOR_DICE6
-import com.pstorli.pokerdice.util.Consts.EMPTY_SQUARE
-import com.pstorli.pokerdice.util.Consts.GREEN
-import com.pstorli.pokerdice.util.Consts.RED
-import com.pstorli.pokerdice.util.Consts.ROLLS
+import com.pstorli.pokerdice.util.Consts.BET_NAME
+import com.pstorli.pokerdice.util.Consts.BLUE_NAME
+import com.pstorli.pokerdice.util.Consts.BOARD_SIZE_VAL
+import com.pstorli.pokerdice.util.Consts.CASH_NAME
+import com.pstorli.pokerdice.util.Consts.COLOR_DICE1_NAME
+import com.pstorli.pokerdice.util.Consts.COLOR_DICE2_NAME
+import com.pstorli.pokerdice.util.Consts.COLOR_DICE3_NAME
+import com.pstorli.pokerdice.util.Consts.COLOR_DICE4_NAME
+import com.pstorli.pokerdice.util.Consts.COLOR_DICE5_NAME
+import com.pstorli.pokerdice.util.Consts.COLOR_DICE6_NAME
+import com.pstorli.pokerdice.util.Consts.EMPTY_SQUARE_VAL
+import com.pstorli.pokerdice.util.Consts.GREEN_NAME
+import com.pstorli.pokerdice.util.Consts.RED_NAME
+import com.pstorli.pokerdice.util.Consts.ROLLS_NAME
 import com.pstorli.pokerdice.util.Consts.squareName
 import com.pstorli.pokerdice.util.Persist
 
@@ -56,16 +56,16 @@ class PokerPrefs (application: Application) : PokerDS {
         val pokerDAO = PokerDAO ()
         for (which in what) {
             when (which) {
-                Persist.BET                 -> pokerDAO.bet             = getInt     (BET)
-                Persist.BOARD               -> pokerDAO.board           = loadBoard  ()
-                Persist.CASH                -> pokerDAO.cash            = getInt     (CASH)
-                Persist.COLOR_DICE1         -> pokerDAO.colorDice1      = getColor   (COLOR_DICE1)
-                Persist.COLOR_DICE2         -> pokerDAO.colorDice2      = getColor   (COLOR_DICE2)
-                Persist.COLOR_DICE3         -> pokerDAO.colorDice3      = getColor   (COLOR_DICE3)
-                Persist.COLOR_DICE4         -> pokerDAO.colorDice4      = getColor   (COLOR_DICE4)
-                Persist.COLOR_DICE5         -> pokerDAO.colorDice5      = getColor   (COLOR_DICE5)
-                Persist.COLOR_DICE6         -> pokerDAO.colorDice6      = getColor   (COLOR_DICE6)
-                Persist.ROLLS               -> pokerDAO.rolls           = getInt     (ROLLS)
+                Persist.BET                 -> pokerDAO.bet             = getInt        (BET_NAME)
+                Persist.BOARD               -> pokerDAO.board           = loadBoard     ()
+                Persist.CASH                -> pokerDAO.cash            = getInt        (CASH_NAME)
+                Persist.COLOR_DICE1         -> pokerDAO.colorDice1      = getColorPair  (COLOR_DICE1_NAME)
+                Persist.COLOR_DICE2         -> pokerDAO.colorDice2      = getColorPair  (COLOR_DICE2_NAME)
+                Persist.COLOR_DICE3         -> pokerDAO.colorDice3      = getColorPair  (COLOR_DICE3_NAME)
+                Persist.COLOR_DICE4         -> pokerDAO.colorDice4      = getColorPair  (COLOR_DICE4_NAME)
+                Persist.COLOR_DICE5         -> pokerDAO.colorDice5      = getColorPair  (COLOR_DICE5_NAME)
+                Persist.COLOR_DICE6         -> pokerDAO.colorDice6      = getColorPair  (COLOR_DICE6_NAME)
+                Persist.ROLLS               -> pokerDAO.rolls           = getInt        (ROLLS_NAME)
             }
         }
         return pokerDAO
@@ -81,16 +81,16 @@ class PokerPrefs (application: Application) : PokerDS {
         // Loop through items to save.
         for (which in what) {
             when (which) {
-                Persist.BET                 -> putInt       (BET,               pokerDAO.bet)
-                Persist.BOARD               -> saveBoard    (                   pokerDAO.board)
-                Persist.CASH                -> putInt       (CASH,              pokerDAO.cash)
-                Persist.COLOR_DICE1         -> putColor     (COLOR_DICE1,       pokerDAO.colorDice1)
-                Persist.COLOR_DICE2         -> putColor     (COLOR_DICE2,       pokerDAO.colorDice2)
-                Persist.COLOR_DICE3         -> putColor     (COLOR_DICE3,       pokerDAO.colorDice3)
-                Persist.COLOR_DICE4         -> putColor     (COLOR_DICE4,       pokerDAO.colorDice4)
-                Persist.COLOR_DICE5         -> putColor     (COLOR_DICE5,       pokerDAO.colorDice5)
-                Persist.COLOR_DICE6         -> putColor     (COLOR_DICE6,       pokerDAO.colorDice6)
-                Persist.ROLLS               -> putInt       (ROLLS,             pokerDAO.rolls)
+                Persist.BET                 -> putInt       (BET_NAME,              pokerDAO.bet)
+                Persist.BOARD               -> saveBoard    (                       pokerDAO.board)
+                Persist.CASH                -> putInt       (CASH_NAME,             pokerDAO.cash)
+                Persist.COLOR_DICE1         -> putColorPair (COLOR_DICE1_NAME,      pokerDAO.colorDice1)
+                Persist.COLOR_DICE2         -> putColorPair (COLOR_DICE2_NAME,      pokerDAO.colorDice2)
+                Persist.COLOR_DICE3         -> putColorPair (COLOR_DICE3_NAME,      pokerDAO.colorDice3)
+                Persist.COLOR_DICE4         -> putColorPair (COLOR_DICE4_NAME,      pokerDAO.colorDice4)
+                Persist.COLOR_DICE5         -> putColorPair (COLOR_DICE5_NAME,      pokerDAO.colorDice5)
+                Persist.COLOR_DICE6         -> putColorPair (COLOR_DICE6_NAME,      pokerDAO.colorDice6)
+                Persist.ROLLS               -> putInt       (ROLLS_NAME,            pokerDAO.rolls)
             }
         }
     }
@@ -105,9 +105,9 @@ class PokerPrefs (application: Application) : PokerDS {
     @Suppress("unused")
     private fun resetBoard () {
         // Loop through the rows and cols.
-        for (row in 0 until BOARD_SIZE) {
-            for (col in 0 until BOARD_SIZE) {
-                putInt (squareName(row,col), EMPTY_SQUARE)
+        for (row in 0 until BOARD_SIZE_VAL) {
+            for (col in 0 until BOARD_SIZE_VAL) {
+                putInt (squareName(row,col), EMPTY_SQUARE_VAL)
             }
         }
     }
@@ -117,11 +117,11 @@ class PokerPrefs (application: Application) : PokerDS {
      */
     private fun loadBoard (): Array<IntArray> {
         // Create an empty board, then fill it with values.
-        val board = Array(BOARD_SIZE) { IntArray(BOARD_SIZE) }
+        val board = Array(BOARD_SIZE_VAL) { IntArray(BOARD_SIZE_VAL) }
 
         // Loop through the rows and cols.
-        for (row in 0 until BOARD_SIZE) {
-            for (col in 0 until BOARD_SIZE) {
+        for (row in 0 until BOARD_SIZE_VAL) {
+            for (col in 0 until BOARD_SIZE_VAL) {
                 // Get saved pref board row/col value and assign to board.
                 board[row][col] = getInt (squareName(row,col))
             }
@@ -135,8 +135,8 @@ class PokerPrefs (application: Application) : PokerDS {
      */
     private fun saveBoard (board: Array<IntArray>) {
         // Loop through the rows and cols.
-        for (row in 0 until BOARD_SIZE) {
-            for (col in 0 until BOARD_SIZE) {
+        for (row in 0 until BOARD_SIZE_VAL) {
+            for (col in 0 until BOARD_SIZE_VAL) {
                 putInt (squareName(row,col), board[row][col])
             }
         }
@@ -147,23 +147,39 @@ class PokerPrefs (application: Application) : PokerDS {
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Fetch a color pair value.
+     */
+    private fun getColorPair (name: Pair <String, String>): Pair <Color,Color> {
+        // Return the RGB
+        return Pair (getColor (name.first), getColor (name.second))
+    }
+
+    /**
+     * Save a color value.
+     */
+    private fun putColorPair (name: Pair <String, String>, value: Pair <Color,Color>) {
+        putColor(name.first,  value.first)
+        putColor(name.second, value.second)
+    }
+
+    /**
      * Fetch a color value.
      */
     private fun getColor (name: String): Color {
         // Return the RGB
         return Color (
-            getFloat (name+RED),
-            getFloat (name+GREEN),
-            getFloat (name+BLUE))
+            getFloat (name+RED_NAME),
+            getFloat (name+GREEN_NAME),
+            getFloat (name+BLUE_NAME))
     }
 
     /**
      * Save a color value.
      */
     private fun putColor (name: String, value: Color) {
-        putFloat (name+RED,     value.red)
-        putFloat (name+GREEN,   value.green)
-        putFloat (name+BLUE,    value.blue)
+        putFloat (name+RED_NAME,     value.red)
+        putFloat (name+GREEN_NAME,   value.green)
+        putFloat (name+BLUE_NAME,    value.blue)
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
