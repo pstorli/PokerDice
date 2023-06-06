@@ -24,6 +24,8 @@ Architecture notes:
 
 Resolved Issues Version 1003:
   0000 Created initial Jetpack Compose from poker dice screen shot
+  0000 Added game state to pokerviewmodel
+  0000 split composeables into separate files and screens
 
 Resolved Issues Version 1002:
     0000 Added Jetpack Compose test button

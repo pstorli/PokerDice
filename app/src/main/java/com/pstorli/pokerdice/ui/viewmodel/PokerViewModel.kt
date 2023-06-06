@@ -30,6 +30,8 @@ import com.pstorli.pokerdice.util.Consts.BOARD_SIZE_VAL
 import com.pstorli.pokerdice.util.Persist
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Suppress("unused")
 class PokerViewModel (application: Application) : AndroidViewModel(application) {
@@ -76,9 +78,17 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
-    // Helkper Functions
+    // Game State
     // /////////////////////////////////////////////////////////////////////////////////////////////
-
+    sealed class PokerUIState {
+        object Loading : PokerUIState()
+        class Loaded (val data: PokerViewModel) : PokerUIState()
+        class Error (val message: String) : PokerUIState()
+    }
+    
+    private val _uiState = MutableStateFlow<PokerUIState>(PokerUIState.Loaded (this))
+    val uiState: StateFlow<PokerUIState> = _uiState
+    
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Load Game
     // /////////////////////////////////////////////////////////////////////////////////////////////
