@@ -1,6 +1,7 @@
 package com.pstorli.pokerdice.ui.composeables
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -28,8 +29,9 @@ fun PokerButton (name: String, color: Color, onClick: () -> Unit, modifier: Modi
             pressedElevation  = Consts.PRESSED_ELEVATION_VAL,
             disabledElevation = Consts.DISABLED_ELEVATION_VAL
         ),
-        shape = RoundedCornerShape(Consts.ROUNDED_CORNER_SHAPE_PCT_VAL),
-        modifier = Modifier.padding(16.dp)
+        shape           = RoundedCornerShape(Consts.ROUNDED_CORNER_SHAPE_PCT_VAL),
+        modifier        = Modifier.padding(4.dp),
+        contentPadding  = PaddingValues(2.dp)
     )
     {
         Text(text = name, color = color)

@@ -17,8 +17,9 @@ import com.pstorli.pokerdice.util.Consts
 @Composable
 fun HandToBeat (pokerViewModel: PokerViewModel) {
     LabeledRow(
-        title = stringResource(id = R.string.hand_to_beat),
-        Consts.color(Consts.COLOR_TEXT_NAME, LocalContext.current)
+        title       = stringResource(id = R.string.hand_to_beat),
+        titleColor  = Consts.color(Consts.COLOR_TEXT_NAME, LocalContext.current),
+        maxHeight   = true
     ) {
         // Loop thru hand to beat.
         for (item in pokerViewModel.handToBeat.value) {

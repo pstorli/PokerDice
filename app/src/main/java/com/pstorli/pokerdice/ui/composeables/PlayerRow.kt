@@ -13,8 +13,9 @@ import com.pstorli.pokerdice.util.Consts
 @Composable
 fun PlayerRow (pokerViewModel: PokerViewModel) {
     LabeledRow(
-        title = stringResource(id = R.string.player),
-        Consts.color(Consts.COLOR_TEXT_NAME, LocalContext.current)
+        title       = stringResource(id = R.string.player),
+        titleColor  = Consts.color(Consts.COLOR_TEXT_NAME, LocalContext.current),
+        maxHeight   = true
     ) {
         // Roll Dice
         PokerButton(

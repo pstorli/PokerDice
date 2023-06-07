@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,12 +25,15 @@ import com.pstorli.pokerdice.util.Consts
 import androidx.compose.material3.Text as TextMat
 
 @Composable
-fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=false, content: @Composable () -> Unit) {
+fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=false, maxHeight: Boolean=false, content: @Composable () -> Unit) {
     Box() {
         Box(
             modifier = Modifier
                 .conditional(maxWidth) {
                     fillMaxWidth()
+                }
+                .conditional(maxHeight) {
+                    fillMaxHeight()
                 }
                 .padding(4.dp,12.dp,4.dp,4.dp)
                 .border(

@@ -27,6 +27,7 @@ Resolved Issues Version 1003:
   0000 Added game state to pokerviewmodel
   0000 split composeables into separate files and screens
   0000 Added hand to beat
+  0000 made hand to beat and player row same height.
 
 Resolved Issues Version 1002:
     0000 Added Jetpack Compose test button
