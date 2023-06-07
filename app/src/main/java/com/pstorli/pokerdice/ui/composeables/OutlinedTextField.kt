@@ -12,8 +12,7 @@ import com.pstorli.pokerdice.util.Consts
 fun OutlinedTextField (text: String, color: Color) {
     LabeledRow(
         title = stringResource(id = R.string.cash),
-        Consts.color(Consts.COLOR_CASH_NAME, LocalContext.current),
-        false
+        Consts.color(Consts.COLOR_CASH_NAME, LocalContext.current)
     ) {
         Text(
             text = text,

@@ -24,7 +24,7 @@ import com.pstorli.pokerdice.util.Consts
 import androidx.compose.material3.Text as TextMat
 
 @Composable
-fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=true, content: @Composable () -> Unit) {
+fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=false, content: @Composable () -> Unit) {
     Box() {
         Box(
             modifier = Modifier

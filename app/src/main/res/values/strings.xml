@@ -2,6 +2,8 @@
     <string name="app_name">PokerDice</string>
     <string name="cash">Cash</string>
     <string name="cash_out">Cash\nOut</string>
+    <string name="dice_image">Dice Image %1$s</string>
+    <string name="hand_to_beat">Hand To Beat</string>
     <string name="loading">Loading</string>
     <string name="player">Player</string>
     <string name="problem_occurred">An error has occurred.</string>

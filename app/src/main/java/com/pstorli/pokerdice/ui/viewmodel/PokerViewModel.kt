@@ -11,6 +11,7 @@ import com.pstorli.pokerdice.*
 import com.pstorli.pokerdice.repo.PokerRepo
 
 import androidx.compose.ui.graphics.Color
+import com.pstorli.pokerdice.domain.model.Dice
 import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE1
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE2
@@ -57,6 +58,9 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
 
     // How many rolls do we have left.
     var rolls       by mutableStateOf<Int>(0)
+
+    // What hand do we need to beat? Both? ;) Pete
+    val handToBeat  = mutableStateOf(arrayOf(Dice.One, Dice.Two, Dice.Three, Dice.Four, Dice.Five))
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Vars

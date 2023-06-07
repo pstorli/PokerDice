@@ -7,6 +7,7 @@ package com.pstorli.pokerdice
 import android.content.Context
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.pstorli.pokerdice.domain.model.Dice
 import com.pstorli.pokerdice.util.Consts
 
 // *********************************************************************************************
@@ -111,6 +112,20 @@ fun Modifier.conditional(condition : Boolean, modifier : Modifier.() -> Modifier
         then(modifier(Modifier))
     } else {
         this
+    }
+}
+
+/**
+ * Convert a dice value to a resource id.
+ */
+fun Dice.resId (): Int {
+    when (this) {
+        Dice.One    -> return R.drawable.one
+        Dice.Two    -> return R.drawable.two
+        Dice.Three  -> return R.drawable.three
+        Dice.Four   -> return R.drawable.four
+        Dice.Five   -> return R.drawable.five
+        Dice.Six    -> return R.drawable.six
     }
 }
 
