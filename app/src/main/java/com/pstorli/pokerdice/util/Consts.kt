@@ -4,8 +4,20 @@ import android.app.UiModeManager
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.pstorli.pokerdice.R
+import com.pstorli.pokerdice.domain.model.Dice
+import com.pstorli.pokerdice.model.PokerViewModel
+import com.pstorli.pokerdice.resId
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_BACK
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_BET_BORDER
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_BORDER
@@ -49,6 +61,7 @@ object Consts {
     val PRESSED_ELEVATION_VAL           = 15.dp
     val DISABLED_ELEVATION_VAL          = 0.dp
     val EMPTY_SQUARE_VAL                = 0
+    val GAME_SAVED                      = "Game saved"
     val GREEN_NAME                      = "Green"
     val HUNDRED_VAL                     = 100
     val PADDING_DEFAULT_VAL             = 16.dp
@@ -116,6 +129,23 @@ object Consts {
     var COLOR_ROLL_DICE_NAME        = Pair (COLOR_LT_ROLL_DICE_NAME, COLOR_DK_ROLL_DICE_NAME)
     var COLOR_ROLLS_NAME            = Pair (COLOR_LT_ROLLS_NAME, COLOR_DK_ROLLS_NAME)
     var COLOR_TEXT_NAME             = Pair (COLOR_LT_TEXT_NAME, COLOR_DK_TEXT_NAME)
+
+    // *********************************************************************************************
+    // Helper functions
+    // *********************************************************************************************
+
+    /**
+     * Create a dice image.
+     */
+    @Composable
+    fun createDice (dice: Dice, pokerViewModel: PokerViewModel) {
+        Image (
+            painterResource(dice.resId()),
+            contentDescription  = stringResource(R.string.dice_image, dice.name),
+            contentScale        = ContentScale.Crop,
+            modifier            = Modifier.padding(4.dp).background(pokerViewModel.getColor(dice))
+        )
+    }
 
     // *********************************************************************************************
     // Log helper functions

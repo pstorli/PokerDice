@@ -26,9 +26,13 @@ import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE4
 import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE5
 import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE6
 import com.pstorli.pokerdice.ui.viewmodel.PokerEvent
+import com.pstorli.pokerdice.util.Consts
 
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE_VAL
+import com.pstorli.pokerdice.util.Consts.GAME_SAVED
+import com.pstorli.pokerdice.util.Consts.debug
 import com.pstorli.pokerdice.util.Persist
+import com.pstorli.pokerdice.util.Prefs
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,6 +60,9 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     var diceColor5  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE5,COLOR_DK_DICE5))
     var diceColor6  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE6,COLOR_DK_DICE6))
 
+    // Preferences
+    var prefs: Prefs
+
     // How many rolls do we have left.
     var rolls       by mutableStateOf<Int>(0)
 
@@ -67,18 +74,23 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
     // The poker repo is used to save game state information.
-    private var pokerRepo: PokerRepo
+    var pokerRepo: PokerRepo
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // First thing is to init the repo.
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
     init {
+        // Init the prefs
+        prefs     = Prefs (application)
+
         // Init the repo
-        pokerRepo = PokerRepo(application)
+        pokerRepo = PokerRepo(prefs)
 
         // Lets get this game started!
-        loadGame()
+        if (prefs.getBool(GAME_SAVED)) {
+            loadGame()
+        }
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,9 +102,31 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         class Error (val message: String) : PokerUIState()
     }
     
-    private val _uiState = MutableStateFlow<PokerUIState>(PokerUIState.Loaded (this))
+    val _uiState = MutableStateFlow<PokerUIState>(PokerUIState.Loaded (this))
     val uiState: StateFlow<PokerUIState> = _uiState
-    
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Helpful Methods
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the dice color.
+     */
+    fun getColor (dice: Dice): Color {
+        val darkMode = Consts.inDarkMode(getApplication())
+        var color = Color.White
+        when (dice) {
+            Dice.One    -> if (darkMode) color = diceColor1.second else color = diceColor1.first
+            Dice.Two    -> if (darkMode) color = diceColor2.second else color = diceColor2.first
+            Dice.Three  -> if (darkMode) color = diceColor3.second else color = diceColor3.first
+            Dice.Four   -> if (darkMode) color = diceColor4.second else color = diceColor4.first
+            Dice.Five   -> if (darkMode) color = diceColor5.second else color = diceColor5.first
+            Dice.Six    -> if (darkMode) color = diceColor6.second else color = diceColor6.first
+        }
+        debug(color.toString())
+        return color
+    }
+
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Load Game
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +135,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
      * Load game from repository.
      */
     @Suppress("unused")
-    private fun loadGame() {
+    fun loadGame() {
         viewModelScope.launch {
             // Get the game, the whole enchilada.
             val gameDeferred = viewModelScope.async(Dispatchers.IO) {
@@ -127,7 +161,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     /**
      * Load the model. (Save PokerDAO to PokerViewModel)
      */
-    private fun toModel (pokerDAO : PokerDAO, what: Array<Persist> = Persist.values()) {
+    fun toModel (pokerDAO : PokerDAO, what: Array<Persist> = Persist.values()) {
         // Loop through items to save.
         for (which in what) {
             when (which) {
@@ -148,7 +182,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     /**
      * Save the model. (Save PokerViewModel to PokerDAO)
      */
-    private fun fromModel (what: Array<Persist> = Persist.values()): PokerDAO {
+    fun fromModel (what: Array<Persist> = Persist.values()): PokerDAO {
         val pokerDAO = PokerDAO ()
 
         // Loop through items to save.
@@ -168,6 +202,18 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         }
 
         return pokerDAO
+    }
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Shutdown
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * This method will be called when this ViewModel
+     * is no longer used and will be destroyed.
+     */
+    override fun onCleared() {
+        super.onCleared()
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,41 +251,29 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     /**
      * Place your bets!
      */
-    private fun betEvent () {
+    fun betEvent () {
 
     }
 
     /**
      * Cash out!
      */
-    private fun cashOutEvent () {
+    fun cashOutEvent () {
 
     }
 
     /**
      * You gotta know when toi hold em!
      */
-    private fun holdEvent () {
+    fun holdEvent () {
 
     }
 
     /**
      * Roll them bones.
      */
-    private fun rollEvent () {
+    fun rollEvent () {
         // TODO test
         cash++
-    }
-
-    // /////////////////////////////////////////////////////////////////////////////////////////////
-    // Shutdown
-    // /////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * This method will be called when this ViewModel
-     * is no longer used and will be destroyed.
-     */
-    override fun onCleared() {
-        super.onCleared()
     }
 }

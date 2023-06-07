@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -43,7 +44,7 @@ fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=false, maxHe
                 )
                 .padding(4.dp,12.dp,4.dp,4.dp))
         {
-            Row() {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 content()
             }
         }
