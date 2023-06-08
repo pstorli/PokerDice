@@ -4,6 +4,7 @@ enum class Persist {
     BET,
     BOARD,
     CASH,
+    COLOR_DICE0,
     COLOR_DICE1,
     COLOR_DICE2,
     COLOR_DICE3,

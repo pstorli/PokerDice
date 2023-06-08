@@ -120,6 +120,7 @@ fun Modifier.conditional(condition : Boolean, modifier : Modifier.() -> Modifier
  */
 fun Dice.resId (): Int {
     when (this) {
+        Dice.Zero   -> return R.drawable.zero
         Dice.One    -> return R.drawable.one
         Dice.Two    -> return R.drawable.two
         Dice.Three  -> return R.drawable.three

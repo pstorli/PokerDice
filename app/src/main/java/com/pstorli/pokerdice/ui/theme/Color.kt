@@ -22,14 +22,17 @@ var COLOR_DK_BET_BORDER     = Color.Green
 var COLOR_DK_BORDER         = Color.DarkGray
 var COLOR_DK_CASH           = Color.Green
 var COLOR_DK_CASH_OUT       = Color.Green
+var COLOR_DK_EDGE           = Color.Black
 
 val COLOR_LT_BACK           = White_Pale
 var COLOR_LT_BET_BORDER     = Color.Green
 var COLOR_LT_BORDER         = Color.DarkGray
 var COLOR_LT_CASH           = Color.Green
 var COLOR_LT_CASH_OUT       = Color.Green
+var COLOR_LT_EDGE           = Color.White
 
 // The default dark colors.
+var COLOR_DK_DICE0          = Color.White
 var COLOR_DK_DICE1          = Color.Blue
 var COLOR_DK_DICE2          = Color.Cyan
 var COLOR_DK_DICE3          = Color.Red
@@ -38,6 +41,7 @@ var COLOR_DK_DICE5          = Color.Magenta
 var COLOR_DK_DICE6          = Color.Yellow
 
 // The default light colors.
+var COLOR_LT_DICE0          = Color.Black
 var COLOR_LT_DICE1          = Color.Blue
 var COLOR_LT_DICE2          = Color.Cyan
 var COLOR_LT_DICE3          = Color.Red

@@ -13,12 +13,14 @@ import com.pstorli.pokerdice.repo.PokerRepo
 import androidx.compose.ui.graphics.Color
 import com.pstorli.pokerdice.domain.model.Dice
 import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
+import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE0
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE1
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE2
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE3
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE4
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE5
 import com.pstorli.pokerdice.ui.theme.COLOR_DK_DICE6
+import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE0
 import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE1
 import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE2
 import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE3
@@ -28,7 +30,7 @@ import com.pstorli.pokerdice.ui.theme.COLOR_LT_DICE6
 import com.pstorli.pokerdice.ui.viewmodel.PokerEvent
 import com.pstorli.pokerdice.util.Consts
 
-import com.pstorli.pokerdice.util.Consts.BOARD_SIZE_VAL
+import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.GAME_SAVED
 import com.pstorli.pokerdice.util.Consts.debug
 import com.pstorli.pokerdice.util.Persist
@@ -45,14 +47,15 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // Observerable data.
     // *********************************************************************************************
 
-    // The game board.
-    var board       by mutableStateOf<Array<IntArray>>(Array(BOARD_SIZE_VAL) { IntArray(BOARD_SIZE_VAL) })
+    // The game board, 7X7 AS A list of 49 Dice items
+    val board       = mutableStateOf(Array<Dice>(BOARD_SIZE*BOARD_SIZE) { Dice.Zero })
 
     // How much cash, rolls and bets have we?
     var bet         by mutableStateOf<Int>(0)
     var cash        by mutableStateOf<Int>(0)
 
     // The dice colors. Pair with light color and dark color.
+    var diceColor0  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE0,COLOR_DK_DICE0))
     var diceColor1  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE1,COLOR_DK_DICE1))
     var diceColor2  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE2,COLOR_DK_DICE2))
     var diceColor3  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE3,COLOR_DK_DICE3))
@@ -116,6 +119,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         val darkMode = Consts.inDarkMode(getApplication())
         var color = Color.White
         when (dice) {
+            Dice.Zero   -> if (darkMode) color = diceColor0.second else color = diceColor0.first
             Dice.One    -> if (darkMode) color = diceColor1.second else color = diceColor1.first
             Dice.Two    -> if (darkMode) color = diceColor2.second else color = diceColor2.first
             Dice.Three  -> if (darkMode) color = diceColor3.second else color = diceColor3.first
@@ -166,8 +170,9 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         for (which in what) {
             when (which) {
                 Persist.BET                 -> bet              = pokerDAO.bet
-                Persist.BOARD               -> board            = pokerDAO.board
+                Persist.BOARD               -> board.value      = pokerDAO.board
                 Persist.CASH                -> cash             = pokerDAO.cash
+                Persist.COLOR_DICE0         -> diceColor0       = pokerDAO.colorDice0
                 Persist.COLOR_DICE1         -> diceColor1       = pokerDAO.colorDice1
                 Persist.COLOR_DICE2         -> diceColor2       = pokerDAO.colorDice2
                 Persist.COLOR_DICE3         -> diceColor3       = pokerDAO.colorDice3
@@ -189,8 +194,9 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         for (which in what) {
             when (which) {
                 Persist.BET                 -> pokerDAO.bet         = bet
-                Persist.BOARD               -> pokerDAO.board       = board
+                Persist.BOARD               -> pokerDAO.board       = board.value
                 Persist.CASH                -> pokerDAO.cash        = cash
+                Persist.COLOR_DICE0         -> pokerDAO.colorDice0  = diceColor0
                 Persist.COLOR_DICE1         -> pokerDAO.colorDice1  = diceColor1
                 Persist.COLOR_DICE2         -> pokerDAO.colorDice2  = diceColor3
                 Persist.COLOR_DICE3         -> pokerDAO.colorDice3  = diceColor4
