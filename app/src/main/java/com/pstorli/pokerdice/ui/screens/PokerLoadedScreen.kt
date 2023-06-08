@@ -1,10 +1,7 @@
 package com.pstorli.pokerdice.ui.screens
 
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.pstorli.pokerdice.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.HandToBeat
 import com.pstorli.pokerdice.ui.composeables.PlayerRow
@@ -14,8 +11,15 @@ import com.pstorli.pokerdice.ui.composeables.PlayerRow
  */
 @Composable
 fun PokerScreenLoaded (pokerViewModel: PokerViewModel) {
+    // Side by sdie rows the same height
     // make these two rows, the children, the same height.
-    Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+    /*Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+        PlayerRow  (pokerViewModel)
+        HandToBeat (pokerViewModel)
+    }*/
+
+    // Two rows in a column.
+    Column() {
         PlayerRow  (pokerViewModel)
         HandToBeat (pokerViewModel)
     }

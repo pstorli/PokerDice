@@ -12,8 +12,7 @@ import com.pstorli.pokerdice.util.Consts.createDice
 fun HandToBeat (pokerViewModel: PokerViewModel) {
     LabeledRow(
         title       = stringResource(id = R.string.hand_to_beat),
-        titleColor  = Consts.color(Consts.COLOR_TEXT_NAME, LocalContext.current),
-        maxHeight   = true
+        titleColor  = Consts.color(Consts.COLOR_TEXT_NAME, LocalContext.current)
     ) {
         // Loop thru hand to beat.
         for (item in pokerViewModel.handToBeat.value) {
