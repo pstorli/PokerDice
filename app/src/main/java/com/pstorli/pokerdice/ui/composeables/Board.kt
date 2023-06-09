@@ -7,8 +7,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.model.PokerViewModel
+import com.pstorli.pokerdice.ui.viewmodel.PokerEvent
 import com.pstorli.pokerdice.util.Consts
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
+import com.pstorli.pokerdice.util.Consts.debug
 import com.pstorli.pokerdice.util.Consts.isEdgeSquare
 
 @Composable
@@ -20,14 +22,30 @@ fun Board (pokerViewModel: PokerViewModel) {
     ) {
         LazyVerticalGrid(columns = GridCells.Fixed(BOARD_SIZE)) {
             items(pokerViewModel.board.value.size) { index ->
-                // Get the dice associated with this square.
-                val dice  = pokerViewModel.board.value.get(index)
+                // Treat edge squares differently than dice squares.
+                if (isEdgeSquare (index)) {
+                    // Color will be either edge color or dice color?
+                    val color = Consts.color(Consts.COLOR_EDGE_NAME, LocalContext.current)
 
-                // Color will be either edge color or dice color?
-                val color = if (isEdgeSquare (index)) Consts.color(Consts.COLOR_EDGE_NAME, LocalContext.current) else pokerViewModel.getColor(dice)
+                    // Use PokerButton for edge squares.
+                    PokerButton(
+                        name        = pokerViewModel.getText (index),
+                        textColor   = pokerViewModel.getTextColor (index),
+                        borderColor = pokerViewModel.getBorderColor (index),
+                        onClick     = {
+                            debug ("They clicked on the edge $index.")
 
-                // Now create the dice.
-                createDice(dice, color, pokerViewModel)
+                            // They clicked the button on a board square.
+                            pokerViewModel.onEvent(PokerEvent.BoardClickEvent (index))
+                        })
+                }
+                else {
+                    // Get the dice associated with this square.
+                    val dice = pokerViewModel.board.value.get(index)
+
+                    // Now create the dice.
+                    createDice(dice, pokerViewModel.getColor(dice), pokerViewModel.getBorderColor (index))
+                }
             }
         }
     }

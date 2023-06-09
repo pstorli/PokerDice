@@ -15,14 +15,14 @@ import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.util.Consts
 @Composable
 @Suppress("UNUSED_PARAMETER")
-fun PokerButton (name: String, color: Color, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun PokerButton (name: String, textColor: Color, borderColor: Color=MaterialTheme.colorScheme.outline, onClick: () -> Unit) {
 
     OutlinedButton(
         onClick = {
             // Do that click thing.
             onClick.invoke()
         },
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        border = BorderStroke(1.dp, borderColor),
         colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary, containerColor = MaterialTheme.colorScheme.inverseOnSurface),
         elevation =  ButtonDefaults.buttonElevation(
             defaultElevation  = Consts.DEFAULT_ELEVATION_VAL,
@@ -34,6 +34,6 @@ fun PokerButton (name: String, color: Color, onClick: () -> Unit, modifier: Modi
         contentPadding  = PaddingValues(2.dp)
     )
     {
-        Text(text = name, color = color)
+        Text(text = name, color = textColor)
     }
 }

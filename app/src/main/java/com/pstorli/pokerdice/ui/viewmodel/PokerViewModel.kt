@@ -32,6 +32,7 @@ import com.pstorli.pokerdice.util.Consts
 
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.GAME_SAVED
+import com.pstorli.pokerdice.util.Consts.NO_TEXT
 import com.pstorli.pokerdice.util.Consts.debug
 import com.pstorli.pokerdice.util.Persist
 import com.pstorli.pokerdice.util.Prefs
@@ -79,6 +80,10 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // The poker repo is used to save game state information.
     var pokerRepo: PokerRepo
 
+    val boardText           = Array<String>(BOARD_SIZE*BOARD_SIZE) { NO_TEXT }
+    val boardTextColor      = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { Consts.color(Consts.COLOR_TEXT_NAME, getApplication()) }
+    val boardBorderColor    = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { Consts.color(Consts.COLOR_BORDER_NAME, getApplication()) }
+
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // First thing is to init the repo.
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,11 +99,32 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         if (prefs.getBool(GAME_SAVED)) {
             loadGame()
         }
+        else {
+            // TODO Test only!!!
+            boardText[4] = "Go"
+            boardTextColor[4] = Color.Magenta
+            boardBorderColor[4] = Color.Red
+
+            boardBorderColor[17] = Color.Red
+        }
+    }
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Shutdown
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * This method will be called when this ViewModel
+     * is no longer used and will be destroyed.
+     */
+    override fun onCleared() {
+        super.onCleared()
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Game State
     // /////////////////////////////////////////////////////////////////////////////////////////////
+
     sealed class PokerUIState {
         object Loading : PokerUIState()
         class Loaded (val data: PokerViewModel) : PokerUIState()
@@ -211,15 +237,28 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
-    // Shutdown
+    // Helpful FUNctions
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * This method will be called when this ViewModel
-     * is no longer used and will be destroyed.
+     * Get the text to display for a particular square.
      */
-    override fun onCleared() {
-        super.onCleared()
+    fun getText (index: Int): String {
+        return boardText.get(index)
+    }
+
+    /**
+     * Get the text color to display for a particular square.
+     */
+    fun getTextColor (index: Int): Color {
+        return boardTextColor.get(index)
+    }
+
+    /**
+     * Get the text to display for a particular square.
+     */
+    fun getBorderColor (index: Int): Color {
+        return boardBorderColor.get(index)
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -233,53 +272,42 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         "onEvent pokerEvent ${pokerEvent}".debug ()
         when (pokerEvent) {
             // Place your bets!
-            is PokerEvent.BetEvent -> {
-                betEvent ()
+            is PokerEvent.BoardClickEvent -> {
+                boardClickEvent (pokerEvent)
             }
 
             // Cash out!
             is PokerEvent.CashOutEvent -> {
-                cashOutEvent ()
-            }
-
-            // You gotta know when toi hold em!
-            is PokerEvent.HoldEvent -> {
-                holdEvent ()
+                cashOutEvent (pokerEvent)
             }
 
             // Roll them bones.
             is PokerEvent.RollEvent -> {
-                rollEvent ()
+                rollEvent (pokerEvent)
             }
         }
     }
 
     /**
-     * Place your bets!
-     */
-    fun betEvent () {
-
-    }
-
-    /**
      * Cash out!
      */
-    fun cashOutEvent () {
-
-    }
-
-    /**
-     * You gotta know when toi hold em!
-     */
-    fun holdEvent () {
+    fun cashOutEvent (pokerEvent: PokerEvent.CashOutEvent) {
 
     }
 
     /**
      * Roll them bones.
      */
-    fun rollEvent () {
+    fun rollEvent (pokerEvent: PokerEvent.RollEvent) {
         // TODO test
         cash++
     }
+
+    /**
+     * They clicked on the board.
+     */
+    fun boardClickEvent (pokerEvent: PokerEvent.BoardClickEvent) {
+
+    }
+
 }

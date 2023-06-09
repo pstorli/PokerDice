@@ -19,9 +19,9 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
     ) {
         // Roll Dice
         PokerButton(
-            LocalContext.current.resources.getString(R.string.roll_dice),
-            Consts.color(Consts.COLOR_ROLL_DICE_NAME, LocalContext.current),
-            {
+            name        = LocalContext.current.resources.getString(R.string.roll_dice),
+            textColor   = Consts.color(Consts.COLOR_ROLL_DICE_NAME, LocalContext.current),
+            onClick     = {
                 "Roll dice pressed.".debug()
 
                 // They clicked the button.
@@ -30,9 +30,9 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
 
         // Cash Out
         PokerButton(
-            LocalContext.current.resources.getString(R.string.cash_out),
-            Consts.color(Consts.COLOR_CASH_OUT_NAME, LocalContext.current),
-            {
+            name        = LocalContext.current.resources.getString(R.string.cash_out),
+            textColor   = Consts.color(Consts.COLOR_CASH_OUT_NAME, LocalContext.current),
+            onClick     = {
                 "Cash out pressed.".debug()
 
                 // They clicked the button.

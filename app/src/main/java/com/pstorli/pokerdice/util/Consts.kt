@@ -58,12 +58,13 @@ object Consts {
     val DICE_FIVE                       = 5
     val DICE_SIX                        = 6
 
-    val PRESSED_ELEVATION_VAL           = 15.dp
     val DISABLED_ELEVATION_VAL          = 0.dp
+    val NO_TEXT                         = ""
     val GAME_SAVED                      = "Game saved"
     val GREEN_NAME                      = "Green"
     val HUNDRED_VAL                     = 100
     val PADDING_DEFAULT_VAL             = 16.dp
+    val PRESSED_ELEVATION_VAL           = 15.dp
     val RED_NAME                        = "Red"
     val ROLLS_NAME                      = "Rolls"
     val ROUNDED_CORNER_SHAPE_PCT_VAL    = 20

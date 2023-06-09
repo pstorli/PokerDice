@@ -16,7 +16,7 @@ fun HandToBeat (pokerViewModel: PokerViewModel) {
     ) {
         // Loop thru hand to beat.
         for (dice in pokerViewModel.handToBeat.value) {
-            createDice (dice, pokerViewModel.getColor(dice), pokerViewModel)
+            createDice (dice, pokerViewModel.getColor(dice))
         }
     }
 }
