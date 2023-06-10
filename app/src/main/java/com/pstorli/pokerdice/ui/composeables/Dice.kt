@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.domain.model.Dice
@@ -53,10 +55,31 @@ fun createDice (num: Int, pokerViewModel: PokerViewModel) {
 @Composable
 fun createDice (dice: Dice, backColor: Color, borderColor: Color=MaterialTheme.colorScheme.outline) {
     Image (
-        painterResource(dice.resId()),
+        painterResource (dice.resId()),
         contentDescription  = stringResource(R.string.dice_image, dice.name),
         contentScale        = ContentScale.Crop,
-        modifier            = Modifier.padding(4.dp).background(backColor).border (
+        modifier            = Modifier
+            .padding(4.dp).background(backColor)
+            .border (
+                BorderStroke(BORDER_DEFAULT_WIDTH_VAL, borderColor),
+                RectangleShape
+            )
+    )
+}
+
+/**
+ * Create a dice image.
+ */
+@Composable
+fun createDice (dice: Dice, backColor: Color, sizeDp: Dp, borderColor: Color=MaterialTheme.colorScheme.outline) {
+    Image (
+        painterResource (dice.resId()),
+        contentDescription  = stringResource(R.string.dice_image, dice.name),
+        contentScale        = ContentScale.Crop,
+        modifier            = Modifier
+            .padding(4.dp).background(backColor)
+            .size(sizeDp)
+            .border (
             BorderStroke(BORDER_DEFAULT_WIDTH_VAL, borderColor),
             RectangleShape
         )

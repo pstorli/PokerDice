@@ -1,22 +1,29 @@
 package com.pstorli.pokerdice.ui.composeables
 
+import androidx.compose.foundation.layout.requiredWidthIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import com.pstorli.pokerdice.R
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.util.Consts
 
 @Composable
-fun OutlinedTextField (text: String, color: Color) {
+fun OutlinedTextField (text: String, value: String, textColor: Color, minWidth: Dp =100.dp, titleColor: Color=LocalContext.current.color(Consts.COLOR_BORDER_NAME)) {
     LabeledRow(
-        title = stringResource(id = R.string.cash),
-        Consts.color(Consts.COLOR_CASH_NAME, LocalContext.current)
+        title = text,
+        titleColor
     ) {
         Text(
-            text = text,
-            color = color
+            text = value,
+            color = textColor,
+            modifier = Modifier
+                .requiredWidthIn(min = minWidth)
+                .widthIn(min = minWidth)
         )
     }
 }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">PokerDice</string>
+    <string name="bet">Bet</string>
     <string name="board">Board</string>
     <string name="cash">Cash</string>
     <string name="cash_out">Cash\nOut</string>

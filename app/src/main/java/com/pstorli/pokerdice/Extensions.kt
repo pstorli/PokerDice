@@ -4,6 +4,7 @@
 
 package com.pstorli.pokerdice
 
+import android.app.Application
 import android.content.Context
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -101,6 +102,13 @@ fun String.debug ()
  * Get a color.
  */
 fun Context.color (name: Pair <String,String>): Color {
+    return Consts.color(name, this)
+}
+
+/**
+ * Get a color.
+ */
+fun Application.color (name: Pair <String,String>): Color {
     return Consts.color(name, this)
 }
 

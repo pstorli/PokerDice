@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.R
+import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.conditional
 import com.pstorli.pokerdice.util.Consts
 import androidx.compose.material3.Text as TextMat
@@ -63,7 +64,7 @@ fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=false, maxHe
 @Composable
 fun LabeledRow() {
     LabeledRow(title = stringResource(id = R.string.player),
-        Consts.color(Consts.COLOR_BORDER_NAME, LocalContext.current)
+        LocalContext.current.color(Consts.COLOR_BORDER_NAME)
     ) {
         TextMat(
             modifier = Modifier.padding(horizontal = Consts.PADDING_DEFAULT_VAL),

@@ -43,11 +43,12 @@ import com.pstorli.pokerdice.ui.theme.COLOR_LT_TEXT
  */
 object Consts {
     val BET_NAME                        = "Bet"
+    val BET_MIN_WIDTH                   = 36.dp
     val BORDER_DEFAULT_WIDTH_VAL        = 2.dp
     val BLUE_NAME                       = "Blue"
     val BOARD_SIZE                      = 7
-    val CASH_NAME                       = "Cash"
-
+    val CASH_BORDER_NAME                = "Cash"
+    val CASH_MIN_WIDTH                  = 48.dp
     val DEFAULT_ELEVATION_VAL           = 10.dp
 
     val DICE_ZERO                       = 0
@@ -59,6 +60,7 @@ object Consts {
     val DICE_SIX                        = 6
 
     val DISABLED_ELEVATION_VAL          = 0.dp
+    val HAND_TO_BEAT_DICE_SIZE          = 48.dp
     val NO_TEXT                         = ""
     val GAME_SAVED                      = "Game saved"
     val GREEN_NAME                      = "Green"
@@ -66,7 +68,8 @@ object Consts {
     val PADDING_DEFAULT_VAL             = 16.dp
     val PRESSED_ELEVATION_VAL           = 15.dp
     val RED_NAME                        = "Red"
-    val ROLLS_NAME                      = "Rolls"
+    val ROLLS_BORDER_NAME               = "Rolls"
+    val ROLLS_MIN_WIDTH                 = 48.dp
     val ROUNDED_CORNER_SHAPE_PCT_VAL    = 20
     val TAG_NAME                        = "PokerDice"
     val ZERO_VAL                        = 0
@@ -79,7 +82,7 @@ object Consts {
     val COLOR_DK_BACK_NAME          = "Color Dark Back"
     val COLOR_DK_BET_BORDER_NAME    = "Color Dark Bet Border"
     val COLOR_DK_BORDER_NAME        = "Color Dark Border"
-    val COLOR_DK_CASH_NAME          = "Color Dark Cash"
+    val COLOR_DK_CASH_BORDER_NAME          = "Color Dark Cash"
     val COLOR_DK_CASH_OUT_NAME      = "Color Dark Cash Out"
 
     val COLOR_DK_DICE0_NAME         = "Dice0 Dark Color"
@@ -93,13 +96,13 @@ object Consts {
     val COLOR_DK_EDGE_NAME          = "Color Dark Edge"
     val COLOR_DK_HOLD_BORDER_NAME   = "Color Dark Hold Border"
     val COLOR_DK_ROLL_DICE_NAME     = "Color Dark Roll Dice"
-    val COLOR_DK_ROLLS_NAME         = "Color Dark Rolls"
+    val COLOR_DK_ROLLS_BORDER_NAME         = "Color Dark Rolls"
     val COLOR_DK_TEXT_NAME          = "Color Dark Text"
 
     val COLOR_LT_BACK_NAME          = "Color Light Back"
     val COLOR_LT_BET_BORDER_NAME    = "Color Light Bet Border"
     val COLOR_LT_BORDER_NAME        = "Color Light Border"
-    val COLOR_LT_CASH_NAME          = "Color Light Cash"
+    val COLOR_LT_CASH_BORDER_NAME          = "Color Light Cash"
     val COLOR_LT_CASH_OUT_NAME      = "Color Light Cash Out"
 
     val COLOR_LT_DICE0_NAME         = "Dice0 Light Color"
@@ -113,7 +116,7 @@ object Consts {
     val COLOR_LT_EDGE_NAME          = "Color Light Edge"
     val COLOR_LT_HOLD_BORDER_NAME   = "Color Light Hold Border"
     val COLOR_LT_ROLL_DICE_NAME     = "Color Light Roll Dice"
-    val COLOR_LT_ROLLS_NAME         = "Color Light Rolls"
+    val COLOR_LT_ROLLS_BORDER_NAME         = "Color Light Rolls"
     val COLOR_LT_TEXT_NAME          = "Color Light Text"
 
     // Color pairs.
@@ -128,12 +131,12 @@ object Consts {
     val COLOR_BACK_NAME             = Pair (COLOR_LT_BACK_NAME, COLOR_DK_BACK_NAME)
     var COLOR_BET_BORDER_NAME       = Pair (COLOR_LT_BET_BORDER_NAME, COLOR_DK_BET_BORDER_NAME)
     var COLOR_BORDER_NAME           = Pair (COLOR_LT_BORDER_NAME, COLOR_DK_BORDER_NAME)
-    var COLOR_CASH_NAME             = Pair (COLOR_LT_CASH_NAME, COLOR_DK_CASH_NAME)
+    var COLOR_CASH_BORDER_NAME      = Pair (COLOR_LT_CASH_BORDER_NAME, COLOR_DK_CASH_BORDER_NAME)
     var COLOR_CASH_OUT_NAME         = Pair (COLOR_LT_CASH_OUT_NAME, COLOR_DK_CASH_OUT_NAME)
     var COLOR_EDGE_NAME             = Pair (COLOR_LT_EDGE_NAME, COLOR_DK_EDGE_NAME)
     var COLOR_HOLD_BORDER_NAME      = Pair (COLOR_LT_HOLD_BORDER_NAME, COLOR_DK_HOLD_BORDER_NAME)
     var COLOR_ROLL_DICE_NAME        = Pair (COLOR_LT_ROLL_DICE_NAME, COLOR_DK_ROLL_DICE_NAME)
-    var COLOR_ROLLS_NAME            = Pair (COLOR_LT_ROLLS_NAME, COLOR_DK_ROLLS_NAME)
+    var COLOR_ROLLS_BORDER_NAME     = Pair (COLOR_LT_ROLLS_BORDER_NAME, COLOR_DK_ROLLS_BORDER_NAME)
     var COLOR_TEXT_NAME             = Pair (COLOR_LT_TEXT_NAME, COLOR_DK_TEXT_NAME)
 
     // *********************************************************************************************
@@ -248,7 +251,7 @@ object Consts {
             else if (name.second.equals(COLOR_BORDER_NAME.second)) {
                 return COLOR_DK_BORDER
             }
-            else if (name.second.equals(COLOR_CASH_NAME.second)) {
+            else if (name.second.equals(COLOR_CASH_BORDER_NAME.second)) {
                 return COLOR_DK_CASH
             }
             else if (name.second.equals(COLOR_CASH_OUT_NAME.second)) {
@@ -282,7 +285,7 @@ object Consts {
             else if (name.first.equals(COLOR_BORDER_NAME.first)) {
                 return COLOR_LT_BORDER
             }
-            else if (name.first.equals(COLOR_CASH_NAME.first)) {
+            else if (name.first.equals(COLOR_CASH_BORDER_NAME.first)) {
                 return COLOR_LT_CASH
             }
             else if (name.first.equals(COLOR_CASH_OUT_NAME.first)) {
@@ -297,7 +300,7 @@ object Consts {
             else if (name.first.equals(COLOR_ROLL_DICE_NAME.first)) {
                 return COLOR_LT_ROLL_DICE
             }
-            else if (name.first.equals(COLOR_ROLLS_NAME.first)) {
+            else if (name.first.equals(COLOR_ROLLS_BORDER_NAME.first)) {
                 return COLOR_LT_ROLLS
             }
             else if (name.first.equals(COLOR_TEXT_NAME.first)) {

@@ -6,7 +6,7 @@ import com.pstorli.pokerdice.repo.PokerDS
 import com.pstorli.pokerdice.util.Consts
 import com.pstorli.pokerdice.util.Consts.BET_NAME
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
-import com.pstorli.pokerdice.util.Consts.CASH_NAME
+import com.pstorli.pokerdice.util.Consts.CASH_BORDER_NAME
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE0_NAME
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE1_NAME
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE2_NAME
@@ -15,7 +15,7 @@ import com.pstorli.pokerdice.util.Consts.COLOR_DICE4_NAME
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE5_NAME
 import com.pstorli.pokerdice.util.Consts.COLOR_DICE6_NAME
 import com.pstorli.pokerdice.util.Consts.DICE_ZERO
-import com.pstorli.pokerdice.util.Consts.ROLLS_NAME
+import com.pstorli.pokerdice.util.Consts.ROLLS_BORDER_NAME
 import com.pstorli.pokerdice.util.Consts.getDice
 import com.pstorli.pokerdice.util.Consts.getDiceNum
 import com.pstorli.pokerdice.util.Consts.squareName
@@ -48,7 +48,7 @@ class PokerPrefs (var prefs: Prefs) : PokerDS {
             when (which) {
                 Persist.BET                 -> pokerDAO.bet             = prefs.getInt        (BET_NAME)
                 Persist.BOARD               -> pokerDAO.board           = loadBoard     ()
-                Persist.CASH                -> pokerDAO.cash            = prefs.getInt        (CASH_NAME)
+                Persist.CASH                -> pokerDAO.cash            = prefs.getInt        (CASH_BORDER_NAME)
                 Persist.COLOR_DICE0         -> pokerDAO.colorDice0      = prefs.getColorPair  (COLOR_DICE0_NAME)
                 Persist.COLOR_DICE1         -> pokerDAO.colorDice1      = prefs.getColorPair  (COLOR_DICE1_NAME)
                 Persist.COLOR_DICE2         -> pokerDAO.colorDice2      = prefs.getColorPair  (COLOR_DICE2_NAME)
@@ -56,7 +56,7 @@ class PokerPrefs (var prefs: Prefs) : PokerDS {
                 Persist.COLOR_DICE4         -> pokerDAO.colorDice4      = prefs.getColorPair  (COLOR_DICE4_NAME)
                 Persist.COLOR_DICE5         -> pokerDAO.colorDice5      = prefs.getColorPair  (COLOR_DICE5_NAME)
                 Persist.COLOR_DICE6         -> pokerDAO.colorDice6      = prefs.getColorPair  (COLOR_DICE6_NAME)
-                Persist.ROLLS               -> pokerDAO.rolls           = prefs.getInt        (ROLLS_NAME)
+                Persist.ROLLS               -> pokerDAO.rolls           = prefs.getInt        (ROLLS_BORDER_NAME)
             }
         }
         return pokerDAO
@@ -74,7 +74,7 @@ class PokerPrefs (var prefs: Prefs) : PokerDS {
             when (which) {
                 Persist.BET                 -> prefs.putInt       (BET_NAME,              pokerDAO.bet)
                 Persist.BOARD               -> saveBoard          (                       pokerDAO.board)
-                Persist.CASH                -> prefs.putInt       (CASH_NAME,             pokerDAO.cash)
+                Persist.CASH                -> prefs.putInt       (CASH_BORDER_NAME,             pokerDAO.cash)
                 Persist.COLOR_DICE0         -> prefs.putColorPair (COLOR_DICE0_NAME,      pokerDAO.colorDice0)
                 Persist.COLOR_DICE1         -> prefs.putColorPair (COLOR_DICE1_NAME,      pokerDAO.colorDice1)
                 Persist.COLOR_DICE2         -> prefs.putColorPair (COLOR_DICE2_NAME,      pokerDAO.colorDice2)
@@ -82,7 +82,7 @@ class PokerPrefs (var prefs: Prefs) : PokerDS {
                 Persist.COLOR_DICE4         -> prefs.putColorPair (COLOR_DICE4_NAME,      pokerDAO.colorDice4)
                 Persist.COLOR_DICE5         -> prefs.putColorPair (COLOR_DICE5_NAME,      pokerDAO.colorDice5)
                 Persist.COLOR_DICE6         -> prefs.putColorPair (COLOR_DICE6_NAME,      pokerDAO.colorDice6)
-                Persist.ROLLS               -> prefs.putInt       (ROLLS_NAME,            pokerDAO.rolls)
+                Persist.ROLLS               -> prefs.putInt       (ROLLS_BORDER_NAME,            pokerDAO.rolls)
             }
         }
     }

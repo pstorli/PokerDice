@@ -48,8 +48,10 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // Observerable data.
     // *********************************************************************************************
 
-    // The game board, 7X7 AS A list of 49 Dice items
-    val board       = mutableStateOf(Array<Dice>(BOARD_SIZE*BOARD_SIZE) { Dice.Zero })
+    // The game board, 7X7 has A list of 49 Dice items
+    // Use these vars to update the board or edge of the board.
+    var onUpdateBoard     = mutableStateOf(true)
+    var onUpdateBoardEdge = mutableStateOf(true)
 
     // How much cash, rolls and bets have we?
     var bet         by mutableStateOf<Int>(0)
@@ -77,12 +79,15 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // Vars
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
+    // The game board, 7X7 AS A list of 49 Dice items
+    var board               = Array<Dice>(BOARD_SIZE*BOARD_SIZE) { Dice.Zero }
+
     // The poker repo is used to save game state information.
     var pokerRepo: PokerRepo
 
-    val boardText           = Array<String>(BOARD_SIZE*BOARD_SIZE) { NO_TEXT }
-    val boardTextColor      = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { Consts.color(Consts.COLOR_TEXT_NAME, getApplication()) }
-    val boardBorderColor    = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { Consts.color(Consts.COLOR_BORDER_NAME, getApplication()) }
+    val boardText           = Array<String>(BOARD_SIZE*BOARD_SIZE)  { NO_TEXT }
+    val boardTextColor      = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { application.color(Consts.COLOR_TEXT_NAME) }
+    val boardBorderColor    = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { application.color(Consts.COLOR_BORDER_NAME) }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // First thing is to init the repo.
@@ -196,7 +201,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         for (which in what) {
             when (which) {
                 Persist.BET                 -> bet              = pokerDAO.bet
-                Persist.BOARD               -> board.value      = pokerDAO.board
+                Persist.BOARD               -> board            = pokerDAO.board
                 Persist.CASH                -> cash             = pokerDAO.cash
                 Persist.COLOR_DICE0         -> diceColor0       = pokerDAO.colorDice0
                 Persist.COLOR_DICE1         -> diceColor1       = pokerDAO.colorDice1
@@ -220,7 +225,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
         for (which in what) {
             when (which) {
                 Persist.BET                 -> pokerDAO.bet         = bet
-                Persist.BOARD               -> pokerDAO.board       = board.value
+                Persist.BOARD               -> pokerDAO.board       = board
                 Persist.CASH                -> pokerDAO.cash        = cash
                 Persist.COLOR_DICE0         -> pokerDAO.colorDice0  = diceColor0
                 Persist.COLOR_DICE1         -> pokerDAO.colorDice1  = diceColor1
@@ -307,7 +312,18 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
      * They clicked on the board.
      */
     fun boardClickEvent (pokerEvent: PokerEvent.BoardClickEvent) {
+        // TODO Test only!!!
+        boardText[4] = "It"
+        boardTextColor[4] = Color.Blue
+        boardBorderColor[4] = Color.Green
 
+        boardBorderColor[17] = Color.Yellow
+
+        cash++
+
+        // cause the board edge to recompose.
+        onUpdateBoard.value = !onUpdateBoard.value
+        //onUpdateBoardEdge.value = !onUpdateBoardEdge.value
     }
 
 }
