@@ -3,6 +3,8 @@ package com.pstorli.pokerdice.ui.composeables
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidthIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -13,8 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.util.Consts
+import com.pstorli.pokerdice.util.Consts.POKER_BTN_MIN_WIDTH
+
 @Composable
-@Suppress("UNUSED_PARAMETER")
 fun PokerButton (name: String, textColor: Color, borderColor: Color=MaterialTheme.colorScheme.outline, onClick: () -> Unit) {
 
     OutlinedButton(
@@ -30,7 +33,7 @@ fun PokerButton (name: String, textColor: Color, borderColor: Color=MaterialThem
             disabledElevation = Consts.DISABLED_ELEVATION_VAL
         ),
         shape           = RoundedCornerShape(Consts.ROUNDED_CORNER_SHAPE_PCT_VAL),
-        modifier        = Modifier.padding(4.dp),
+        modifier        = Modifier.padding(4.dp).requiredWidthIn(min = POKER_BTN_MIN_WIDTH).widthIn(min = POKER_BTN_MIN_WIDTH),
         contentPadding  = PaddingValues(2.dp)
     )
     {

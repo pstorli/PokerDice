@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.model.PokerViewModel
+import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.viewmodel.PokerEvent
 import com.pstorli.pokerdice.util.Consts
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
@@ -27,9 +28,6 @@ fun Board (pokerViewModel: PokerViewModel) {
                 if (isEdgeSquare (index)) {
                     // This will detect any changes to the board edge and recompose your composable.
                     pokerViewModel.onUpdateBoardEdge.value
-
-                    // Color will be either edge color or dice color?
-                    val color = LocalContext.current.color(Consts.COLOR_EDGE_NAME)
 
                     // Use PokerButton for edge squares.
                     PokerButton(
@@ -51,7 +49,13 @@ fun Board (pokerViewModel: PokerViewModel) {
                     val dice = pokerViewModel.board.get(index)
 
                     // Now create the dice.
-                    createDice(dice, pokerViewModel.getColor(dice), pokerViewModel.boardBorderColor[index])
+                    createDice(dice, pokerViewModel.getColor(dice), pokerViewModel.boardBorderColor[index], onClick     =
+                    {
+                        debug ("They clicked on the board at $index.")
+
+                        // They clicked the button on a board square.
+                        pokerViewModel.onEvent(PokerEvent.BoardClickEvent (index))
+                    })
                 }
             }
         }

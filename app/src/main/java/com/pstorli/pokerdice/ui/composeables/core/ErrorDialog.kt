@@ -1,12 +1,10 @@
-package com.pstorli.pokerdice.ui.composeables
+package com.pstorli.pokerdice.ui.composeables.core
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.res.stringResource
-import com.pstorli.pokerdice.R
 
 @Composable
 fun ErrorDialog(message: String) {
@@ -17,7 +15,8 @@ fun ErrorDialog(message: String) {
                 openDialog.value = false
             },
             title = {
-                Text(text = stringResource(R.string.problem_occurred))
+                Text(text = "Error")
+
             },
             text = {
                 Text(message)

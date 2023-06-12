@@ -22,6 +22,6 @@ fun LoadingScreen () {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CircularProgressIndicator()
-        Text(stringResource(id = R.string.loading))
+        Text(stringResource(id = R.string.state_loading))
     }
 }

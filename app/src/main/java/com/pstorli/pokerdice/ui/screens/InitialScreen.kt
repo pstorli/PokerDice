@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import com.pstorli.pokerdice.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.Board
 import com.pstorli.pokerdice.ui.composeables.HandToBeat
+import com.pstorli.pokerdice.ui.composeables.Instructions
 import com.pstorli.pokerdice.ui.composeables.PlayerRow
 
 /**
@@ -21,8 +22,9 @@ fun PokerScreenLoaded (pokerViewModel: PokerViewModel) {
 
     // Two rows in a column.
     Column() {
-        PlayerRow   (pokerViewModel)
-        HandToBeat  (pokerViewModel)
-        Board       (pokerViewModel)
+        PlayerRow       (pokerViewModel)
+        HandToBeat      (pokerViewModel)
+        Board           (pokerViewModel)
+        Instructions    (pokerViewModel)
     }
 }

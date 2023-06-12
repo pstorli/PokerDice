@@ -1,4 +1,4 @@
-package com.pstorli.pokerdice.ui.composeables
+package com.pstorli.pokerdice.ui.composeables.core
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,15 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pstorli.pokerdice.R
-import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.conditional
-import com.pstorli.pokerdice.util.Consts
 import androidx.compose.material3.Text as TextMat
 
 @Composable
@@ -57,21 +50,5 @@ fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=false, maxHe
                 modifier = Modifier.padding(2.dp).background(color = MaterialTheme.colorScheme.background)
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun LabeledRow() {
-    LabeledRow(title = stringResource(id = R.string.player),
-        LocalContext.current.color(Consts.COLOR_BORDER_NAME)
-    ) {
-        TextMat(
-            modifier = Modifier.padding(horizontal = Consts.PADDING_DEFAULT_VAL),
-            text = stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.bodySmall,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.outline
-        )
     }
 }

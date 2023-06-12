@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.R
+import com.pstorli.pokerdice.conditional
 import com.pstorli.pokerdice.domain.model.Dice
 import com.pstorli.pokerdice.model.PokerViewModel
 import com.pstorli.pokerdice.resId
@@ -37,7 +39,7 @@ import com.pstorli.pokerdice.util.Consts.DICE_ZERO
  * Create a dice image.
  */
 @Composable
-fun createDice (num: Int, pokerViewModel: PokerViewModel) {
+fun createDice (num: Int, pokerViewModel: PokerViewModel, onClick: () -> Unit) {
     when (num) {
         DICE_ZERO   -> createDice (Dice.Zero,   pokerViewModel.getColor(Dice.Zero))
         DICE_ONE    -> createDice (Dice.One,    pokerViewModel.getColor(Dice.One))
@@ -54,6 +56,14 @@ fun createDice (num: Int, pokerViewModel: PokerViewModel) {
  */
 @Composable
 fun createDice (dice: Dice, backColor: Color, borderColor: Color=MaterialTheme.colorScheme.outline) {
+    createDice (dice, backColor, borderColor, null)
+}
+
+/**
+ * Create a dice image.
+ */
+@Composable
+fun createDice (dice: Dice, backColor: Color, borderColor: Color=MaterialTheme.colorScheme.outline, onClick: (() -> Unit?)?) {
     Image (
         painterResource (dice.resId()),
         contentDescription  = stringResource(R.string.dice_image, dice.name),
@@ -64,6 +74,11 @@ fun createDice (dice: Dice, backColor: Color, borderColor: Color=MaterialTheme.c
                 BorderStroke(BORDER_DEFAULT_WIDTH_VAL, borderColor),
                 RectangleShape
             )
+            .conditional(onClick != null) {
+                clickable {
+                    onClick?.let { it() }
+                }
+            }
     )
 }
 

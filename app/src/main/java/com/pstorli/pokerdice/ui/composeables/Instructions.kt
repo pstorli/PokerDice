@@ -1,5 +1,6 @@
 package com.pstorli.pokerdice.ui.composeables
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -8,18 +9,17 @@ import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.util.Consts
-import com.pstorli.pokerdice.util.Consts.HAND_TO_BEAT_DICE_SIZE
 
 @Composable
-fun HandToBeat (pokerViewModel: PokerViewModel) {
+fun Instructions (pokerViewModel: PokerViewModel) {
+    // This will detect any changes to the board edge and recompose your composable.
+    pokerViewModel.onUpdateInstructins.value
+
     LabeledRow(
-        title       = stringResource(id = R.string.hand_to_beat),
+        title       = stringResource(id = R.string.instructions),
         titleColor  = LocalContext.current.color(Consts.COLOR_TEXT_NAME),
         maxWidth    = true
     ) {
-        // Loop thru hand to beat.
-        for (dice in pokerViewModel.handToBeat.value) {
-            createDice (dice, pokerViewModel.getColor(dice),HAND_TO_BEAT_DICE_SIZE)
-        }
+        Text (pokerViewModel.getInstructions())
     }
 }

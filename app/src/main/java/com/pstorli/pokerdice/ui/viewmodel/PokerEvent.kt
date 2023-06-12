@@ -4,9 +4,9 @@ package com.pstorli.pokerdice.ui.viewmodel
  * This class handlers various user events.
  */
 sealed class PokerEvent {
-    class BoardClickEvent(index: Int)   : PokerEvent()
+    data class BoardClickEvent(val index: Int)  : PokerEvent()
 
-    object CashOutEvent                 : PokerEvent ()
+    object CashOutEvent                         : PokerEvent ()
 
-    object RollEvent                    : PokerEvent ()
+    object RollEvent                            : PokerEvent ()
 }

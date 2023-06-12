@@ -23,14 +23,6 @@ var COLOR_DK_BET_BORDER     = DarkGreen
 var COLOR_DK_BORDER         = Color.DarkGray
 var COLOR_DK_CASH           = DarkGreen
 var COLOR_DK_CASH_OUT       = DarkGreen
-var COLOR_DK_EDGE           = Color.Black
-
-val COLOR_LT_BACK           = PaleWhite
-var COLOR_LT_BET_BORDER     = DarkGreen
-var COLOR_LT_BORDER         = Color.DarkGray
-var COLOR_LT_CASH           = DarkGreen
-var COLOR_LT_CASH_OUT       = DarkGreen
-var COLOR_LT_EDGE           = Color.White
 
 // The default dark colors.
 var COLOR_DK_DICE0          = Color.White
@@ -41,6 +33,21 @@ var COLOR_DK_DICE4          = Orange
 var COLOR_DK_DICE5          = Color.Magenta
 var COLOR_DK_DICE6          = Color.Yellow
 
+var COLOR_DK_EDGE           = Color.Black
+var COLOR_DK_HOLD_BORDER    = Pink
+var COLOR_DK_OUT_TEXT       = Color.White
+var COLOR_DK_ROLL_DICE      = Color.Red
+var COLOR_DK_TEXT           = Color.White
+var COLOR_DK_ROLLS          = DarkGreen
+var COLOR_DK_WON            = Color.Red
+
+val COLOR_LT_BACK           = PaleWhite
+var COLOR_LT_BET_BORDER     = Color.Blue
+var COLOR_LT_BORDER         = Color.DarkGray
+var COLOR_LT_CASH           = Color.Blue
+var COLOR_LT_CASH_OUT       = DarkGreen
+var COLOR_LT_EDGE           = Color.White
+
 // The default light colors.
 var COLOR_LT_DICE0          = Color.Black
 var COLOR_LT_DICE1          = Color.Blue
@@ -50,14 +57,8 @@ var COLOR_LT_DICE4          = Orange
 var COLOR_LT_DICE5          = Color.Magenta
 var COLOR_LT_DICE6          = Color.Yellow
 
-var COLOR_DK_HOLD_BORDER    = Pink
-var COLOR_DK_ROLL_DICE      = Color.Red
-var COLOR_DK_TEXT           = Color.White
-var COLOR_DK_ROLLS          = DarkGreen
-var COLOR_DK_WON            = Color.Red
-
 var COLOR_LT_HOLD_BORDER    = Pink
+var COLOR_LT_OUT_TEXT       = Color.Black
 var COLOR_LT_ROLL_DICE      = Color.Red
 var COLOR_LT_TEXT           = Color.Blue
-var COLOR_LT_ROLLS          = DarkGreen
-var COLOR_LT_WON            = Color.Red
+var COLOR_LT_ROLLS          = Color.Blue

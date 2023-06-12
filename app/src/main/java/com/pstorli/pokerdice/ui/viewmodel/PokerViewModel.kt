@@ -34,6 +34,7 @@ import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.GAME_SAVED
 import com.pstorli.pokerdice.util.Consts.NO_TEXT
 import com.pstorli.pokerdice.util.Consts.debug
+import com.pstorli.pokerdice.util.Consts.isEdgeSquare
 import com.pstorli.pokerdice.util.Persist
 import com.pstorli.pokerdice.util.Prefs
 
@@ -42,7 +43,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Suppress("unused")
-class PokerViewModel (application: Application) : AndroidViewModel(application) {
+class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
     // *********************************************************************************************
     // Observerable data.
@@ -50,8 +51,9 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
 
     // The game board, 7X7 has A list of 49 Dice items
     // Use these vars to update the board or edge of the board.
-    var onUpdateBoard     = mutableStateOf(true)
-    var onUpdateBoardEdge = mutableStateOf(true)
+    var onUpdateBoard       = mutableStateOf(true)
+    var onUpdateBoardEdge   = mutableStateOf(true)
+    var onUpdateInstructins = mutableStateOf(true)
 
     // How much cash, rolls and bets have we?
     var bet         by mutableStateOf<Int>(0)
@@ -66,9 +68,6 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     var diceColor5  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE5,COLOR_DK_DICE5))
     var diceColor6  by mutableStateOf<Pair<Color,Color>> (Pair (COLOR_LT_DICE6,COLOR_DK_DICE6))
 
-    // Preferences
-    var prefs: Prefs
-
     // How many rolls do we have left.
     var rolls       by mutableStateOf<Int>(0)
 
@@ -79,6 +78,9 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     // Vars
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
+    // Preferences
+    var prefs: Prefs
+
     // The game board, 7X7 AS A list of 49 Dice items
     var board               = Array<Dice>(BOARD_SIZE*BOARD_SIZE) { Dice.Zero }
 
@@ -86,8 +88,21 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     var pokerRepo: PokerRepo
 
     val boardText           = Array<String>(BOARD_SIZE*BOARD_SIZE)  { NO_TEXT }
-    val boardTextColor      = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { application.color(Consts.COLOR_TEXT_NAME) }
-    val boardBorderColor    = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { application.color(Consts.COLOR_BORDER_NAME) }
+    val boardTextColor      = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { app.color(Consts.COLOR_TEXT_NAME) }
+    val boardBorderColor    = Array<Color> (BOARD_SIZE*BOARD_SIZE)  { app.color(Consts.COLOR_BORDER_NAME) }
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+    // Game State
+    // /////////////////////////////////////////////////////////////////////////////////////////////
+
+    sealed class PokerUIState {
+        object Loading : PokerUIState()
+        class Initial (val data: PokerViewModel) : PokerUIState()
+        class Error (val message: String) : PokerUIState()
+    }
+
+    val _uiState = MutableStateFlow<PokerUIState>(PokerUIState.Initial (this))
+    val uiState: StateFlow<PokerUIState> = _uiState
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // First thing is to init the repo.
@@ -95,7 +110,7 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
 
     init {
         // Init the prefs
-        prefs     = Prefs (application)
+        prefs     = Prefs (app)
 
         // Init the repo
         pokerRepo = PokerRepo(prefs)
@@ -111,6 +126,16 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
             boardBorderColor[4] = Color.Red
 
             boardBorderColor[17] = Color.Red
+
+            boardText[0]  = app.resources.getString(R.string.hand_royal_flush)
+            boardText[1]  = app.resources.getString(R.string.hand_straight_flush)
+            boardText[2]  = app.resources.getString(R.string.hand_full_house)
+            boardText[3]  = app.resources.getString(R.string.hand_flush)
+            boardText[4]  = app.resources.getString(R.string.hand_straight)
+            boardText[5]  = app.resources.getString(R.string.hand_3_of_kind)
+            boardText[6]  = app.resources.getString(R.string.hand_two_pair)
+            boardText[7]  = app.resources.getString(R.string.hand_one_pair)
+            boardText[13] = app.resources.getString(R.string.hand_highest_dice)
         }
     }
 
@@ -127,21 +152,21 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
-    // Game State
-    // /////////////////////////////////////////////////////////////////////////////////////////////
-
-    sealed class PokerUIState {
-        object Loading : PokerUIState()
-        class Loaded (val data: PokerViewModel) : PokerUIState()
-        class Error (val message: String) : PokerUIState()
-    }
-    
-    val _uiState = MutableStateFlow<PokerUIState>(PokerUIState.Loaded (this))
-    val uiState: StateFlow<PokerUIState> = _uiState
-
-    // /////////////////////////////////////////////////////////////////////////////////////////////
     // Helpful Methods
     // /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the instructions based on the game state.
+     */
+    fun getInstructions (): String {
+        var result = app.resources.getString(R.string.state_error)
+        when (_uiState.value) {
+            is PokerUIState.Error      -> result = app.resources.getString(R.string.state_error)
+            is PokerUIState.Initial    -> result = app.resources.getString(R.string.state_initial)
+            is PokerUIState.Loading    -> result = app.resources.getString(R.string.state_loading)
+        }
+        return result
+    }
 
     /**
      * Get the dice color.
@@ -319,11 +344,17 @@ class PokerViewModel (application: Application) : AndroidViewModel(application) 
 
         boardBorderColor[17] = Color.Yellow
 
+
+
         cash++
 
         // cause the board edge to recompose.
-        onUpdateBoard.value = !onUpdateBoard.value
-        //onUpdateBoardEdge.value = !onUpdateBoardEdge.value
+        if (isEdgeSquare (pokerEvent.index)) {
+            onUpdateBoardEdge.value = !onUpdateBoardEdge.value
+        }
+        else {
+            // Recompose tghe board
+            onUpdateBoard.value = !onUpdateBoard.value
+        }
     }
-
 }

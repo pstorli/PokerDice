@@ -14,11 +14,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.pstorli.pokerdice.model.PokerViewModel
-import com.pstorli.pokerdice.ui.composeables.ErrorDialog
+import com.pstorli.pokerdice.ui.composeables.core.ErrorDialog
 import com.pstorli.pokerdice.ui.screens.LoadingScreen
 import com.pstorli.pokerdice.ui.screens.PokerScreenLoaded
 import com.pstorli.pokerdice.ui.theme.PokerDiceTheme
-
 class MainActivity : ComponentActivity() {
     // The one and only!
     val pokerViewModel: PokerViewModel by viewModels()
@@ -60,7 +59,7 @@ class MainActivity : ComponentActivity() {
                     ErrorDialog(state.message)
 
                 // Loading.
-                is PokerViewModel.PokerUIState.Loaded   ->
+                is PokerViewModel.PokerUIState.Initial   ->
                     PokerScreenLoaded (state.data)
             }
         }
