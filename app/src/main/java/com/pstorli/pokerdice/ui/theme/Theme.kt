@@ -40,7 +40,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun PokerDiceTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
+    // Dynamic getColor is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {

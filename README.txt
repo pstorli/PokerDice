@@ -25,6 +25,7 @@ Architecture notes:
 Resolved Issues Version 1003:
   0000 Added board
   0000 Added text, textColor and borderColor properties
+  0000 Re-did colors, make pink hold, added level
 
 Resolved Issues Version 1003:
   0000 Created initial Jetpack Compose from poker dice screen shot

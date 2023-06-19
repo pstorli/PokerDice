@@ -1,71 +1,115 @@
 package com.pstorli.pokerdice.ui.composeables
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.debug
-import com.pstorli.pokerdice.model.PokerViewModel
+import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.composeables.core.OutlinedTextField
-import com.pstorli.pokerdice.ui.viewmodel.PokerEvent
-import com.pstorli.pokerdice.util.Consts
+import com.pstorli.pokerdice.domain.model.PokerEvent
+import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.util.Consts.BET_MIN_WIDTH
 import com.pstorli.pokerdice.util.Consts.CASH_MIN_WIDTH
+import com.pstorli.pokerdice.util.Consts.LEVEL_MIN_WIDTH
 import com.pstorli.pokerdice.util.Consts.ROLLS_MIN_WIDTH
+import com.pstorli.pokerdice.util.Consts.WON_MIN_WIDTH
 
 @Composable
 fun PlayerRow (pokerViewModel: PokerViewModel) {
+    // This will detect any changes to the board edge and recompose your composable.
+    pokerViewModel.onUpdatePlayer.value
+
     LabeledRow(
         title       = stringResource(id = R.string.player),
-        titleColor  = LocalContext.current.color(Consts.COLOR_TEXT_NAME),
+        titleColor  = LocalContext.current.color(Colors.Title),
         maxWidth    = true
     ) {
-        // Roll Dice
-        PokerButton(
-            name        = LocalContext.current.resources.getString(R.string.roll_dice),
-            textColor   = LocalContext.current.color(Consts.COLOR_ROLL_DICE_NAME),
-            onClick     = {
-                "Roll dice pressed.".debug()
+        Column () {
+            Row() {
+                // Roll Dice
+                var rollTextColor = LocalContext.current.color(Colors.RollDice)
+                var rollTitle = LocalContext.current.resources.getString(R.string.roll_dice)
+                if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
+                    rollTextColor = LocalContext.current.color(Colors.CashOut)
+                    rollTitle = LocalContext.current.resources.getString(R.string.start)
+                }
 
-                // They clicked the button.
-                pokerViewModel.onEvent(PokerEvent.RollEvent)
-            })
+                PokerButton(
+                    name = rollTitle,
+                    textColor = rollTextColor,
+                    onClick = {
+                        "Roll dice pressed.".debug()
 
-        // Cash Out
-        PokerButton(
-            name        = LocalContext.current.resources.getString(R.string.cash_out),
-            textColor   = LocalContext.current.color(Consts.COLOR_CASH_OUT_NAME),
-            onClick     = {
-                "Cash out pressed.".debug()
+                        // They clicked the button.
+                        pokerViewModel.onEvent(PokerEvent.RollEvent)
+                    })
 
-                // They clicked the button.
-                pokerViewModel.onEvent(PokerEvent.CashOutEvent)
-            })
+                // Cash Out
+                if (PokerViewModel.PokerUIState.Rolling == pokerViewModel.uiState.collectAsState().value) {
+                    PokerButton(
+                        name = LocalContext.current.resources.getString(R.string.cash_out),
+                        textColor = LocalContext.current.color(Colors.CashOut),
+                        onClick = {
+                            "Cash out pressed.".debug()
 
-        // Cash
-        OutlinedTextField(
-            text        = LocalContext.current.resources.getString(R.string.cash),
-            textColor   = LocalContext.current.color(Consts.COLOR_OUT_TEXT_NAME),
-            value       = pokerViewModel.cash.toString(),
-            minWidth    = CASH_MIN_WIDTH,
-            titleColor  = LocalContext.current.color(Consts.COLOR_CASH_BORDER_NAME))
+                            // They clicked the button.
+                            pokerViewModel.onEvent(PokerEvent.CashOutEvent)
+                        })
+                }
+            }
 
-        // Bet
-        OutlinedTextField(
-            text        = LocalContext.current.resources.getString(R.string.bet),
-            value       = pokerViewModel.bet.toString(),
-            textColor   = LocalContext.current.color(Consts.COLOR_OUT_TEXT_NAME),
-            minWidth    = BET_MIN_WIDTH,
-            titleColor  = LocalContext.current.color(Consts.COLOR_BET_BORDER_NAME))
+            Row() {
+                // Cash
+                OutlinedTextField(
+                    text = LocalContext.current.resources.getString(R.string.cash),
+                    textColor = LocalContext.current.color(Colors.Text),
+                    value = pokerViewModel.cash.toString(),
+                    minWidth = CASH_MIN_WIDTH,
+                    titleColor = LocalContext.current.color(Colors.Title)
+                )
 
-        // Rolls
-        OutlinedTextField(
-            text        = LocalContext.current.resources.getString(R.string.rolls),
-            value       = pokerViewModel.rolls.toString(),
-            textColor   = LocalContext.current.color(Consts.COLOR_OUT_TEXT_NAME),
-            minWidth    = ROLLS_MIN_WIDTH,
-            titleColor  = LocalContext.current.color(Consts.COLOR_ROLLS_BORDER_NAME))
+                // Rolls
+                OutlinedTextField(
+                    text = LocalContext.current.resources.getString(R.string.rolls),
+                    value = pokerViewModel.rolls.toString(),
+                    textColor = LocalContext.current.color(Colors.Text),
+                    minWidth = ROLLS_MIN_WIDTH,
+                    titleColor = LocalContext.current.color(Colors.Title)
+                )
+
+                // Bet
+                OutlinedTextField(
+                    text = LocalContext.current.resources.getString(R.string.bet),
+                    value = pokerViewModel.bet.toString(),
+                    textColor = LocalContext.current.color(Colors.Text),
+                    minWidth = BET_MIN_WIDTH,
+                    titleColor = LocalContext.current.color(Colors.Title)
+                )
+
+                // Won
+                OutlinedTextField(
+                    text = LocalContext.current.resources.getString(R.string.won),
+                    value = pokerViewModel.won.toString(),
+                    textColor = LocalContext.current.color(Colors.Text),
+                    minWidth = WON_MIN_WIDTH,
+                    titleColor = LocalContext.current.color(Colors.Title)
+                )
+
+                // Level
+                OutlinedTextField(
+                    text = LocalContext.current.resources.getString(R.string.level),
+                    value = pokerViewModel.level.toString(),
+                    textColor = LocalContext.current.color(Colors.Text),
+                    minWidth = LEVEL_MIN_WIDTH,
+                    titleColor = LocalContext.current.color(Colors.Title)
+                )
+            }
+        }
     }
 }

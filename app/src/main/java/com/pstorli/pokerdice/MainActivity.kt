@@ -13,10 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.pstorli.pokerdice.model.PokerViewModel
+import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.ErrorDialog
 import com.pstorli.pokerdice.ui.screens.LoadingScreen
-import com.pstorli.pokerdice.ui.screens.PokerScreenLoaded
+import com.pstorli.pokerdice.ui.screens.RollingScreen
+import com.pstorli.pokerdice.ui.screens.StartScreen
 import com.pstorli.pokerdice.ui.theme.PokerDiceTheme
 class MainActivity : ComponentActivity() {
     // The one and only!
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PokerDiceTheme {
-                // A surface container using the 'background' color from the theme
+                // A surface container using the 'background' getColor from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color    = MaterialTheme.colorScheme.background
@@ -59,8 +60,12 @@ class MainActivity : ComponentActivity() {
                     ErrorDialog(state.message)
 
                 // Loading.
-                is PokerViewModel.PokerUIState.Initial   ->
-                    PokerScreenLoaded (state.data)
+                is PokerViewModel.PokerUIState.Start   ->
+                    StartScreen (pokerViewModel)
+
+                // Rolling.
+                is PokerViewModel.PokerUIState.Rolling   ->
+                    RollingScreen (pokerViewModel)
             }
         }
     }

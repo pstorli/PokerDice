@@ -11,5 +11,7 @@ enum class Persist {
     COLOR_DICE4,
     COLOR_DICE5,
     COLOR_DICE6,
-    ROLLS
+    LEVEL,
+    ROLLS,
+    WON
 }

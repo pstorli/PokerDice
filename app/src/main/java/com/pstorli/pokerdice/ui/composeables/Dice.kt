@@ -19,84 +19,40 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.conditional
-import com.pstorli.pokerdice.domain.model.Dice
-import com.pstorli.pokerdice.model.PokerViewModel
-import com.pstorli.pokerdice.resId
+import com.pstorli.pokerdice.domain.model.Die
 import com.pstorli.pokerdice.util.Consts.BORDER_DEFAULT_WIDTH_VAL
-import com.pstorli.pokerdice.util.Consts.DICE_FIVE
-import com.pstorli.pokerdice.util.Consts.DICE_FOUR
-import com.pstorli.pokerdice.util.Consts.DICE_ONE
-import com.pstorli.pokerdice.util.Consts.DICE_SIX
-import com.pstorli.pokerdice.util.Consts.DICE_THREE
-import com.pstorli.pokerdice.util.Consts.DICE_TWO
-import com.pstorli.pokerdice.util.Consts.DICE_ZERO
-
-// *********************************************************************************************
-// Jetpack Compose Helper composeable functions
-// *********************************************************************************************
 
 /**
- * Create a dice image.
+ * Create a dice composeable.
  */
 @Composable
-fun createDice (num: Int, pokerViewModel: PokerViewModel, onClick: () -> Unit) {
-    when (num) {
-        DICE_ZERO   -> createDice (Dice.Zero,   pokerViewModel.getColor(Dice.Zero))
-        DICE_ONE    -> createDice (Dice.One,    pokerViewModel.getColor(Dice.One))
-        DICE_TWO    -> createDice (Dice.Two,    pokerViewModel.getColor(Dice.Two))
-        DICE_THREE  -> createDice (Dice.Three,  pokerViewModel.getColor(Dice.Three))
-        DICE_FOUR   -> createDice (Dice.Four,   pokerViewModel.getColor(Dice.Four))
-        DICE_FIVE   -> createDice (Dice.Five,   pokerViewModel.getColor(Dice.Five))
-        DICE_SIX    -> createDice (Dice.Six,    pokerViewModel.getColor(Dice.Six))
-    }
+fun Dice (die: Die, backColor: Color=MaterialTheme.colorScheme.background, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp: Dp?=null) {
+    Dice(die, backColor, borderColor, sizeDp, null)
 }
 
 /**
- * Create a dice image.
+ * Create a dice composeable.
  */
 @Composable
-fun createDice (dice: Dice, backColor: Color, borderColor: Color=MaterialTheme.colorScheme.outline) {
-    createDice (dice, backColor, borderColor, null)
-}
-
-/**
- * Create a dice image.
- */
-@Composable
-fun createDice (dice: Dice, backColor: Color, borderColor: Color=MaterialTheme.colorScheme.outline, onClick: (() -> Unit?)?) {
+fun Dice (die: Die, backColor: Color=MaterialTheme.colorScheme.background, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp: Dp?=null, onClick: (() -> Unit?)?) {
     Image (
-        painterResource (dice.resId()),
-        contentDescription  = stringResource(R.string.dice_image, dice.name),
+        painterResource     (die.resId()),
+        contentDescription  = stringResource(R.string.dice_image, die.toString()),
         contentScale        = ContentScale.Crop,
         modifier            = Modifier
-            .padding(4.dp).background(backColor)
+            .padding(4.dp)
+            .background(backColor)
             .border (
                 BorderStroke(BORDER_DEFAULT_WIDTH_VAL, borderColor),
                 RectangleShape
             )
+            .conditional(sizeDp != null) {
+                size(sizeDp!!)
+            }
             .conditional(onClick != null) {
                 clickable {
                     onClick?.let { it() }
                 }
             }
-    )
-}
-
-/**
- * Create a dice image.
- */
-@Composable
-fun createDice (dice: Dice, backColor: Color, sizeDp: Dp, borderColor: Color=MaterialTheme.colorScheme.outline) {
-    Image (
-        painterResource (dice.resId()),
-        contentDescription  = stringResource(R.string.dice_image, dice.name),
-        contentScale        = ContentScale.Crop,
-        modifier            = Modifier
-            .padding(4.dp).background(backColor)
-            .size(sizeDp)
-            .border (
-            BorderStroke(BORDER_DEFAULT_WIDTH_VAL, borderColor),
-            RectangleShape
-        )
     )
 }

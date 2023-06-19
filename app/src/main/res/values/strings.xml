@@ -18,11 +18,14 @@
     <string name="hand_highest_dice">Highest\nDice</string>
 
     <string name="instructions">Instructions</string>
+    <string name="level">Level</string>
     <string name="player">Player</string>
     <string name="roll_dice">Roll\nDice</string>
     <string name="rolls">Rolls</string>
+    <string name="start">Start</string>
     <string name="state_error">Error</string>
-    <string name="state_initial">Click on squares on edge of board to place your bets.</string>
+    <string name="state_start">Click squares on edge of board to place your bets.\nThen click Start.</string>
     <string name="state_loading">Loading</string>
+    <string name="state_rolling">To hold a dice, click on it. Border will turn pink.\nKeep clicking roll dice until you either cash out or have no more rolls.</string>
     <string name="won">Won</string>
 </resources>

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.ui.graphics.Color
+import com.pstorli.pokerdice.domain.model.MutablePair
 
 class Prefs (application: Application) {
     // *********************************************************************************************
@@ -20,23 +21,23 @@ class Prefs (application: Application) {
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Fetch a color pair value.
+     * Fetch a getColor pair value.
      */
-    fun getColorPair (name: Pair <String, String>): Pair <Color, Color> {
+    fun getColorPair (name: MutablePair<String, String>): MutablePair <Color, Color> {
         // Return the RGB
-        return Pair (getColor (name.first), getColor (name.second))
+        return MutablePair (getColor (name.first), getColor (name.second))
     }
 
     /**
-     * Save a color value.
+     * Save a getColor value.
      */
-    fun putColorPair (name: Pair <String, String>, value: Pair <Color, Color>) {
+    fun putColorPair (name: MutablePair<String, String>, value: MutablePair <Color, Color>) {
         putColor(name.first,  value.first)
         putColor(name.second, value.second)
     }
 
     /**
-     * Fetch a color value.
+     * Fetch a getColor value.
      */
     fun getColor (name: String): Color {
         // Return the RGB
@@ -47,7 +48,7 @@ class Prefs (application: Application) {
     }
 
     /**
-     * Save a color value.
+     * Save a getColor value.
      */
     fun putColor (name: String, value: Color) {
         putFloat (name+ Consts.RED_NAME,     value.red)
