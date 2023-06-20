@@ -17,6 +17,7 @@ import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.ErrorDialog
 import com.pstorli.pokerdice.ui.screens.LoadingScreen
 import com.pstorli.pokerdice.ui.screens.RollingScreen
+import com.pstorli.pokerdice.ui.screens.SettingsScreen
 import com.pstorli.pokerdice.ui.screens.StartScreen
 import com.pstorli.pokerdice.ui.theme.PokerDiceTheme
 class MainActivity : ComponentActivity() {
@@ -66,6 +67,10 @@ class MainActivity : ComponentActivity() {
                 // Rolling.
                 is PokerViewModel.PokerUIState.Rolling   ->
                     RollingScreen (pokerViewModel)
+
+                // Settings.
+                is PokerViewModel.PokerUIState.Settings   ->
+                    SettingsScreen (pokerViewModel)
             }
         }
     }

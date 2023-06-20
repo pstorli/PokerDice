@@ -137,7 +137,7 @@ fun getColor (name: Colors, darkMode: Boolean=false): Color {
     when (name) {
         Colors.Back             -> if (darkMode) color = COLOR_DK_BACK              else color = COLOR_LT_BACK
         Colors.Border           -> if (darkMode) color = COLOR_DK_BORDER            else color = COLOR_LT_BORDER
-        Colors.CashOut          -> if (darkMode) color = COLOR_DK_CASH_OUT          else color = COLOR_LT_CASH_OUT
+        Colors.Btn          -> if (darkMode) color = COLOR_DK_CASH_OUT          else color = COLOR_LT_CASH_OUT
         Colors.Dice0            -> if (darkMode) color = COLOR_LT_DICE0             else color = COLOR_DK_DICE0
         Colors.Dice1            -> if (darkMode) color = COLOR_LT_DICE1             else color = COLOR_DK_DICE1
         Colors.Dice2            -> if (darkMode) color = COLOR_LT_DICE2             else color = COLOR_DK_DICE2
@@ -148,7 +148,7 @@ fun getColor (name: Colors, darkMode: Boolean=false): Color {
         Colors.Edge             -> if (darkMode) color = COLOR_DK_EDGE              else color = COLOR_LT_EDGE
         Colors.Held             -> if (darkMode) color = COLOR_DK_HELD_BORDER       else color = COLOR_LT_HELD_BORDER
         Colors.Out              -> if (darkMode) color = COLOR_DK_OUT_TEXT          else color = COLOR_LT_OUT_TEXT
-        Colors.RollDice         -> if (darkMode) color = COLOR_DK_ROLL_DICE         else color = COLOR_LT_ROLL_DICE
+        Colors.Wild         -> if (darkMode) color = COLOR_DK_ROLL_DICE         else color = COLOR_LT_ROLL_DICE
         Colors.Selected         -> if (darkMode) color = COLOR_DK_SELECTED          else color = COLOR_LT_SELECTED
         Colors.Text             -> if (darkMode) color = COLOR_DK_TEXT              else color = COLOR_LT_TEXT
         Colors.Title            -> if (darkMode) color = COLOR_DK_TITLE             else color = COLOR_LT_TITLE
@@ -158,5 +158,19 @@ fun getColor (name: Colors, darkMode: Boolean=false): Color {
 }
 
 fun resetColors () {
+    DICE_LT_ZERO                = COLOR_LT_DICE0
+    DICE_LT_ONE                 = COLOR_LT_DICE1
+    DICE_LT_TWO                 = COLOR_LT_DICE2
+    DICE_LT_THREE               = COLOR_LT_DICE3
+    DICE_LT_FOUR                = COLOR_LT_DICE4
+    DICE_LT_FIVE                = COLOR_LT_DICE5
+    DICE_LT_SIX                 = COLOR_LT_DICE6
 
+    DICE_DK_ZERO                = COLOR_DK_DICE0
+    DICE_DK_ONE                 = COLOR_DK_DICE1
+    DICE_DK_TWO                 = COLOR_DK_DICE2
+    DICE_DK_THREE               = COLOR_DK_DICE3
+    DICE_DK_FOUR                = COLOR_DK_DICE4
+    DICE_DK_FIVE                = COLOR_DK_DICE5
+    DICE_DK_SIX                 = COLOR_DK_DICE6
 }

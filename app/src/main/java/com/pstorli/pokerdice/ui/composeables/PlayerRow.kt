@@ -33,10 +33,9 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
         Column () {
             Row() {
                 // Roll Dice
-                var rollTextColor = LocalContext.current.color(Colors.RollDice)
+                val rollTextColor = LocalContext.current.color(Colors.Wild)
                 var rollTitle = LocalContext.current.resources.getString(R.string.roll_dice)
                 if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
-                    rollTextColor = LocalContext.current.color(Colors.CashOut)
                     rollTitle = LocalContext.current.resources.getString(R.string.start)
                 }
 
@@ -47,19 +46,48 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                         "Roll dice pressed.".debug()
 
                         // They clicked the button.
-                        pokerViewModel.onEvent(PokerEvent.RollEvent)
+                        if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
+                            pokerViewModel.onEvent(PokerEvent.StartEvent)
+                        }
+                        else {
+                            pokerViewModel.onEvent(PokerEvent.RollEvent)
+                        }
                     })
 
                 // Cash Out
                 if (PokerViewModel.PokerUIState.Rolling == pokerViewModel.uiState.collectAsState().value) {
                     PokerButton(
                         name = LocalContext.current.resources.getString(R.string.cash_out),
-                        textColor = LocalContext.current.color(Colors.CashOut),
+                        textColor = LocalContext.current.color(Colors.Btn),
                         onClick = {
                             "Cash out pressed.".debug()
 
                             // They clicked the button.
                             pokerViewModel.onEvent(PokerEvent.CashOutEvent)
+                        })
+                }
+
+                // Reset
+                PokerButton(
+                    name = LocalContext.current.resources.getString(R.string.reset),
+                    textColor = LocalContext.current.color(Colors.Btn),
+                    onClick = {
+                        "Reset pressed.".debug()
+
+                        // They clicked the reset button.
+                        pokerViewModel.onEvent(PokerEvent.ResetEvent)
+                    })
+
+                // Settings
+                if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
+                    PokerButton(
+                        name = LocalContext.current.resources.getString(R.string.state_settings),
+                        textColor = LocalContext.current.color(Colors.Btn),
+                        onClick = {
+                            "Settings pressed.".debug()
+
+                            // They clicked the button.
+                            pokerViewModel.onEvent(PokerEvent.SettingsEvent)
                         })
                 }
             }

@@ -13,7 +13,7 @@ import com.pstorli.pokerdice.ui.composeables.PlayerRow
  */
 @Composable
 fun StartScreen (pokerViewModel: PokerViewModel) {
-    // Side by sdie rows the same height
+    // Side by side rows the same height
     // make these two rows, the children, the same height.
     /*Row(modifier = Modifier.height(IntrinsicSize.Min)) {
         PlayerRow  (pokerViewModel)

@@ -3,7 +3,7 @@ package com.pstorli.pokerdice.ui.theme
 enum class Colors {
     Back,
     Border,
-    CashOut,
+    Btn,
     Dice0,
     Dice1,
     Dice2,
@@ -14,8 +14,8 @@ enum class Colors {
     Edge,
     Held,
     Out,
-    RollDice,
     Selected,
     Text,
-    Title
+    Title,
+    Wild
 }

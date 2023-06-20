@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.util.Consts
-import com.pstorli.pokerdice.util.Consts.POKER_BORDER_WIDTH
+import com.pstorli.pokerdice.util.Consts.POKER_BORDER_SIZE
 import com.pstorli.pokerdice.util.Consts.POKER_BTN_MIN_WIDTH
 
 @Composable
@@ -26,7 +26,7 @@ fun PokerButton (name: String, textColor: Color, borderColor: Color=MaterialThem
             // Do that click thing.
             onClick.invoke()
         },
-        border = BorderStroke(POKER_BORDER_WIDTH, borderColor),
+        border = BorderStroke(POKER_BORDER_SIZE, borderColor),
         colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary, containerColor = MaterialTheme.colorScheme.inverseOnSurface),
         elevation =  ButtonDefaults.buttonElevation(
             defaultElevation  = Consts.DEFAULT_ELEVATION_VAL,

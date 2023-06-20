@@ -56,7 +56,7 @@ object Consts {
     val HUNDRED_VAL                     = 100
     val LEVEL_NAME                      = "Level"
     val LEVEL_MIN_WIDTH                 = 54.dp
-    val POKER_BORDER_WIDTH              = 2.dp
+    val POKER_BORDER_SIZE               = 2.dp
     val POKER_BTN_MIN_WIDTH             = 56.dp
     val PRESSED_ELEVATION_VAL           = 15.dp
     val RED_NAME                        = "Red"
@@ -115,6 +115,15 @@ object Consts {
      */
     fun squareName (index: Int): String {
         return "Square $index"
+    }
+
+    /**
+     * Return random num between 1 and 6
+     */
+    fun random (): Int {
+        val num = (DICE_ONE..DICE_SIX).random()
+        debug("random () $num")
+        return num
     }
 
     // *********************************************************************************************

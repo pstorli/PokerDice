@@ -22,8 +22,10 @@ import com.pstorli.pokerdice.util.Consts.DICE_ZERO
 import com.pstorli.pokerdice.util.Consts.GAME_SAVED
 import com.pstorli.pokerdice.util.Consts.HAND_TO_BEAT_SIZE
 import com.pstorli.pokerdice.util.Consts.ROLLS_MAX
+import com.pstorli.pokerdice.util.Consts.ZERO_VAL
 import com.pstorli.pokerdice.util.Consts.col
 import com.pstorli.pokerdice.util.Consts.index
+import com.pstorli.pokerdice.util.Consts.random
 import com.pstorli.pokerdice.util.Consts.row
 import com.pstorli.pokerdice.util.Persist
 import com.pstorli.pokerdice.util.Prefs
@@ -31,7 +33,6 @@ import com.pstorli.pokerdice.util.Prefs
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlin.random.Random
 
 @Suppress("unused")
 class PokerViewModel (val app: Application) : AndroidViewModel(app) {
@@ -85,13 +86,15 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * TODO: Comsider using an enum instad of a seled class.
      */
     sealed class PokerUIState {
-        object Loading : PokerUIState()
+        object Loading                      : PokerUIState()
 
-        object Start : PokerUIState()
+        object Start                        : PokerUIState()
 
-        object Rolling : PokerUIState()
+        object Rolling                      : PokerUIState()
 
-        class Error (val message: String) : PokerUIState()
+        object Settings                     : PokerUIState()
+
+        class Error (val message: String)   : PokerUIState()
     }
 
     var _uiState = MutableStateFlow<PokerUIState>(PokerUIState.Start)
@@ -124,6 +127,8 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
             // Give them cash to start out with.
             cash = CASH_INITIAL
         }
+
+        resetEvent (PokerEvent.ResetEvent)
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,10 +153,11 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     fun getInstructions (): String {
         var result = app.resources.getString(R.string.state_error)
         when (_uiState.value) {
-            is PokerUIState.Error   -> result = app.resources.getString(R.string.state_error)
-            is PokerUIState.Start   -> result = app.resources.getString(R.string.state_start)
-            is PokerUIState.Loading -> result = app.resources.getString(R.string.state_loading)
-            is PokerUIState.Rolling -> result = app.resources.getString(R.string.state_rolling)
+            is PokerUIState.Error       -> result = app.resources.getString(R.string.state_error)
+            is PokerUIState.Start       -> result = app.resources.getString(R.string.state_start)
+            is PokerUIState.Loading     -> result = app.resources.getString(R.string.state_loading)
+            is PokerUIState.Rolling     -> result = app.resources.getString(R.string.state_rolling)
+            is PokerUIState.Settings    -> result = app.resources.getString(R.string.state_settings)
         }
         return result
     }
@@ -194,8 +200,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         // Loop through items to save.
         for (which in what) {
             when (which) {
-                Persist.BET                 -> bet      = pokerDAO.bet
-                Persist.BOARD               -> board    = pokerDAO.board
                 Persist.CASH                -> cash     = pokerDAO.cash
                 Persist.COLOR_DICE0         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice0.second else pokerDAO.colorDice0.first)
                 Persist.COLOR_DICE1         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice1.second else pokerDAO.colorDice1.first)
@@ -205,8 +209,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 Persist.COLOR_DICE5         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice5.second else pokerDAO.colorDice5.first)
                 Persist.COLOR_DICE6         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice6.second else pokerDAO.colorDice6.first)
                 Persist.LEVEL               -> level     = pokerDAO.level
-                Persist.ROLLS               -> rolls     = pokerDAO.rolls
-                Persist.WON                 -> won       = pokerDAO.won
             }
         }
     }
@@ -220,8 +222,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         // Loop through items to save.
         for (which in what) {
             when (which) {
-                Persist.BET                 -> pokerDAO.bet      = bet
-                Persist.BOARD               -> pokerDAO.board    = board
                 Persist.CASH                -> pokerDAO.cash     = cash
                 Persist.COLOR_DICE0         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice0) else pokerDAO.colorDice0.first = app.color (Colors.Dice0)
                 Persist.COLOR_DICE1         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice1) else pokerDAO.colorDice0.first = app.color (Colors.Dice1)
@@ -231,8 +231,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 Persist.COLOR_DICE5         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice5) else pokerDAO.colorDice0.first = app.color (Colors.Dice5)
                 Persist.COLOR_DICE6         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice6) else pokerDAO.colorDice0.first = app.color (Colors.Dice6)
                 Persist.LEVEL               -> pokerDAO.level   = level
-                Persist.ROLLS               -> pokerDAO.rolls   = rolls
-                Persist.WON                 -> pokerDAO.won     = won
             }
         }
 
@@ -295,6 +293,38 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         }
     }
 
+    /**
+     * Compute the bet.
+     */
+    fun computeBet () {
+        var bets = ZERO_VAL
+
+        // Top / Bottom
+        for (which in BOARD_FIRST .. BOARD_LAST) {
+            if (board [index(BOARD_FIRST,which)].selected) {
+                bets++
+            }
+            if (board [index(BOARD_LAST,which)].selected) {
+                bets++
+            }
+        }
+
+        // Left / Right
+        for (which in BOARD_FIRST+1 .. BOARD_LAST-1) {
+            if (board [index(which, BOARD_FIRST)].selected) {
+                bets++
+            }
+            if (board [index(which, BOARD_LAST)].selected) {
+                bets++
+            }
+        }
+
+        // Reset the bet.
+        bet = bets
+
+        updatePlayer()
+    }
+
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Update the UI, or parts of it.
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -319,7 +349,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         onUpdatePlayer.value = !onUpdatePlayer.value
     }
 
-    fun updateGameUI () {
+    fun updateGame () {
         updateBoard ()
         updateBoardEdge ()
         updateHandToBeat ()
@@ -328,7 +358,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
-    // Populate the board.
+    // Populate the board and hand.
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -343,12 +373,30 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
                 // If square is not held
                 if (!die.held) {
-                    board[index] = Die (Random.nextInt(BOARD_LAST))
+                    board[index] = Die (random())
                 }
             }
         }
 
         updateBoard ()
+    }
+
+    /**
+     * Populate the board with dice.
+     */
+    fun populateHand () {
+        for (pos in 0 until HAND_TO_BEAT_SIZE) {
+            handToBeat.value [pos] = Die (random())
+        }
+
+        updateHandToBeat ()
+    }
+
+    /**
+     * Score the hand.
+     */
+    fun scoreHand (hand: Array<Die>) {
+
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -361,9 +409,18 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     fun onEvent (pokerEvent: PokerEvent) {
         "onEvent pokerEvent ${pokerEvent}".debug ()
         when (pokerEvent) {
+            // Save button was pressed.
+            is PokerEvent.StartEvent -> {
+                startEvent (pokerEvent)
+            }
+
             // Place your bets!
             is PokerEvent.BoardClickEvent -> {
                 boardClickEvent (pokerEvent)
+            }
+
+            is PokerEvent.CancelEvent -> {
+                cancelEvent (pokerEvent)
             }
 
             // Place your bets!
@@ -376,11 +433,34 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 cashOutEvent (pokerEvent)
             }
 
+            // Reset button pressed.
+            is PokerEvent.ResetEvent -> {
+                resetEvent (pokerEvent)
+            }
+
             // Roll them bones.
             is PokerEvent.RollEvent -> {
                 rollEvent (pokerEvent)
             }
+
+            // Settings button pressed.
+            is PokerEvent.SettingsEvent -> {
+                settingsEvent (pokerEvent)
+            }
+
+            // Save button was pressed.
+            is PokerEvent.SaveEvent -> {
+                saveEvent (pokerEvent)
+            }
         }
+    }
+
+    /**
+     * Cancel!
+     */
+    fun cancelEvent (pokerEvent: PokerEvent.CancelEvent) {
+        _uiState.value = PokerUIState.Start
+        resetEvent (PokerEvent.ResetEvent)
     }
 
     /**
@@ -391,14 +471,14 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     }
 
     /**
-     * Roll them bones.
+     * Start the game.
      */
-    fun rollEvent (pokerEvent: PokerEvent.RollEvent) {
-        // First time?
-        if (PokerUIState.Start == _uiState.value) {
-            // Set the rolls to 3
-            rolls = ROLLS_MAX
-        }
+    fun startEvent (pokerEvent: PokerEvent.StartEvent) {
+        // Set the rolls to 3
+        rolls = ROLLS_MAX
+
+        // Put some thing in my hand.
+        populateHand ()
 
         // Populate the board with dice.
         populateBoard ()
@@ -407,11 +487,60 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     }
 
     /**
+     * Roll them bones.
+     */
+    fun rollEvent (pokerEvent: PokerEvent.RollEvent) {
+        // Populate the board with dice.
+        populateBoard ()
+    }
+
+    /**
+     * Save Settings!
+     */
+    fun saveEvent (pokerEvent: PokerEvent.SaveEvent) {
+        _uiState.value = PokerUIState.Start
+        resetEvent (PokerEvent.ResetEvent)
+    }
+
+    /**
+     * Reset!
+     */
+    fun resetEvent (pokerEvent: PokerEvent.ResetEvent) {
+        // Reset hand to beat.
+        for (pos in 0 until HAND_TO_BEAT_SIZE-1) {
+            handToBeat.value [pos] = Die (DICE_ZERO)
+        }
+
+        // Reset board.
+        for (pos in 0 until BOARD_SIZE*BOARD_SIZE) {
+            board [pos] = Die (DICE_ZERO)
+        }
+
+        // Reset rolls, bet and won.
+        rolls   = 0
+        bet     = 0
+        won     = 0
+
+        // Make text say Start
+        _uiState.value = PokerUIState.Start
+
+        updateGame ()
+    }
+
+    /**
+     * Settings!
+     */
+    fun settingsEvent (pokerEvent: PokerEvent.SettingsEvent) {
+        _uiState.value = PokerUIState.Settings
+    }
+
+    /**
      * They clicked on the board.
      */
     fun boardClickEvent (pokerEvent: PokerEvent.BoardClickEvent) {
         // Hold / Unhold die, if in rolling state.
         if (PokerUIState.Rolling == _uiState.value) {
+            // toggle held color.
             board [pokerEvent.index].held = !board [pokerEvent.index].held
         }
 
@@ -425,11 +554,8 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     fun edgeClickEvent (pokerEvent: PokerEvent.EdgeClickEvent) {
 
         // What to do depends on state.
-        when (_uiState.value) {
-            is PokerUIState.Error   -> app.resources.getString(R.string.state_error)
-            is PokerUIState.Loading -> app.resources.getString(R.string.state_loading)
-            is PokerUIState.Start   -> edgeClickEventStart (pokerEvent)
-            is PokerUIState.Rolling -> "Noop" // Edge clicking not allowed during rolling.
+        if (PokerUIState.Start == _uiState.value) {
+            edgeClickEventStart (pokerEvent)
         }
 
         // Recompose the board and board edge squares
@@ -442,6 +568,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      */
     fun edgeClickEventStart (pokerEvent: PokerEvent.EdgeClickEvent) {
         setBetSquares (pokerEvent.index)
+        computeBet ()
         updateBoardEdge()
     }
 }
