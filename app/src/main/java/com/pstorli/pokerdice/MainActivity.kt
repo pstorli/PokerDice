@@ -16,9 +16,8 @@ import androidx.compose.ui.Modifier
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.ErrorDialog
 import com.pstorli.pokerdice.ui.screens.LoadingScreen
-import com.pstorli.pokerdice.ui.screens.RollingScreen
+import com.pstorli.pokerdice.ui.screens.MainScreen
 import com.pstorli.pokerdice.ui.screens.SettingsScreen
-import com.pstorli.pokerdice.ui.screens.StartScreen
 import com.pstorli.pokerdice.ui.theme.PokerDiceTheme
 class MainActivity : ComponentActivity() {
     // The one and only!
@@ -34,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     color    = MaterialTheme.colorScheme.background
                 )
                 {
-                    MainScreen()
+                    ShowMainScreen(pokerViewModel)
                 }
             }
         }
@@ -44,7 +43,7 @@ class MainActivity : ComponentActivity() {
      * Based on the current UI state, decide what to show.
      */
     @Composable
-    fun MainScreen() {
+    fun ShowMainScreen(pokerViewModel: PokerViewModel) {
         Row(
             modifier                = Modifier.fillMaxSize(),
             horizontalArrangement   = Arrangement.Start,
@@ -62,11 +61,11 @@ class MainActivity : ComponentActivity() {
 
                 // Loading.
                 is PokerViewModel.PokerUIState.Start   ->
-                    StartScreen (pokerViewModel)
+                    MainScreen (pokerViewModel)
 
                 // Rolling.
                 is PokerViewModel.PokerUIState.Rolling   ->
-                    RollingScreen (pokerViewModel)
+                    MainScreen (pokerViewModel)
 
                 // Settings.
                 is PokerViewModel.PokerUIState.Settings   ->

@@ -31,5 +31,10 @@
     <string name="state_start">Click squares on edge of board to place your bets.\nThen click Start.</string>
     <string name="state_loading">Loading</string>
     <string name="state_rolling">To hold a dice, click on it. Border will turn pink.\nKeep clicking roll dice until you either cash out or have no more rolls.</string>
+    <string name="suit_heart">Heart</string>
+    <string name="suit_diamond">Diamond</string>
+    <string name="suit_club">Club</string>
+    <string name="suit_spade">Spade</string>
+    <string name="suits">Suits</string>
     <string name="won">Won</string>
 </resources>

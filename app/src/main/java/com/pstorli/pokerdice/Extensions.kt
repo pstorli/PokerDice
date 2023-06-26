@@ -15,6 +15,7 @@ import com.pstorli.pokerdice.domain.model.MutablePair
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.ui.theme.getColor
 import com.pstorli.pokerdice.util.Consts
+import com.pstorli.pokerdice.util.Consts.NO_TEXT
 
 // *********************************************************************************************
 // Extension Log helper functions
@@ -154,14 +155,14 @@ fun Application.color (name: Colors): Color {
  * Get the dice getColor.
  */
 fun Application.color (die: Die): Color {
-    return getColor (die.num, inDarkMode ())
+    return getColor (die.rank, inDarkMode ())
 }
 
 /**
  * Get the dice getColor.
  */
 fun Context.color (die: Die): Color {
-    return getColor (die.num, inDarkMode ())
+    return getColor (die.rank, inDarkMode ())
 }
 
 /**
@@ -174,6 +175,65 @@ fun Modifier.conditional(condition : Boolean, modifier : Modifier.() -> Modifier
         this
     }
 }
+
+/**
+ * Get the resource id for this dice.
+ * The dice image.
+ */
+fun Die.color (darkMode: Boolean): Color {
+    return getColor(suit, darkMode)
+}
+
+/**
+ * Get the resource id for this dice.
+ * The dice image.
+ */
+fun Die.rankId (): Int {
+    var result = R.drawable.none
+    when (rank) {
+        Consts.RANK_NONE    -> result = R.drawable.none
+        Consts.RANK_ONE     -> result = R.drawable.one
+        Consts.RANK_TWO     -> result = R.drawable.two
+        Consts.RANK_THREE   -> result = R.drawable.three
+        Consts.RANK_FOUR    -> result = R.drawable.four
+        Consts.RANK_FIVE    -> result = R.drawable.five
+        Consts.RANK_SIX     -> result = R.drawable.six
+    }
+    return result
+}
+
+/**
+ * Get the resource id for this dice.
+ * The dice image.
+ */
+fun Die.suitId (): Int {
+    var result = R.drawable.none
+    when (suit) {
+        Consts.SUIT_NONE    -> result = R.drawable.none
+        Consts.SUIT_HEART   -> result = R.drawable.heart
+        Consts.SUIT_DIAMOND -> result = R.drawable.diamond
+        Consts.SUIT_CLUB    -> result = R.drawable.club
+        Consts.SUIT_SPADE   -> result = R.drawable.spade
+    }
+    return result
+}
+
+/**
+ * Get the resource id for this dice.
+ * The dice image.
+ */
+fun Context.suitName (die: Die): String {
+    var result = NO_TEXT
+    when (die.suit) {
+        Consts.SUIT_HEART   -> result = resources.getString(R.string.suit_heart)
+        Consts.SUIT_DIAMOND -> result = resources.getString(R.string.suit_diamond)
+        Consts.SUIT_CLUB    -> result = resources.getString(R.string.suit_club)
+        Consts.SUIT_SPADE   -> result = resources.getString(R.string.suit_spade)
+    }
+    return result
+}
+
+
 
 
 

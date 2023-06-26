@@ -7,12 +7,13 @@ import com.pstorli.pokerdice.ui.composeables.Board
 import com.pstorli.pokerdice.ui.composeables.HandToBeat
 import com.pstorli.pokerdice.ui.composeables.Instructions
 import com.pstorli.pokerdice.ui.composeables.PlayerRow
+import com.pstorli.pokerdice.ui.composeables.Suits
 
 /**
  * Show initial poker screen.
  */
 @Composable
-fun StartScreen (pokerViewModel: PokerViewModel) {
+fun MainScreen (pokerViewModel: PokerViewModel) {
     // Side by side rows the same height
     // make these two rows, the children, the same height.
     /*Row(modifier = Modifier.height(IntrinsicSize.Min)) {
@@ -23,8 +24,9 @@ fun StartScreen (pokerViewModel: PokerViewModel) {
     // Two rows in a column.
     Column() {
         PlayerRow       (pokerViewModel)
-        HandToBeat      (pokerViewModel)
         Board           (pokerViewModel)
+        HandToBeat      (pokerViewModel)
+        Suits           (pokerViewModel)
         Instructions    (pokerViewModel)
     }
 }

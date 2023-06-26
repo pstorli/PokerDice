@@ -58,9 +58,9 @@ fun Board (pokerViewModel: PokerViewModel) {
                     pokerViewModel.onUpdateBoard.value
 
                     // Now create the dice.
-                    // Die  -> var num: Int=DICE_ZERO, var name: String=NO_TEXT, var held: Boolean=false, var selected: Boolean=false
+                    // Die  -> var num: Int=DICE_SUIT_NONE, var name: String=NO_TEXT, var held: Boolean=false, var selected: Boolean=false
                     // Dice -> die: Die, backColor: Color=MaterialTheme.colorScheme.background, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp: Dp?=null, onClick: (() -> Unit?)?
-                    Dice (die, LocalContext.current.color (die), bc, onClick =
+                    Dice (die, bc, onClick =
                     {
                         debug ("They clicked on the board at $index.")
 

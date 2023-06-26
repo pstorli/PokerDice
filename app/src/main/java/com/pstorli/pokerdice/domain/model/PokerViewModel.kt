@@ -18,14 +18,15 @@ import com.pstorli.pokerdice.util.Consts.BOARD_LAST
 
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.CASH_INITIAL
-import com.pstorli.pokerdice.util.Consts.DICE_ZERO
+import com.pstorli.pokerdice.util.Consts.SUIT_NONE
 import com.pstorli.pokerdice.util.Consts.GAME_SAVED
 import com.pstorli.pokerdice.util.Consts.HAND_TO_BEAT_SIZE
 import com.pstorli.pokerdice.util.Consts.ROLLS_MAX
-import com.pstorli.pokerdice.util.Consts.ZERO_VAL
+import com.pstorli.pokerdice.util.Consts.SUIT_NONE_VAL
 import com.pstorli.pokerdice.util.Consts.col
 import com.pstorli.pokerdice.util.Consts.index
-import com.pstorli.pokerdice.util.Consts.random
+import com.pstorli.pokerdice.util.Consts.randomRank
+import com.pstorli.pokerdice.util.Consts.randomSuit
 import com.pstorli.pokerdice.util.Consts.row
 import com.pstorli.pokerdice.util.Persist
 import com.pstorli.pokerdice.util.Prefs
@@ -201,13 +202,11 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         for (which in what) {
             when (which) {
                 Persist.CASH                -> cash     = pokerDAO.cash
-                Persist.COLOR_DICE0         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice0.second else pokerDAO.colorDice0.first)
-                Persist.COLOR_DICE1         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice1.second else pokerDAO.colorDice1.first)
-                Persist.COLOR_DICE2         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice2.second else pokerDAO.colorDice2.first)
-                Persist.COLOR_DICE3         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice3.second else pokerDAO.colorDice3.first)
-                Persist.COLOR_DICE4         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice4.second else pokerDAO.colorDice4.first)
-                Persist.COLOR_DICE5         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice5.second else pokerDAO.colorDice5.first)
-                Persist.COLOR_DICE6         -> setColor (DICE_ZERO, if (app.inDarkMode ()) pokerDAO.colorDice6.second else pokerDAO.colorDice6.first)
+                Persist.COLOR_SUIT_NONE     -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_none.second      else pokerDAO.color_suit_none.first)
+                Persist.COLOR_SUIT_HEART    -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_heart.second     else pokerDAO.color_suit_heart.first)
+                Persist.COLOR_SUIT_DIAMOND  -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_diamond.second   else pokerDAO.color_suit_diamond.first)
+                Persist.COLOR_SUIT_CLUB     -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_club.second      else pokerDAO.color_suit_club.first)
+                Persist.COLOR_SUIT_SPADE    -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_spade.second     else pokerDAO.color_suit_spade.first)
                 Persist.LEVEL               -> level     = pokerDAO.level
             }
         }
@@ -223,13 +222,11 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         for (which in what) {
             when (which) {
                 Persist.CASH                -> pokerDAO.cash     = cash
-                Persist.COLOR_DICE0         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice0) else pokerDAO.colorDice0.first = app.color (Colors.Dice0)
-                Persist.COLOR_DICE1         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice1) else pokerDAO.colorDice0.first = app.color (Colors.Dice1)
-                Persist.COLOR_DICE2         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice2) else pokerDAO.colorDice0.first = app.color (Colors.Dice2)
-                Persist.COLOR_DICE3         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice3) else pokerDAO.colorDice0.first = app.color (Colors.Dice3)
-                Persist.COLOR_DICE4         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice4) else pokerDAO.colorDice0.first = app.color (Colors.Dice5)
-                Persist.COLOR_DICE5         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice5) else pokerDAO.colorDice0.first = app.color (Colors.Dice5)
-                Persist.COLOR_DICE6         -> if (app.inDarkMode ()) pokerDAO.colorDice0.second = app.color (Colors.Dice6) else pokerDAO.colorDice0.first = app.color (Colors.Dice6)
+                Persist.COLOR_SUIT_NONE     -> if (app.inDarkMode ()) pokerDAO.color_suit_none.second    = app.color (Colors.Suit_None)     else pokerDAO.color_suit_none.first = app.color (Colors.Suit_None)
+                Persist.COLOR_SUIT_HEART    -> if (app.inDarkMode ()) pokerDAO.color_suit_heart.second   = app.color (Colors.Suit_Heart)    else pokerDAO.color_suit_heart.first = app.color (Colors.Suit_Heart)
+                Persist.COLOR_SUIT_DIAMOND  -> if (app.inDarkMode ()) pokerDAO.color_suit_diamond.second = app.color (Colors.Suit_Diamond)  else pokerDAO.color_suit_diamond.first = app.color (Colors.Suit_Diamond)
+                Persist.COLOR_SUIT_CLUB     -> if (app.inDarkMode ()) pokerDAO.color_suit_club.second    = app.color (Colors.Suit_Club)     else pokerDAO.color_suit_club.first = app.color (Colors.Suit_Club)
+                Persist.COLOR_SUIT_SPADE    -> if (app.inDarkMode ()) pokerDAO.color_suit_spade.second   = app.color (Colors.Suit_Spade)    else pokerDAO.color_suit_spade.first = app.color (Colors.Suit_Spade)
                 Persist.LEVEL               -> pokerDAO.level   = level
             }
         }
@@ -297,7 +294,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * Compute the bet.
      */
     fun computeBet () {
-        var bets = ZERO_VAL
+        var bets = SUIT_NONE_VAL
 
         // Top / Bottom
         for (which in BOARD_FIRST .. BOARD_LAST) {
@@ -373,7 +370,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
                 // If square is not held
                 if (!die.held) {
-                    board[index] = Die (random())
+                    board[index] = Die (randomRank(), randomSuit())
                 }
             }
         }
@@ -386,7 +383,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      */
     fun populateHand () {
         for (pos in 0 until HAND_TO_BEAT_SIZE) {
-            handToBeat.value [pos] = Die (random())
+            handToBeat.value [pos] = Die (randomRank(), randomSuit())
         }
 
         updateHandToBeat ()
@@ -490,8 +487,18 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * Roll them bones.
      */
     fun rollEvent (pokerEvent: PokerEvent.RollEvent) {
-        // Populate the board with dice.
-        populateBoard ()
+        // Got rolls?
+        if (rolls > SUIT_NONE_VAL) {
+            // Decrement the rolls.
+            rolls--
+
+            // Populate the board with dice.
+            populateBoard()
+        }
+        else {
+            // Game over.
+            _uiState.value = PokerUIState.Start
+        }
     }
 
     /**
@@ -506,14 +513,21 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * Reset!
      */
     fun resetEvent (pokerEvent: PokerEvent.ResetEvent) {
+        reset ()
+    }
+
+    /**
+     * Reset!
+     */
+    fun reset () {
         // Reset hand to beat.
-        for (pos in 0 until HAND_TO_BEAT_SIZE-1) {
-            handToBeat.value [pos] = Die (DICE_ZERO)
+        for (pos in 0 until HAND_TO_BEAT_SIZE) {
+            handToBeat.value [pos] = Die (SUIT_NONE)
         }
 
         // Reset board.
         for (pos in 0 until BOARD_SIZE*BOARD_SIZE) {
-            board [pos] = Die (DICE_ZERO)
+            board [pos] = Die (SUIT_NONE)
         }
 
         // Reset rolls, bet and won.

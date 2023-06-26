@@ -20,12 +20,13 @@ Architecture notes:
     from the viewModel and have it emit actions back to the viewModel.
 
 2DO Issues:
-  0000
+  0000 Add scoring to hand to beat.
 
-Resolved Issues Version 1003:
+Resolved Issues Version 1004:
   0000 Added board
   0000 Added text, textColor and borderColor properties
   0000 Re-did colors, make pink hold, added level
+  0000 Realized that color == suit, so changed to do just that.
 
 Resolved Issues Version 1003:
   0000 Created initial Jetpack Compose from poker dice screen shot

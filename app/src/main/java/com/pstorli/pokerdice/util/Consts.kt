@@ -29,23 +29,28 @@ object Consts {
     val CASH_INITIAL                    = 100
     val CASH_MIN_WIDTH                  = 48.dp
     val DEFAULT_ELEVATION_VAL           = 10.dp
+    val DIAMOND_MIN_WIDTH               = 96.dp
 
-    val DICE_ZERO                       = 0
-    val DICE_ONE                        = 1
-    val DICE_TWO                        = 2
-    val DICE_THREE                      = 3
-    val DICE_FOUR                       = 4
-    val DICE_FIVE                       = 5
-    val DICE_SIX                        = 6
+    val RANK_NONE                       = 0
+    val RANK_ONE                        = 1
+    val RANK_TWO                        = 2
+    val RANK_THREE                      = 3
+    val RANK_FOUR                       = 4
+    val RANK_FIVE                       = 5
+    val RANK_SIX                        = 6
+
+    val SUIT_NONE                       = 0
+    val SUIT_HEART                      = 1
+    val SUIT_DIAMOND                    = 2
+    val SUIT_CLUB                       = 3
+    val SUIT_SPADE                      = 4
 
     // Color pairs.
-    val COLOR_DICE0_NAME                = "Dice0 Color"
-    val COLOR_DICE1_NAME                = "Dice1 Color"
-    val COLOR_DICE2_NAME                = "Dice2 Color"
-    val COLOR_DICE3_NAME                = "Dice3 Color"
-    val COLOR_DICE4_NAME                = "Dice4 Color"
-    val COLOR_DICE5_NAME                = "Dice5 Color"
-    val COLOR_DICE6_NAME                = "Dice6 Color"
+    val SUIT_COLOR_NONE                 = "Suit Color None"
+    val SUIT_COLOR_HEART                = "Suit Color Heart"
+    val SUIT_COLOR_DIAMOND              = "Suit Color Diamond"
+    val SUIT_COLOR_CLUB                 = "Suit Color Club"
+    val SUIT_COLOR_SPADE                = "Suit Color Spade"
 
     val DISABLED_ELEVATION_VAL          = 0.dp
     val HAND_TO_BEAT_DICE_SIZE          = 48.dp
@@ -67,7 +72,7 @@ object Consts {
     val TAG_NAME                        = "PokerDice"
     val WON_MIN_WIDTH                   = 42.dp
     val WON_NAME                        = "Won"
-    val ZERO_VAL                        = 0
+    val SUIT_NONE_VAL                   = 0
 
     // *********************************************************************************************
     // More helper functions
@@ -120,8 +125,17 @@ object Consts {
     /**
      * Return random num between 1 and 6
      */
-    fun random (): Int {
-        val num = (DICE_ONE..DICE_SIX).random()
+    fun randomRank (): Int {
+        val num = (RANK_ONE..RANK_SIX).random()
+        debug("random () $num")
+        return num
+    }
+
+    /**
+     * Return random num between 1 and 6
+     */
+    fun randomSuit (): Int {
+        val num = (SUIT_HEART..SUIT_SPADE).random()
         debug("random () $num")
         return num
     }
