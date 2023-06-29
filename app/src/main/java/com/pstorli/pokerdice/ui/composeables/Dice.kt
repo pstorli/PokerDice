@@ -23,7 +23,7 @@ import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.conditional
 import com.pstorli.pokerdice.domain.model.Die
 import com.pstorli.pokerdice.rankId
-import com.pstorli.pokerdice.util.Consts.BORDER_DEFAULT_WIDTH_VAL
+import com.pstorli.pokerdice.util.Consts.BORDER_DEFAULT_WIDTH_VAL_DP
 
 /**
  * Create a dice composeable.
@@ -46,7 +46,7 @@ fun Dice (die: Die, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp
             .padding(4.dp)
             .background(die.color(isSystemInDarkTheme()))
             .border(
-                BorderStroke(BORDER_DEFAULT_WIDTH_VAL, borderColor),
+                BorderStroke(BORDER_DEFAULT_WIDTH_VAL_DP, borderColor),
                 RectangleShape
             )
             .conditional(sizeDp != null) {

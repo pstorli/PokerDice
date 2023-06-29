@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.util.Consts
-import com.pstorli.pokerdice.util.Consts.POKER_BORDER_SIZE
-import com.pstorli.pokerdice.util.Consts.POKER_BTN_MIN_WIDTH
+import com.pstorli.pokerdice.util.Consts.POKER_BORDER_SIZE_DP
+import com.pstorli.pokerdice.util.Consts.POKER_BTN_MIN_WIDTH_DP
 
 @Composable
 fun PokerButton (name: String, textColor: Color, borderColor: Color=MaterialTheme.colorScheme.outline, onClick: () -> Unit) {
@@ -26,15 +26,15 @@ fun PokerButton (name: String, textColor: Color, borderColor: Color=MaterialThem
             // Do that click thing.
             onClick.invoke()
         },
-        border = BorderStroke(POKER_BORDER_SIZE, borderColor),
+        border = BorderStroke(POKER_BORDER_SIZE_DP, borderColor),
         colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary, containerColor = MaterialTheme.colorScheme.inverseOnSurface),
         elevation =  ButtonDefaults.buttonElevation(
-            defaultElevation  = Consts.DEFAULT_ELEVATION_VAL,
-            pressedElevation  = Consts.PRESSED_ELEVATION_VAL,
-            disabledElevation = Consts.DISABLED_ELEVATION_VAL
+            defaultElevation  = Consts.DEFAULT_ELEVATION_VAL_DP,
+            pressedElevation  = Consts.PRESSED_ELEVATION_VAL_DP,
+            disabledElevation = Consts.DISABLED_ELEVATION_VAL_DP
         ),
         shape           = RoundedCornerShape(Consts.ROUNDED_CORNER_SHAPE_PCT_VAL),
-        modifier        = Modifier.padding(4.dp).requiredWidthIn(min = POKER_BTN_MIN_WIDTH).widthIn(min = POKER_BTN_MIN_WIDTH),
+        modifier        = Modifier.padding(4.dp).requiredWidthIn(min = POKER_BTN_MIN_WIDTH_DP).widthIn(min = POKER_BTN_MIN_WIDTH_DP),
         contentPadding  = PaddingValues(2.dp)
     )
     {

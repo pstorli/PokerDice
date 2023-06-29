@@ -3,16 +3,13 @@ package com.pstorli.pokerdice.repo.local
 import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
 import com.pstorli.pokerdice.pairNames
 import com.pstorli.pokerdice.repo.PokerDS
-import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.CASH_BORDER_NAME
 import com.pstorli.pokerdice.util.Consts.SUIT_COLOR_NONE
 import com.pstorli.pokerdice.util.Consts.SUIT_COLOR_HEART
 import com.pstorli.pokerdice.util.Consts.SUIT_COLOR_DIAMOND
 import com.pstorli.pokerdice.util.Consts.SUIT_COLOR_CLUB
 import com.pstorli.pokerdice.util.Consts.SUIT_COLOR_SPADE
-import com.pstorli.pokerdice.util.Consts.SUIT_NONE
 import com.pstorli.pokerdice.util.Consts.LEVEL_NAME
-import com.pstorli.pokerdice.util.Consts.squareName
 import com.pstorli.pokerdice.util.Persist
 import com.pstorli.pokerdice.util.Prefs
 
@@ -70,21 +67,6 @@ class PokerPrefs (var prefs: Prefs) : PokerDS {
                 Persist.COLOR_SUIT_SPADE    -> prefs.putColorPair (SUIT_COLOR_SPADE.pairNames (),   pokerDAO.color_suit_spade)
                 Persist.LEVEL               -> prefs.putInt       (LEVEL_NAME,                      pokerDAO.level)
             }
-        }
-    }
-
-    // /////////////////////////////////////////////////////////////////////////////////////////////
-    // Reset, get or set the board.
-    // /////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Reset the board.
-     */
-    @Suppress("unused")
-    fun resetBoard () {
-        // Loop through the rows and cols.
-        for (index in 0 until BOARD_SIZE*BOARD_SIZE) {
-            prefs.putInt (squareName(index), SUIT_NONE)
         }
     }
 }

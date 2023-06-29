@@ -2,9 +2,7 @@ package com.pstorli.pokerdice.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +14,8 @@ import com.pstorli.pokerdice.debug
 import com.pstorli.pokerdice.domain.model.PokerEvent
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.PokerButton
+import com.pstorli.pokerdice.ui.composeables.Scoring
+import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.theme.Colors
 
 /**
@@ -28,9 +28,12 @@ fun SettingsScreen (pokerViewModel: PokerViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(stringResource(id = R.string.state_settings))
 
-        Row () {
+        LabeledRow(
+            title       = stringResource(id = R.string.state_settings),
+            titleColor  = LocalContext.current.color(Colors.Title),
+            maxWidth    = true
+        ) {
             // Save
             PokerButton(
                 name = LocalContext.current.resources.getString(R.string.save),
@@ -64,5 +67,7 @@ fun SettingsScreen (pokerViewModel: PokerViewModel) {
                     pokerViewModel.onEvent(PokerEvent.CancelEvent)
                 })
         }
+
+        Scoring (pokerViewModel)
     }
 }

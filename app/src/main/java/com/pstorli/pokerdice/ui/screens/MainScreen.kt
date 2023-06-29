@@ -22,7 +22,8 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
     }*/
 
     // Two rows in a column.
-    Column() {
+
+    Column () {
         PlayerRow       (pokerViewModel)
         Board           (pokerViewModel)
         HandToBeat      (pokerViewModel)

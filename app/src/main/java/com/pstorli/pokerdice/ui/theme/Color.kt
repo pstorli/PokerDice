@@ -70,7 +70,7 @@ val COLOR_LT_HELD_BORDER        = Pink
 val COLOR_LT_OUT_TEXT           = Color.Black
 val COLOR_LT_ROLL_DICE          = Color.Red
 val COLOR_LT_SELECTED           = Color.Red
-val COLOR_LT_TEXT               = Color.Blue
+val COLOR_LT_TEXT               = Color.Black
 val COLOR_LT_TITLE              = Color.Blue
 
 var DICE_LT_SUIT_NONE           = COLOR_LT_SUIT_NONE

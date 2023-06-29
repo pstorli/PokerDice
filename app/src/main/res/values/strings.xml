@@ -7,24 +7,36 @@
     <string name="cash_out">Cash\nOut</string>
     <string name="dice_image">Dice Image %1$s</string>
 
-    <string name="hand_to_beat">Hand To Beat</string>
+    <string name="hand_to_beat">Hand to Beat: %1$s </string>
     <string name="hand_royal_flush">Royal\nFlush</string>
     <string name="hand_straight_flush">Straight Flush</string>
+    <string name="hand_4_of_kind">Four of\nKind</string>
     <string name="hand_full_house">Full\nHouse</string>
     <string name="hand_flush">Flush</string>
     <string name="hand_straight">Straight</string>
     <string name="hand_3_of_kind">3 of a\nKind</string>
     <string name="hand_two_pair">Two\nPairs</string>
     <string name="hand_one_pair">One\nPair</string>
-    <string name="hand_highest_dice">Highest\nDice</string>
+    <string name="hand_highest">Highest\nDice</string>
 
     <string name="instructions">Instructions</string>
     <string name="level">Level</string>
+    <string name="nothing">Nothing</string>
     <string name="player">Player</string>
     <string name="reset">Reset</string>
     <string name="roll_dice">Roll\nDice</string>
     <string name="rolls">Rolls</string>
     <string name="save">Save</string>
+    <string name="scoring_title">Scoring:</string>
+    <string name="scoring_text">RoyalFlush\nFive die of same suit and \nhighest value in sequential order.
+        \n\nStraight Flush\nFive die same suit in seq order.
+        \n\nFour of a kind\nFour die with the same value.
+        \n\nFull House\nThree of a kind die with a pair of die.
+        \n\nFlush\nFive die of the same suit.
+        \n\nStraight\nFive die of any suit in sequential order.
+        \n\nThree of a Kind\nThree die with the same numeric value.
+        \n\nTwo Pair\nTwo different pair of dice in the same hand.
+        \n\nHighest Die\nWho ever has the highest value die in their hand.</string>
     <string name="start">Start</string>
     <string name="state_error">Error</string>
     <string name="state_settings">Settings</string>

@@ -14,11 +14,11 @@ import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.composeables.core.OutlinedTextField
 import com.pstorli.pokerdice.domain.model.PokerEvent
 import com.pstorli.pokerdice.ui.theme.Colors
-import com.pstorli.pokerdice.util.Consts.BET_MIN_WIDTH
-import com.pstorli.pokerdice.util.Consts.CASH_MIN_WIDTH
-import com.pstorli.pokerdice.util.Consts.LEVEL_MIN_WIDTH
-import com.pstorli.pokerdice.util.Consts.ROLLS_MIN_WIDTH
-import com.pstorli.pokerdice.util.Consts.WON_MIN_WIDTH
+import com.pstorli.pokerdice.util.Consts.BET_MIN_WIDTH_DP
+import com.pstorli.pokerdice.util.Consts.CASH_MIN_WIDTH_DP
+import com.pstorli.pokerdice.util.Consts.LEVEL_MIN_WIDTH_DP
+import com.pstorli.pokerdice.util.Consts.ROLLS_MIN_WIDTH_DP
+import com.pstorli.pokerdice.util.Consts.WON_MIN_WIDTH_DP
 
 @Composable
 fun PlayerRow (pokerViewModel: PokerViewModel) {
@@ -98,7 +98,7 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     text = LocalContext.current.resources.getString(R.string.cash),
                     textColor = LocalContext.current.color(Colors.Text),
                     value = pokerViewModel.cash.toString(),
-                    minWidth = CASH_MIN_WIDTH,
+                    minWidth = CASH_MIN_WIDTH_DP,
                     titleColor = LocalContext.current.color(Colors.Title)
                 )
 
@@ -107,7 +107,7 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     text = LocalContext.current.resources.getString(R.string.rolls),
                     value = pokerViewModel.rolls.toString(),
                     textColor = LocalContext.current.color(Colors.Text),
-                    minWidth = ROLLS_MIN_WIDTH,
+                    minWidth = ROLLS_MIN_WIDTH_DP,
                     titleColor = LocalContext.current.color(Colors.Title)
                 )
 
@@ -116,7 +116,7 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     text = LocalContext.current.resources.getString(R.string.bet),
                     value = pokerViewModel.bet.toString(),
                     textColor = LocalContext.current.color(Colors.Text),
-                    minWidth = BET_MIN_WIDTH,
+                    minWidth = BET_MIN_WIDTH_DP,
                     titleColor = LocalContext.current.color(Colors.Title)
                 )
 
@@ -125,7 +125,7 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     text = LocalContext.current.resources.getString(R.string.won),
                     value = pokerViewModel.won.toString(),
                     textColor = LocalContext.current.color(Colors.Text),
-                    minWidth = WON_MIN_WIDTH,
+                    minWidth = WON_MIN_WIDTH_DP,
                     titleColor = LocalContext.current.color(Colors.Title)
                 )
 
@@ -134,7 +134,7 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     text = LocalContext.current.resources.getString(R.string.level),
                     value = pokerViewModel.level.toString(),
                     textColor = LocalContext.current.color(Colors.Text),
-                    minWidth = LEVEL_MIN_WIDTH,
+                    minWidth = LEVEL_MIN_WIDTH_DP,
                     titleColor = LocalContext.current.color(Colors.Title)
                 )
             }

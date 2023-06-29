@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.conditional
-import com.pstorli.pokerdice.util.Consts.POKER_BORDER_SIZE
+import com.pstorli.pokerdice.util.Consts.POKER_BORDER_SIZE_DP
 import androidx.compose.material3.Text as TextMat
 
 @Composable
@@ -41,7 +41,7 @@ fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=false, maxHe
                 }
                 .padding(4.dp,12.dp,4.dp,4.dp)
                 .border(
-                    width = POKER_BORDER_SIZE,
+                    width = POKER_BORDER_SIZE_DP,
                     color = MaterialTheme.colorScheme.outline,
                     shape = RoundedCornerShape(size = 4.dp)
                 )

@@ -22,6 +22,9 @@ Architecture notes:
 2DO Issues:
   0000 Add scoring to hand to beat.
 
+Resolved Issues Version 1005:
+    0000 Added settings screen with scoring instructions.
+
 Resolved Issues Version 1004:
   0000 Added board
   0000 Added text, textColor and borderColor properties

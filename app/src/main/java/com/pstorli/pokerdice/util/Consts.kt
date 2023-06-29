@@ -18,18 +18,31 @@ import androidx.compose.ui.unit.dp
  *
  */
 object Consts {
-    val BET_NAME                        = "Bet"
-    val BET_MIN_WIDTH                   = 36.dp
-    val BORDER_DEFAULT_WIDTH_VAL        = 2.dp
-    val BLUE_NAME                       = "Blue"
+    // *********************************************************************************************
+    // Critical Vars
+    // *********************************************************************************************
     val BOARD_SIZE                      = 7
-    val BOARD_FIRST                     = 0
-    val BOARD_LAST                      = BOARD_SIZE-1
-    val CASH_BORDER_NAME                = "Cash"
     val CASH_INITIAL                    = 100
-    val CASH_MIN_WIDTH                  = 48.dp
-    val DEFAULT_ELEVATION_VAL           = 10.dp
-    val DIAMOND_MIN_WIDTH               = 96.dp
+    val DICE_IN_HAND                    = 5
+    val FIRST_ROW_COL                   = 1
+    val LAST_ROW_COL                    = 5
+    val NUM_SQUARES                     = BOARD_SIZE * BOARD_SIZE
+    val ROLLS_MAX                       = 3
+    val SQUARE_FIRST                    = 0
+    val SQUARE_LAST                     = BOARD_SIZE-1
+
+    // *********************************************************************************************
+    // More  Vars
+    // *********************************************************************************************
+    val BET_NAME                        = "Bet"
+    val BET_MIN_WIDTH_DP                = 36.dp
+    val BORDER_DEFAULT_WIDTH_VAL_DP     = 2.dp
+    val BLUE_NAME                       = "Blue"
+
+    val CASH_BORDER_NAME                = "Cash"
+    val CASH_MIN_WIDTH_DP               = 48.dp
+    val DEFAULT_ELEVATION_VAL_DP        = 10.dp
+    val DIAMOND_MIN_WIDTH_DP            = 96.dp
 
     val RANK_NONE                       = 0
     val RANK_ONE                        = 1
@@ -39,12 +52,6 @@ object Consts {
     val RANK_FIVE                       = 5
     val RANK_SIX                        = 6
 
-    val SUIT_NONE                       = 0
-    val SUIT_HEART                      = 1
-    val SUIT_DIAMOND                    = 2
-    val SUIT_CLUB                       = 3
-    val SUIT_SPADE                      = 4
-
     // Color pairs.
     val SUIT_COLOR_NONE                 = "Suit Color None"
     val SUIT_COLOR_HEART                = "Suit Color Heart"
@@ -52,75 +59,60 @@ object Consts {
     val SUIT_COLOR_CLUB                 = "Suit Color Club"
     val SUIT_COLOR_SPADE                = "Suit Color Spade"
 
-    val DISABLED_ELEVATION_VAL          = 0.dp
-    val HAND_TO_BEAT_DICE_SIZE          = 48.dp
-    val HAND_TO_BEAT_SIZE               = 5
-    val NO_TEXT                         = ""
+    val DISABLED_ELEVATION_VAL_DP       = 0.dp
+    val HAND_TO_BEAT_DICE_DP            = 48.dp
     val GAME_SAVED                      = "Game saved"
     val GREEN_NAME                      = "Green"
     val HUNDRED_VAL                     = 100
     val LEVEL_NAME                      = "Level"
-    val LEVEL_MIN_WIDTH                 = 54.dp
-    val POKER_BORDER_SIZE               = 2.dp
-    val POKER_BTN_MIN_WIDTH             = 56.dp
-    val PRESSED_ELEVATION_VAL           = 15.dp
+    val LEVEL_MIN_WIDTH_DP              = 54.dp
+    val NEWLINE                         = '\n'
+    val NO_TEXT                         = ""
+    val ONE                             = 1
+    val POKER_BORDER_SIZE_DP            = 2.dp
+    val POKER_BTN_MIN_WIDTH_DP          = 56.dp
+    val PRESSED_ELEVATION_VAL_DP        = 15.dp
     val RED_NAME                        = "Red"
     val ROLLS_BORDER_NAME               = "Rolls"
-    val ROLLS_MAX                       = 3
-    val ROLLS_MIN_WIDTH                 = 48.dp
+    val ROLLS_MIN_WIDTH_DP              = 48.dp
     val ROUNDED_CORNER_SHAPE_PCT_VAL    = 20
+    val SPACE_TEXT                      = " "
     val TAG_NAME                        = "PokerDice"
-    val WON_MIN_WIDTH                   = 42.dp
+    val WON_MIN_WIDTH_DP                = 42.dp
     val WON_NAME                        = "Won"
     val SUIT_NONE_VAL                   = 0
+    val ZERO                            = 0
 
     // *********************************************************************************************
-    // More helper functions
+    // Scoring Vars
     // *********************************************************************************************
 
-    /**
-     * Is this a edge sqaure?
-     */
-    fun isEdgeSquare (index: Int): Boolean {
-        val rowCol = rowCol (index)
-        return if (0 == rowCol.first || BOARD_LAST == rowCol.first || 0 == rowCol.second || BOARD_LAST == rowCol.second)
-            true else false
-    }
+    // None and the four suits.
+    val SUIT_NONE                       = 0 // Array Index 0 = no suit's count
+    val SUIT_HEART                      = 1 // Array Index 1 = heart's count
+    val SUIT_DIAMOND                    = 2 // Array Index 2 = diamond's count
+    val SUIT_CLUB                       = 3 // Array Index 3 = club's count
+    val SUIT_SPADE                      = 4 // Array Index 4 = spade's count
 
-    /**
-     * Deterine the row,col from the index.
-     */
-    fun row (index: Int): Int {
-        return index / BOARD_SIZE
-    }
+    val NO_RANK                         = 0
+    val NO_SUIT                         = 0
 
-    /**
-     * Deterine the row,col from the index.
-     */
-    fun col (index: Int): Int {
-        return index % BOARD_SIZE
-    }
+    val MIN_SUIT                        = 1
+    val MIN_RANK                        = 1
+    val MAX_SUIT                        = 4
+    val MAX_RANK                        = 6
 
-    /**
-     * Deterine the row,col from the index.
-     */
-    fun rowCol (index: Int): Pair<Int,Int> {
-        return Pair (row (index),col (index))
-    }
-
-    /**
-     * Get the index from a row,col
-     */
-    fun index (row:Int, col: Int): Int {
-        return row * BOARD_SIZE + col
-    }
-
-    /**
-     * Given a row/col create a unique square name.
-     */
-    fun squareName (index: Int): String {
-        return "Square $index"
-    }
+    // The score data.
+    val ROYAL_FLUSH                     = 9
+    val STRAIGHT_FLUSH                  = 8
+    val FOUR_OF_KIND                    = 7
+    val FULL_HOUSE                      = 6
+    val FLUSH                           = 5
+    val STRAIGHT                        = 4
+    val THREE_OF_KIND                   = 3
+    val TWO_PAIRS                       = 2
+    val ONE_PAIR                        = 1
+    val NOTHING                         = 0
 
     /**
      * Return random num between 1 and 6
@@ -206,5 +198,24 @@ object Consts {
      */
     fun debug (msg: String) {
         Log.i(TAG_NAME, msg)
+    }
+
+    /**
+     * Remove any newlines.
+     */
+    fun removeNewLines (what: String): String
+    {
+        var result = NO_TEXT
+        if (what.length>ZERO) {
+            for (pos in ZERO until what.length) {
+                if (NEWLINE != what[pos]) {
+                    result = result + what[pos]
+                }
+                else {
+                    result = result + SPACE_TEXT
+                }
+            }
+        }
+        return result
     }
 }

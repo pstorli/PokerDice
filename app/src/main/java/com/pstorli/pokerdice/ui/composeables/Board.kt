@@ -13,7 +13,6 @@ import com.pstorli.pokerdice.domain.model.PokerEvent
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.debug
-import com.pstorli.pokerdice.util.Consts.isEdgeSquare
 
 @Composable
 fun Board (pokerViewModel: PokerViewModel) {
@@ -23,28 +22,33 @@ fun Board (pokerViewModel: PokerViewModel) {
         maxWidth    = true
     ) {
         LazyVerticalGrid(columns = GridCells.Fixed(BOARD_SIZE)) {
-            items(pokerViewModel.board.size) { index ->
+            items(pokerViewModel.game.size()) { index ->
                 // Get the dice associated with this square.
-                val die = pokerViewModel.board.get(index)
+                val die = pokerViewModel.game.getDie (index)
 
                 // Figure out border getColor to use.
-                var bc = LocalContext.current.color (Colors.Border)
+                var color = LocalContext.current.color (Colors.Text)
+                var bc    = LocalContext.current.color (Colors.Border)
                 if (die.held) {
-                    bc = LocalContext.current.color (Colors.Held)
+                    bc    = LocalContext.current.color (Colors.Held)
+                    color = bc
                 }
                 else if (die.selected) {
                     bc = LocalContext.current.color (Colors.Selected)
+                    color = bc
                 }
 
                 // Treat edge squares differently than dice squares.
-                if (isEdgeSquare (index)) {
+                if (pokerViewModel.game.isEdgeSquare (index)) {
                     // This will detect any changes to the board edge and recompose your composable.
                     pokerViewModel.onUpdateBoardEdge.value
+
+
 
                     // Use PokerButton for edge squares.
                     PokerButton(
                         name        = die.name,
-                        textColor   = LocalContext.current.color (Colors.Text),
+                        textColor   = color,
                         borderColor = bc,
                         onClick     = {
                             debug ("They clicked on the edge $index.")

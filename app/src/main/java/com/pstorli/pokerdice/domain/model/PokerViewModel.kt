@@ -13,21 +13,19 @@ import com.pstorli.pokerdice.repo.PokerRepo
 import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.ui.theme.setColor
-import com.pstorli.pokerdice.util.Consts.BOARD_FIRST
-import com.pstorli.pokerdice.util.Consts.BOARD_LAST
 
-import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.CASH_INITIAL
 import com.pstorli.pokerdice.util.Consts.SUIT_NONE
 import com.pstorli.pokerdice.util.Consts.GAME_SAVED
-import com.pstorli.pokerdice.util.Consts.HAND_TO_BEAT_SIZE
+import com.pstorli.pokerdice.util.Consts.DICE_IN_HAND
+import com.pstorli.pokerdice.util.Consts.NO_TEXT
+import com.pstorli.pokerdice.util.Consts.NUM_SQUARES
 import com.pstorli.pokerdice.util.Consts.ROLLS_MAX
 import com.pstorli.pokerdice.util.Consts.SUIT_NONE_VAL
-import com.pstorli.pokerdice.util.Consts.col
-import com.pstorli.pokerdice.util.Consts.index
+import com.pstorli.pokerdice.util.Consts.ZERO
+import com.pstorli.pokerdice.util.Consts.debug
 import com.pstorli.pokerdice.util.Consts.randomRank
 import com.pstorli.pokerdice.util.Consts.randomSuit
-import com.pstorli.pokerdice.util.Consts.row
 import com.pstorli.pokerdice.util.Persist
 import com.pstorli.pokerdice.util.Prefs
 
@@ -49,6 +47,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     var onUpdateHandToBeat      = mutableStateOf(true)
     var onUpdateInstructions    = mutableStateOf(true)
     var onUpdatePlayer          = mutableStateOf(true)
+    var onUpdateScoring         = mutableStateOf(true)
 
     // How much cash, rolls and bets have we?
     var bet                     by mutableStateOf<Int>(0)
@@ -58,7 +57,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     var rolls                   by mutableStateOf<Int>(0)
 
     // What hand do we need to beat? Both? ;) Pete
-    val handToBeat              = mutableStateOf(Array<Die>(HAND_TO_BEAT_SIZE){Die()})
+    val handToBeat              = mutableStateOf(Array<Die>(DICE_IN_HAND){Die()})
 
     // What level are we on?
     var level                   by mutableStateOf<Int>(0)
@@ -73,11 +72,14 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     // Preferences
     var prefs: Prefs
 
-    // The game board, 7X7 AS A list of 49 Dice items
-    var board = Array(BOARD_SIZE*BOARD_SIZE){Die()}
-
     // The poker repo is used to save game state information.
     var pokerRepo: PokerRepo
+
+    // Used to score the game.
+    var pokerScorer = PokerScorer ()
+
+    // The game with a board
+    var game = Game ()
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Game State
@@ -235,94 +237,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
-    // Set the bet / not-bet squares.
-    // /////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Make this square and opposite square have their bet index set.
-     */
-    fun setBetSquares (index: Int) {
-        // What row/col did they click?
-        val row     = row(index)
-        val col     = col(index)
-        val dice    = board [index]
-        val select  = !dice.selected
-
-        // ****************************************
-        // A corner?
-        // ****************************************
-
-        // Lower right or                                Upper left?
-        if ((BOARD_LAST == row && BOARD_LAST == col) || (BOARD_FIRST == row && BOARD_FIRST == col)) {
-            // Set upper left and lower right.
-            board [index(BOARD_LAST,BOARD_LAST)].selected   = select
-            board [index(BOARD_FIRST,BOARD_FIRST)].selected = select
-        }
-
-        // Lower left or                                 Upper right?
-        else if ((BOARD_LAST == row && BOARD_FIRST == col) || (BOARD_FIRST == row && BOARD_LAST == col)) {
-            // Set lower left and upper right.
-            board [index(BOARD_LAST,BOARD_FIRST)].selected  = select
-            board [index(BOARD_FIRST,BOARD_LAST)].selected  = select
-        }
-
-        // ****************************************
-        // Straight shot vertically?
-        // ****************************************
-        else if (BOARD_LAST == row || BOARD_FIRST == row) {
-            // Set Bottom and top.
-            board [index(BOARD_LAST,col)].selected          = select
-            board [index(BOARD_FIRST,col)].selected         = select
-        }
-
-        // ****************************************
-        // Straight shot horizontally?
-        // ****************************************
-        else if (BOARD_LAST == col || BOARD_FIRST == col) {
-            // Set Left and right.
-            board [index(row, BOARD_LAST)].selected         = select
-            board [index(row, BOARD_FIRST)].selected        = select
-        }
-
-        // Something else.
-        else {
-            board [index].selected = !board [index].selected
-        }
-    }
-
-    /**
-     * Compute the bet.
-     */
-    fun computeBet () {
-        var bets = SUIT_NONE_VAL
-
-        // Top / Bottom
-        for (which in BOARD_FIRST .. BOARD_LAST) {
-            if (board [index(BOARD_FIRST,which)].selected) {
-                bets++
-            }
-            if (board [index(BOARD_LAST,which)].selected) {
-                bets++
-            }
-        }
-
-        // Left / Right
-        for (which in BOARD_FIRST+1 .. BOARD_LAST-1) {
-            if (board [index(which, BOARD_FIRST)].selected) {
-                bets++
-            }
-            if (board [index(which, BOARD_LAST)].selected) {
-                bets++
-            }
-        }
-
-        // Reset the bet.
-        bet = bets
-
-        updatePlayer()
-    }
-
-    // /////////////////////////////////////////////////////////////////////////////////////////////
     // Update the UI, or parts of it.
     // /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -354,35 +268,11 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         updatePlayer ()
     }
 
-    // /////////////////////////////////////////////////////////////////////////////////////////////
-    // Populate the board and hand.
-    // /////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
-     * Populate the board with dice.
-     */
-    fun populateBoard () {
-        // Get some dice.
-        for (row in BOARD_FIRST+1 until BOARD_LAST) {
-            for (col in BOARD_FIRST + 1 until BOARD_LAST) {
-                val index = index(row, col)
-                val die = board.get(index)
-
-                // If square is not held
-                if (!die.held) {
-                    board[index] = Die (randomRank(), randomSuit())
-                }
-            }
-        }
-
-        updateBoard ()
-    }
-
-    /**
-     * Populate the board with dice.
+     * Populate the hand with dice.
      */
     fun populateHand () {
-        for (pos in 0 until HAND_TO_BEAT_SIZE) {
+        for (pos in 0 until DICE_IN_HAND) {
             handToBeat.value [pos] = Die (randomRank(), randomSuit())
         }
 
@@ -394,6 +284,62 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      */
     fun scoreHand (hand: Array<Die>) {
 
+    }
+
+    fun getHandToBeatName (hand: Array<Die>): String {
+        return app.getHandToBeatName (pokerScorer.computeHand (hand))
+    }
+
+    /**
+     * The text for this square.
+     */
+    fun getSquareText (index: Int): String {
+        // The squaere text.
+        var result = NO_TEXT
+
+        // The hand.
+        val hand = game.getHand (index)
+
+        // If it has at least one value grater than zero, we can score it.
+        if (game.hasValue (hand)) {
+            result = getHandToBeatName (hand)
+        }
+
+        return result
+    }
+
+    /**
+     * Renew the edge squares text.
+     */
+    fun refreshEdgeSquareText () {
+        for (pos in ZERO until NUM_SQUARES) {
+            if (game.isEdgeSquare (pos)) {
+                val dieText = getSquareText(pos)
+                setDieText(pos, dieText)
+
+                val oppPos = game.opposite(pos)
+                setDieText(oppPos, dieText)
+
+                // TODO Test
+                if (!dieText.empty()) {
+                    debug (dieText)
+                }
+            }
+        }
+    }
+
+    /**
+     * Set the die edge text.
+     */
+    fun setDieText (index: Int) {
+        setDieText (index, getSquareText (index))
+    }
+
+    /**
+     * Set the die edge text.
+     */
+    fun setDieText (index: Int, text: String) {
+        game.getDie (index).name = text
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -478,7 +424,14 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         populateHand ()
 
         // Populate the board with dice.
-        populateBoard ()
+        game.populateBoard ()
+
+        // Re-Calc Squares
+        refreshEdgeSquareText ()
+
+        // Update the board ad edge
+        updateBoard()
+        updateBoardEdge()
 
         _uiState.value = PokerUIState.Rolling
     }
@@ -493,7 +446,14 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
             rolls--
 
             // Populate the board with dice.
-            populateBoard()
+            game.populateBoard()
+
+            // Re-Calc Squares
+            refreshEdgeSquareText ()
+
+            // Redraw the board and board edge.
+            updateBoard ()
+            updateBoardEdge()
         }
         else {
             // Game over.
@@ -521,14 +481,12 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      */
     fun reset () {
         // Reset hand to beat.
-        for (pos in 0 until HAND_TO_BEAT_SIZE) {
+        for (pos in 0 until DICE_IN_HAND) {
             handToBeat.value [pos] = Die (SUIT_NONE)
         }
 
         // Reset board.
-        for (pos in 0 until BOARD_SIZE*BOARD_SIZE) {
-            board [pos] = Die (SUIT_NONE)
-        }
+        game.reset()
 
         // Reset rolls, bet and won.
         rolls   = 0
@@ -554,8 +512,13 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     fun boardClickEvent (pokerEvent: PokerEvent.BoardClickEvent) {
         // Hold / Unhold die, if in rolling state.
         if (PokerUIState.Rolling == _uiState.value) {
+            val die = game.getDie(pokerEvent.index)
+
             // toggle held color.
-            board [pokerEvent.index].held = !board [pokerEvent.index].held
+            die.held = !die.held
+
+            // Put the die back.
+            game.setDie(pokerEvent.index, die)
         }
 
         // Recompose the board
@@ -581,8 +544,12 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * They clicked on an edge square in the Start state.
      */
     fun edgeClickEventStart (pokerEvent: PokerEvent.EdgeClickEvent) {
-        setBetSquares (pokerEvent.index)
-        computeBet ()
+        game.setBetSquares (pokerEvent.index)
+
+        // Reset the bet.
+        bet = game.computeBet ()
+
+        updatePlayer()
         updateBoardEdge()
     }
 }

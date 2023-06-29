@@ -9,7 +9,7 @@ import com.pstorli.pokerdice.domain.model.Die
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.theme.Colors
-import com.pstorli.pokerdice.util.Consts.HAND_TO_BEAT_DICE_SIZE
+import com.pstorli.pokerdice.util.Consts.HAND_TO_BEAT_DICE_DP
 import com.pstorli.pokerdice.util.Consts.SUIT_CLUB
 import com.pstorli.pokerdice.util.Consts.SUIT_DIAMOND
 import com.pstorli.pokerdice.util.Consts.SUIT_HEART
@@ -25,9 +25,9 @@ fun Suits (pokerViewModel: PokerViewModel) {
         titleColor  = LocalContext.current.color(Colors.Title),
         maxWidth    = true
     ) {
-        Suit (Die(suit= SUIT_HEART),    sizeDp=HAND_TO_BEAT_DICE_SIZE)
-        Suit (Die(suit= SUIT_DIAMOND),  sizeDp=HAND_TO_BEAT_DICE_SIZE)
-        Suit (Die(suit= SUIT_CLUB),     sizeDp=HAND_TO_BEAT_DICE_SIZE)
-        Suit (Die(suit= SUIT_SPADE),    sizeDp=HAND_TO_BEAT_DICE_SIZE)
+        Suit (Die(suit= SUIT_HEART),    sizeDp=HAND_TO_BEAT_DICE_DP)
+        Suit (Die(suit= SUIT_DIAMOND),  sizeDp=HAND_TO_BEAT_DICE_DP)
+        Suit (Die(suit= SUIT_CLUB),     sizeDp=HAND_TO_BEAT_DICE_DP)
+        Suit (Die(suit= SUIT_SPADE),    sizeDp=HAND_TO_BEAT_DICE_DP)
     }
 }

@@ -15,7 +15,17 @@ import com.pstorli.pokerdice.domain.model.MutablePair
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.ui.theme.getColor
 import com.pstorli.pokerdice.util.Consts
+import com.pstorli.pokerdice.util.Consts.FLUSH
+import com.pstorli.pokerdice.util.Consts.FOUR_OF_KIND
+import com.pstorli.pokerdice.util.Consts.FULL_HOUSE
+import com.pstorli.pokerdice.util.Consts.NOTHING
 import com.pstorli.pokerdice.util.Consts.NO_TEXT
+import com.pstorli.pokerdice.util.Consts.ONE_PAIR
+import com.pstorli.pokerdice.util.Consts.ROYAL_FLUSH
+import com.pstorli.pokerdice.util.Consts.STRAIGHT
+import com.pstorli.pokerdice.util.Consts.STRAIGHT_FLUSH
+import com.pstorli.pokerdice.util.Consts.THREE_OF_KIND
+import com.pstorli.pokerdice.util.Consts.TWO_PAIRS
 
 // *********************************************************************************************
 // Extension Log helper functions
@@ -98,6 +108,13 @@ fun String.logInfo (tag: String)
 fun String.debug ()
 {
     Consts.debug (this)
+}
+/**
+ * Log an info message.
+ */
+fun String.empty (): Boolean
+{
+    return 0 == this.length
 }
 
 // *********************************************************************************************
@@ -230,6 +247,27 @@ fun Context.suitName (die: Die): String {
         Consts.SUIT_CLUB    -> result = resources.getString(R.string.suit_club)
         Consts.SUIT_SPADE   -> result = resources.getString(R.string.suit_spade)
     }
+    return result
+}
+
+/**
+ * Get the hand to beat name.
+ */
+fun Context.getHandToBeatName (hand: Int): String {
+    var result = NO_TEXT
+    when (hand) {
+        ROYAL_FLUSH     -> result = resources.getString(R.string.hand_royal_flush)
+        STRAIGHT_FLUSH  -> result = resources.getString(R.string.hand_straight_flush)
+        FOUR_OF_KIND    -> result = resources.getString(R.string.hand_4_of_kind)
+        FULL_HOUSE      -> result = resources.getString(R.string.hand_full_house)
+        FLUSH           -> result = resources.getString(R.string.hand_flush)
+        STRAIGHT        -> result = resources.getString(R.string.hand_straight)
+        THREE_OF_KIND   -> result = resources.getString(R.string.hand_3_of_kind)
+        TWO_PAIRS       -> result = resources.getString(R.string.hand_two_pair)
+        ONE_PAIR        -> result = resources.getString(R.string.hand_one_pair)
+        NOTHING         -> result = resources.getString(R.string.hand_highest)
+    }
+    result.debug()
     return result
 }
 

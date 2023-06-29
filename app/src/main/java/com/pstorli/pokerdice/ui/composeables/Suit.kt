@@ -27,8 +27,8 @@ import com.pstorli.pokerdice.suitId
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.util.Consts
-import com.pstorli.pokerdice.util.Consts.BORDER_DEFAULT_WIDTH_VAL
-import com.pstorli.pokerdice.util.Consts.DIAMOND_MIN_WIDTH
+import com.pstorli.pokerdice.util.Consts.BORDER_DEFAULT_WIDTH_VAL_DP
+import com.pstorli.pokerdice.util.Consts.DIAMOND_MIN_WIDTH_DP
 import com.pstorli.pokerdice.util.Consts.NO_TEXT
 
 /**
@@ -51,7 +51,7 @@ fun Suit (die: Die, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp
         Consts.SUIT_HEART   -> name = stringResource(id = R.string.suit_heart)
         Consts.SUIT_DIAMOND -> {
             name = stringResource(id = R.string.suit_diamond)
-            min  = DIAMOND_MIN_WIDTH
+            min  = DIAMOND_MIN_WIDTH_DP
         }
         Consts.SUIT_CLUB    -> name = stringResource(id = R.string.suit_club)
         Consts.SUIT_SPADE   -> name = stringResource(id = R.string.suit_spade)
@@ -71,7 +71,7 @@ fun Suit (die: Die, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp
                 .padding(4.dp)
                 .background(die.color(isSystemInDarkTheme()))
                 .border(
-                    BorderStroke(BORDER_DEFAULT_WIDTH_VAL, borderColor),
+                    BorderStroke(BORDER_DEFAULT_WIDTH_VAL_DP, borderColor),
                     RectangleShape
                 )
                 .conditional(sizeDp != null) {
