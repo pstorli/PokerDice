@@ -1,12 +1,15 @@
 package com.pstorli.pokerdice.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.Board
 import com.pstorli.pokerdice.ui.composeables.HandToBeat
 import com.pstorli.pokerdice.ui.composeables.Instructions
 import com.pstorli.pokerdice.ui.composeables.PlayerRow
+import com.pstorli.pokerdice.ui.composeables.SnackBar
 import com.pstorli.pokerdice.ui.composeables.Suits
 
 /**
@@ -29,5 +32,10 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
         HandToBeat      (pokerViewModel)
         Suits           (pokerViewModel)
         Instructions    (pokerViewModel)
+        SnackBar        (pokerViewModel)
+
+        Snackbar {
+            Text(text = "Hello")
+        }
     }
 }

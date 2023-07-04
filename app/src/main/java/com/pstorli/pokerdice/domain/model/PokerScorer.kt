@@ -5,8 +5,8 @@ import com.pstorli.pokerdice.util.Consts.FOUR_OF_KIND
 import com.pstorli.pokerdice.util.Consts.FULL_HOUSE
 import com.pstorli.pokerdice.util.Consts.MAX_RANK
 import com.pstorli.pokerdice.util.Consts.MAX_SUIT
-import com.pstorli.pokerdice.util.Consts.ZERO
 import com.pstorli.pokerdice.util.Consts.NOTHING
+import com.pstorli.pokerdice.util.Consts.ZERO
 import com.pstorli.pokerdice.util.Consts.NO_RANK
 import com.pstorli.pokerdice.util.Consts.NO_SUIT
 import com.pstorli.pokerdice.util.Consts.ONE_PAIR
@@ -16,9 +16,11 @@ import com.pstorli.pokerdice.util.Consts.STRAIGHT_FLUSH
 import com.pstorli.pokerdice.util.Consts.THREE_OF_KIND
 import com.pstorli.pokerdice.util.Consts.TWO_PAIRS
 
-
 class PokerScorer () {
 
+    // *********************************************************************************************
+    // Vars
+    // *********************************************************************************************
     var level = 0
 
     var flush = false
@@ -39,7 +41,7 @@ class PokerScorer () {
      *
      * @return value of hand.
      */
-    fun computeHand (dice: Array<Die>): Int
+    fun scoreHand (dice: Array<Die>): Int
     {
         // Do we have a flush?
         flush = false

@@ -1,7 +1,11 @@
 package com.pstorli.pokerdice.util
 
+import android.content.Context
+import android.media.MediaPlayer
 import android.util.Log
 import androidx.compose.ui.unit.dp
+import com.pstorli.pokerdice.logError
+
 
 /**
  * The main reason to use constants, is
@@ -77,11 +81,28 @@ object Consts {
     val ROLLS_MIN_WIDTH_DP              = 48.dp
     val ROUNDED_CORNER_SHAPE_PCT_VAL    = 20
     val SPACE_TEXT                      = " "
+    val SQUARE_BET_COST                 = 10 // Cost of eacg square to bet on.
     val TAG_NAME                        = "PokerDice"
     val WON_MIN_WIDTH_DP                = 42.dp
     val WON_NAME                        = "Won"
     val SUIT_NONE_VAL                   = 0
     val ZERO                            = 0
+
+    // *********************************************************************************************
+    // Scoring Consts
+    // *********************************************************************************************
+
+    // The score data.
+    val ROYAL_FLUSH                     = 60
+    val STRAIGHT_FLUSH                  = 50
+    val FOUR_OF_KIND                    = 45
+    val FULL_HOUSE                      = 40
+    val FLUSH                           = 30
+    val STRAIGHT                        = 20
+    val THREE_OF_KIND                   = 15
+    val TWO_PAIRS                       = 10
+    val ONE_PAIR                        = 5
+    val NOTHING                         = 0
 
     // *********************************************************************************************
     // Scoring Vars
@@ -101,18 +122,6 @@ object Consts {
     val MIN_RANK                        = 1
     val MAX_SUIT                        = 4
     val MAX_RANK                        = 6
-
-    // The score data.
-    val ROYAL_FLUSH                     = 9
-    val STRAIGHT_FLUSH                  = 8
-    val FOUR_OF_KIND                    = 7
-    val FULL_HOUSE                      = 6
-    val FLUSH                           = 5
-    val STRAIGHT                        = 4
-    val THREE_OF_KIND                   = 3
-    val TWO_PAIRS                       = 2
-    val ONE_PAIR                        = 1
-    val NOTHING                         = 0
 
     /**
      * Return random num between 1 and 6
@@ -217,5 +226,31 @@ object Consts {
             }
         }
         return result
+    }
+
+    /**
+     * Play a sound.
+     */
+    fun playSound (soundRawId: Int, context: Context) {
+        try {
+            // Create it.
+            var mp: MediaPlayer? = MediaPlayer.create (context, soundRawId)
+            mp?.let {
+                if (mp?.isPlaying?:false) {
+                    // Stop, drop and roll.
+                    mp?.stop()
+                    mp?.release()
+
+                    // Then re-create it.
+                    mp = MediaPlayer.create(context, soundRawId)
+                }
+
+                // Now start it.
+                mp?.start()
+            }
+        }
+        catch (ex: Exception) {
+            ex.toString().logError()
+        }
     }
 }

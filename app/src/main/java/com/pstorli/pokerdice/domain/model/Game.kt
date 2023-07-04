@@ -7,9 +7,11 @@ import com.pstorli.pokerdice.util.Consts.FIRST_ROW_COL
 import com.pstorli.pokerdice.util.Consts.LAST_ROW_COL
 import com.pstorli.pokerdice.util.Consts.NO_RANK
 import com.pstorli.pokerdice.util.Consts.NUM_SQUARES
+import com.pstorli.pokerdice.util.Consts.SQUARE_BET_COST
 import com.pstorli.pokerdice.util.Consts.SQUARE_FIRST
 import com.pstorli.pokerdice.util.Consts.SUIT_NONE_VAL
 import com.pstorli.pokerdice.util.Consts.ZERO
+import com.pstorli.pokerdice.util.Consts.debug
 import com.pstorli.pokerdice.util.Consts.randomRank
 import com.pstorli.pokerdice.util.Consts.randomSuit
 
@@ -235,21 +237,43 @@ class Game () {
         // Top / Bottom
         for (which in SQUARE_FIRST..SQUARE_LAST) {
             if (board [index(SQUARE_FIRST, which)].selected) {
-                bets++
+                bets+= SQUARE_BET_COST
             }
             if (board [index(SQUARE_LAST, which)].selected) {
-                bets++
+                bets+= SQUARE_BET_COST
             }
         }
 
         // Left / Right
         for (which in SQUARE_FIRST +1 .. SQUARE_LAST -1) {
             if (board [index(which, SQUARE_FIRST)].selected) {
-                bets++
+                bets+= SQUARE_BET_COST
             }
             if (board [index(which, SQUARE_LAST)].selected) {
-                bets++
+                bets+= SQUARE_BET_COST
             }
+        }
+
+        // Diagonal.
+
+        // UL
+        if (board [index(SQUARE_FIRST, SQUARE_FIRST)].selected) {
+            bets+= SQUARE_BET_COST
+        }
+
+        // UR
+        else if (board [index(SQUARE_FIRST, SQUARE_LAST)].selected) {
+            bets+= SQUARE_BET_COST
+        }
+
+        // LL
+        else if (board [index(SQUARE_LAST, SQUARE_FIRST)].selected) {
+            bets+= SQUARE_BET_COST
+        }
+
+        // LR
+        else if (board [index(SQUARE_LAST, SQUARE_LAST)].selected) {
+            bets+= SQUARE_BET_COST
         }
 
         return bets
@@ -374,13 +398,9 @@ class Game () {
         // Ignore if this is not an edge?
         if (isEdgeSquare(index)) {
             if (index>= ZERO && index< NUM_SQUARES) {
-                // Get the die
-                var die = board [index]
-
                 // This index is on the board.
                 val row = row(index)
                 val col = col(index)
-                //Array (DICE_IN_HAND) { Die() } ()
 
                 // *****************************************************************************
                 // Rank these
@@ -389,41 +409,49 @@ class Game () {
                 // Upper Left?
                 if (ZERO == row && ZERO == col) {
                     hand = getHandDiagonalUpperLeftToLowerRight ()
+                    debug ("getHandDiagonalUpperLeftToLowerRight $row $col Hand: $hand Index: $index")
                 }
 
                 // Lower left?
                 else if (LAST_ROW_COL == row && ZERO == col) {
                     hand = getHandDiagonalUpperRightToLowerLeft ()
+                    debug ("getHandDiagonalUpperRightToLowerLeft $row $col Hand: $hand Index: $index")
                 }
 
                 // Upper Right?
-                else if (ZERO == row && LAST_ROW_COL == col) {
+                else if (ZERO == row && SQUARE_LAST == col) {
                     hand = getHandDiagonalUpperRightToLowerLeft ()
+                    debug ("getHandDiagonalUpperRightToLowerLeft $row $col Hand: $hand Index: $index")
                 }
 
                 // Lower Right?
-                else if (LAST_ROW_COL == row && LAST_ROW_COL == col) {
+                else if (SQUARE_LAST == row && SQUARE_LAST == col) {
                     hand = getHandDiagonalUpperLeftToLowerRight ()
+                    debug ("getHandDiagonalUpperLeftToLowerRight $row $col Hand: $hand Index: $index")
                 }
 
                 // Horiz top?
                 else if (ZERO == row) {
                     hand = getHandByColumn (col)
+                    debug ("getHandByColumn $row $col Hand: $hand Index: $index")
                 }
 
                 // Horiz Bottom
-                else if (LAST_ROW_COL == row) {
+                else if (SQUARE_LAST == row) {
                     hand = getHandByColumn (col)
+                    debug ("getHandByColumn $row $col Hand: $hand Index: $index")
                 }
 
                 // Vert Left Side
                 else if (ZERO == col) {
                     hand = getHandByRow (row)
+                    debug ("getHandByRow $row $col Hand: $hand Index: $index")
                 }
 
                 // Vert Right Side
-                else if (LAST_ROW_COL == col) {
+                else if (SQUARE_LAST == col) {
                     hand = getHandByRow (row)
+                    debug ("getHandByRow $row $col Hand: $hand Index: $index")
                 }
             }
         }

@@ -11,6 +11,7 @@ import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.domain.model.PokerEvent
 import com.pstorli.pokerdice.ui.theme.Colors
+import com.pstorli.pokerdice.util.Consts
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
 import com.pstorli.pokerdice.util.Consts.debug
 
@@ -24,7 +25,7 @@ fun Board (pokerViewModel: PokerViewModel) {
         LazyVerticalGrid(columns = GridCells.Fixed(BOARD_SIZE)) {
             items(pokerViewModel.game.size()) { index ->
                 // Get the dice associated with this square.
-                val die = pokerViewModel.game.getDie (index)
+                var die = pokerViewModel.game.getDie (index)
 
                 // Figure out border getColor to use.
                 var color = LocalContext.current.color (Colors.Text)
@@ -43,7 +44,7 @@ fun Board (pokerViewModel: PokerViewModel) {
                     // This will detect any changes to the board edge and recompose your composable.
                     pokerViewModel.onUpdateBoardEdge.value
 
-
+                    debug ("Name: $die.name Index: $index.")
 
                     // Use PokerButton for edge squares.
                     PokerButton(
@@ -52,6 +53,15 @@ fun Board (pokerViewModel: PokerViewModel) {
                         borderColor = bc,
                         onClick     = {
                             debug ("They clicked on the edge $index.")
+
+                            // Do a different sound if de-selecting the square.
+                            die = pokerViewModel.game.getDie (index)
+                            if (die.selected) {
+                                Consts.playSound(R.raw.bet_not, pokerViewModel.getApplication())
+                            }
+                            else {
+                                Consts.playSound(R.raw.bet, pokerViewModel.getApplication())
+                            }
 
                             // They clicked the button on a board square.
                             pokerViewModel.onEvent(PokerEvent.EdgeClickEvent (index))

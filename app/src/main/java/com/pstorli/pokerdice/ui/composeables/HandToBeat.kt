@@ -18,7 +18,7 @@ fun HandToBeat (pokerViewModel: PokerViewModel) {
     // This will detect any changes to the board edge and recompose your composable.
     pokerViewModel.onUpdateHandToBeat.value
 
-    val handToBeatValue = pokerViewModel.pokerScorer.computeHand (pokerViewModel.handToBeat.value)
+    val handToBeatValue = pokerViewModel.pokerScorer.scoreHand (pokerViewModel.handToBeat.value)
     val handToBeatRealName: String
     if (handToBeatValue > NOTHING) {
         handToBeatRealName  = LocalContext.current.getHandToBeatName (handToBeatValue)

@@ -13,6 +13,7 @@ import com.pstorli.pokerdice.repo.PokerRepo
 import com.pstorli.pokerdice.domain.repo.dao.PokerDAO
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.ui.theme.setColor
+import com.pstorli.pokerdice.util.Consts
 
 import com.pstorli.pokerdice.util.Consts.CASH_INITIAL
 import com.pstorli.pokerdice.util.Consts.SUIT_NONE
@@ -21,9 +22,9 @@ import com.pstorli.pokerdice.util.Consts.DICE_IN_HAND
 import com.pstorli.pokerdice.util.Consts.NO_TEXT
 import com.pstorli.pokerdice.util.Consts.NUM_SQUARES
 import com.pstorli.pokerdice.util.Consts.ROLLS_MAX
+import com.pstorli.pokerdice.util.Consts.SQUARE_BET_COST
 import com.pstorli.pokerdice.util.Consts.SUIT_NONE_VAL
 import com.pstorli.pokerdice.util.Consts.ZERO
-import com.pstorli.pokerdice.util.Consts.debug
 import com.pstorli.pokerdice.util.Consts.randomRank
 import com.pstorli.pokerdice.util.Consts.randomSuit
 import com.pstorli.pokerdice.util.Persist
@@ -48,6 +49,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     var onUpdateInstructions    = mutableStateOf(true)
     var onUpdatePlayer          = mutableStateOf(true)
     var onUpdateScoring         = mutableStateOf(true)
+    var onUpdateSnackbar        = mutableStateOf(true)
 
     // How much cash, rolls and bets have we?
     var bet                     by mutableStateOf<Int>(0)
@@ -80,6 +82,9 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
     // The game with a board
     var game = Game ()
+
+    // Set this to show snackbar text.
+    var snackBarText = NO_TEXT
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Game State
@@ -260,12 +265,17 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         onUpdatePlayer.value = !onUpdatePlayer.value
     }
 
+    fun updateSnackbar () {
+        onUpdateSnackbar.value = !onUpdateSnackbar.value
+    }
+
     fun updateGame () {
         updateBoard ()
         updateBoardEdge ()
         updateHandToBeat ()
         updateInstructions ()
         updatePlayer ()
+        updateSnackbar ()
     }
 
     /**
@@ -279,15 +289,8 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         updateHandToBeat ()
     }
 
-    /**
-     * Score the hand.
-     */
-    fun scoreHand (hand: Array<Die>) {
-
-    }
-
     fun getHandToBeatName (hand: Array<Die>): String {
-        return app.getHandToBeatName (pokerScorer.computeHand (hand))
+        return app.getHandToBeatName (pokerScorer.scoreHand (hand))
     }
 
     /**
@@ -312,18 +315,28 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * Renew the edge squares text.
      */
     fun refreshEdgeSquareText () {
+        won = 0
         for (pos in ZERO until NUM_SQUARES) {
             if (game.isEdgeSquare (pos)) {
-                val dieText = getSquareText(pos)
-                setDieText(pos, dieText)
+                // The hand.
+                val hand = game.getHand (pos)
+
+                // If it has at least one value grater than zero, we can score it.
+                var dieText = NO_TEXT
+
+                // The hand's value.
+                if (game.hasValue (hand)) {
+                    // They win if that square was selected.
+                    if (game.board [pos].selected) {
+                        won = won + pokerScorer.scoreHand(hand)
+                    }
+
+                    dieText = getHandToBeatName (hand)
+                }
+                setDieText( pos, dieText)
 
                 val oppPos = game.opposite(pos)
                 setDieText(oppPos, dieText)
-
-                // TODO Test
-                if (!dieText.empty()) {
-                    debug (dieText)
-                }
             }
         }
     }
@@ -339,7 +352,9 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * Set the die edge text.
      */
     fun setDieText (index: Int, text: String) {
-        game.getDie (index).name = text
+        val die = game.getDie (index)
+        die.name = text
+        game.setDie(index, die)
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -410,7 +425,10 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * Cash out!
      */
     fun cashOutEvent (pokerEvent: PokerEvent.CashOutEvent) {
+        // Update cash
+        cash = cash - bet + won
 
+        reset ()
     }
 
     /**
@@ -432,6 +450,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         // Update the board ad edge
         updateBoard()
         updateBoardEdge()
+        updatePlayer()
 
         _uiState.value = PokerUIState.Rolling
     }
@@ -454,6 +473,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
             // Redraw the board and board edge.
             updateBoard ()
             updateBoardEdge()
+            updatePlayer()
         }
         else {
             // Game over.
@@ -489,7 +509,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         game.reset()
 
         // Reset rolls, bet and won.
-        rolls   = 0
+        rolls   = ROLLS_MAX
         bet     = 0
         won     = 0
 
@@ -516,6 +536,8 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
             // toggle held color.
             die.held = !die.held
+
+            Consts.playSound(R.raw.hold, getApplication())
 
             // Put the die back.
             game.setDie(pokerEvent.index, die)
@@ -544,10 +566,23 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * They clicked on an edge square in the Start state.
      */
     fun edgeClickEventStart (pokerEvent: PokerEvent.EdgeClickEvent) {
-        game.setBetSquares (pokerEvent.index)
+        // Each click costs 2 * SQUARE_BET_COST (10)
+        val dice = game.board [pokerEvent.index]
+
+        // Let them de-select or proceed if they have enough money
+        val betsCost = bet + 2 * SQUARE_BET_COST
+        if (dice.selected || cash >= betsCost) {
+            // Set the squares to bet on.
+            game.setBetSquares (pokerEvent.index)
+        }
+        else if (cash < betsCost) {
+            // Out of cash!
+            snackBarText = app.resources.getString(R.string.outta_cash)
+            updateSnackbar ()
+        }
 
         // Reset the bet.
-        bet = game.computeBet ()
+        bet = game.computeBet()
 
         updatePlayer()
         updateBoardEdge()

@@ -22,21 +22,23 @@
     <string name="instructions">Instructions</string>
     <string name="level">Level</string>
     <string name="nothing">Nothing</string>
+    <string name="outta_cash">Not enough cash to place that bet!</string>
     <string name="player">Player</string>
     <string name="reset">Reset</string>
     <string name="roll_dice">Roll\nDice</string>
     <string name="rolls">Rolls</string>
     <string name="save">Save</string>
     <string name="scoring_title">Scoring:</string>
-    <string name="scoring_text">RoyalFlush\nFive die of same suit and \nhighest value in sequential order.
-        \n\nStraight Flush\nFive die same suit in seq order.
-        \n\nFour of a kind\nFour die with the same value.
-        \n\nFull House\nThree of a kind die with a pair of die.
-        \n\nFlush\nFive die of the same suit.
-        \n\nStraight\nFive die of any suit in sequential order.
-        \n\nThree of a Kind\nThree die with the same numeric value.
-        \n\nTwo Pair\nTwo different pair of dice in the same hand.
-        \n\nHighest Die\nWho ever has the highest value die in their hand.</string>
+    <string name="scoring_text">60 RoyalFlush\nFive die of same suit and \nhighest value in sequential order.
+        \n\n50 Straight Flush\nFive die same suit in seq order.
+        \n\n45 Four of a kind\nFour die with the same value.
+        \n\n40 Full House\nThree of a kind die with a pair of die.
+        \n\n30 Flush\nFive die of the same suit.
+        \n\n20 Straight\nFive die of any suit in sequential order.
+        \n\n15 Three of a Kind\nThree die with the same numeric value.
+        \n\n10 Two Pair\nTwo different pair of dice in the same hand.
+        \n\n5 One Pair\nOne pair of dice in a hand.
+        \n\nHighest Die\nThe highest die in the hand.</string>
     <string name="start">Start</string>
     <string name="state_error">Error</string>
     <string name="state_settings">Settings</string>

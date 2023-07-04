@@ -20,10 +20,14 @@ Architecture notes:
     from the viewModel and have it emit actions back to the viewModel.
 
 2DO Issues:
-  0000 Add scoring to hand to beat.
+  0000 Add scaffolding, remove taost and use snackbar instead in SnackBar.kt.
 
 Resolved Issues Version 1005:
-    0000 Added settings screen with scoring instructions.
+  0000 Added settings screen with scoring instructions.
+  0000 Added scoring to hand to beat.
+  0000 Added click and dice rolling sound effects.
+  0000 Added scoring and cash out. Game basically working.
+  0000 Added sound effects.
 
 Resolved Issues Version 1004:
   0000 Added board

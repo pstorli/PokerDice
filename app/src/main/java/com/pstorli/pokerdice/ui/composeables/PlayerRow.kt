@@ -19,6 +19,7 @@ import com.pstorli.pokerdice.util.Consts.CASH_MIN_WIDTH_DP
 import com.pstorli.pokerdice.util.Consts.LEVEL_MIN_WIDTH_DP
 import com.pstorli.pokerdice.util.Consts.ROLLS_MIN_WIDTH_DP
 import com.pstorli.pokerdice.util.Consts.WON_MIN_WIDTH_DP
+import com.pstorli.pokerdice.util.Consts.playSound
 
 @Composable
 fun PlayerRow (pokerViewModel: PokerViewModel) {
@@ -44,6 +45,9 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     textColor = rollTextColor,
                     onClick = {
                         "Roll dice pressed.".debug()
+
+                        // They clicked roll.
+                        playSound (R.raw.roll, pokerViewModel.getApplication())
 
                         // They clicked the button.
                         if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
