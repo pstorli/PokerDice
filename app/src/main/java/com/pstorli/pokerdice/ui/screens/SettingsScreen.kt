@@ -14,7 +14,6 @@ import com.pstorli.pokerdice.debug
 import com.pstorli.pokerdice.domain.model.PokerEvent
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.PokerButton
-import com.pstorli.pokerdice.ui.composeables.Scoring
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.theme.Colors
 
@@ -67,7 +66,5 @@ fun SettingsScreen (pokerViewModel: PokerViewModel) {
                     pokerViewModel.onEvent(PokerEvent.CancelEvent)
                 })
         }
-
-        Scoring (pokerViewModel)
     }
 }

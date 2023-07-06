@@ -28,6 +28,8 @@ Resolved Issues Version 1005:
   0000 Added click and dice rolling sound effects.
   0000 Added scoring and cash out. Game basically working.
   0000 Added sound effects.
+  0000 Added snack bar.
+  0000 Added side drawer for instructions / scoring.
 
 Resolved Issues Version 1004:
   0000 Added board

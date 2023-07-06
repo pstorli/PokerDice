@@ -48,8 +48,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     var onUpdateHandToBeat      = mutableStateOf(true)
     var onUpdateInstructions    = mutableStateOf(true)
     var onUpdatePlayer          = mutableStateOf(true)
-    var onUpdateScoring         = mutableStateOf(true)
-    var onUpdateSnackbar        = mutableStateOf(true)
 
     // How much cash, rolls and bets have we?
     var bet                     by mutableStateOf<Int>(0)
@@ -63,6 +61,9 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
     // What level are we on?
     var level                   by mutableStateOf<Int>(0)
+
+    // Set this to show snackbar text.
+    var snackBarText            by mutableStateOf<String> (NO_TEXT)
 
     // How much have we won?
     var won                     by mutableStateOf<Int>(0)
@@ -82,9 +83,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
     // The game with a board
     var game = Game ()
-
-    // Set this to show snackbar text.
-    var snackBarText = NO_TEXT
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Game State
@@ -154,6 +152,13 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Helpful Methods
     // /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     *
+     */
+    fun scoreHandToBeat (): Int {
+        return pokerScorer.scoreHand (handToBeat.value)
+    }
 
     /**
      * Get the instructions based on the game state.
@@ -265,17 +270,12 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         onUpdatePlayer.value = !onUpdatePlayer.value
     }
 
-    fun updateSnackbar () {
-        onUpdateSnackbar.value = !onUpdateSnackbar.value
-    }
-
     fun updateGame () {
         updateBoard ()
         updateBoardEdge ()
         updateHandToBeat ()
         updateInstructions ()
         updatePlayer ()
-        updateSnackbar ()
     }
 
     /**
@@ -321,22 +321,25 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 // The hand.
                 val hand = game.getHand (pos)
 
-                // If it has at least one value grater than zero, we can score it.
-                var dieText = NO_TEXT
-
                 // The hand's value.
                 if (game.hasValue (hand)) {
-                    // They win if that square was selected.
-                    if (game.board [pos].selected) {
-                        won = won + pokerScorer.scoreHand(hand)
+                    val score   = pokerScorer.scoreHand(hand)
+                    if (score > ZERO) {
+                        // They win if that square was selected.
+                        if (game.board[pos].selected) {
+                            // And it beats the square to beat.
+                            if (score > scoreHandToBeat()) {
+                                won = won + score
+                            }
+                        }
+
+                        var text = getHandToBeatName(hand)
+                        if (game.isEdgeSquareBottom(pos) || game.isEdgeSquareRight(pos)) {
+                            text = score.toString()
+                        }
+                        setDieText(pos, text)
                     }
-
-                    dieText = getHandToBeatName (hand)
                 }
-                setDieText( pos, dieText)
-
-                val oppPos = game.opposite(pos)
-                setDieText(oppPos, dieText)
             }
         }
     }
@@ -427,6 +430,9 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     fun cashOutEvent (pokerEvent: PokerEvent.CashOutEvent) {
         // Update cash
         cash = cash - bet + won
+
+        // Increase the level
+        level++
 
         reset ()
     }
@@ -577,8 +583,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         }
         else if (cash < betsCost) {
             // Out of cash!
-            snackBarText = app.resources.getString(R.string.outta_cash)
-            updateSnackbar ()
+            snackBarText = app.resources .getString(R.string.outta_cash)
         }
 
         // Reset the bet.

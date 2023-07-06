@@ -35,14 +35,38 @@ class Game () {
      */
     fun isEdgeSquareTopBottom (index: Int): Boolean {
         val rowCol = rowCol (index)
-        return isEdgeSquareTopBottom (rowCol.first, rowCol.second)
+        return isEdgeSquareTop (rowCol.first, rowCol.second) || isEdgeSquareBottom (rowCol.first, rowCol.second)
     }
 
     /**
      * Is this a edge square?
      */
-    fun isEdgeSquareTopBottom (row: Int, col: Int): Boolean {
-        return if (SQUARE_FIRST == row || SQUARE_LAST == row)
+    fun isEdgeSquareTop (index: Int): Boolean {
+        val rowCol = rowCol(index)
+        return isEdgeSquareTop (rowCol.first, rowCol.second)
+    }
+
+    /**
+     * Is this a edge square?
+     */
+    fun isEdgeSquareTop (row: Int, col: Int): Boolean {
+        return if (SQUARE_FIRST == row)
+            true else false
+    }
+
+    /**
+     * Is this a edge square?
+     */
+    fun isEdgeSquareBottom (index: Int): Boolean {
+        val rowCol = rowCol(index)
+        return isEdgeSquareBottom (rowCol.first, rowCol.second)
+    }
+
+    /**
+     * Is this a edge square?
+     */
+    fun isEdgeSquareBottom (row: Int, col: Int): Boolean {
+        return if (SQUARE_LAST == row)
             true else false
     }
 
@@ -51,14 +75,38 @@ class Game () {
      */
     fun isEdgeSquareSide (index: Int): Boolean {
         val rowCol = rowCol(index)
-        return isEdgeSquareSide (rowCol.first, rowCol.second)
+        return isEdgeSquareLeft (rowCol.first, rowCol.second) || isEdgeSquareRight (rowCol.first, rowCol.second)
     }
 
     /**
      * Is this a edge square?
      */
-    fun isEdgeSquareSide (row: Int, col: Int): Boolean {
-        return if (SQUARE_FIRST == col || SQUARE_LAST == col)
+    fun isEdgeSquareLeft (index: Int): Boolean {
+        val rowCol = rowCol(index)
+        return isEdgeSquareLeft (rowCol.first, rowCol.second)
+    }
+
+    /**
+     * Is this a edge square?
+     */
+    fun isEdgeSquareLeft (row: Int, col: Int): Boolean {
+        return if (SQUARE_FIRST == col)
+            true else false
+    }
+
+    /**
+     * Is this a edge square?
+     */
+    fun isEdgeSquareRight (index: Int): Boolean {
+        val rowCol = rowCol(index)
+        return isEdgeSquareRight (rowCol.first, rowCol.second)
+    }
+
+    /**
+     * Is this a edge square?
+     */
+    fun isEdgeSquareRight (row: Int, col: Int): Boolean {
+        return if (SQUARE_LAST == col)
             true else false
     }
 
@@ -148,11 +196,11 @@ class Game () {
             oppCol     = SQUARE_LAST - col
         }
 
-        else if (isEdgeSquareSide (row, col)) {
+        else if (isEdgeSquareLeft (row, col) || isEdgeSquareRight (row, col)) {
             oppCol = SQUARE_LAST - col
         }
 
-        else if (isEdgeSquareTopBottom(row, col)) {
+        else if (isEdgeSquareTop(row, col) || isEdgeSquareBottom(row, col)) {
             oppRow = SQUARE_LAST - row
         }
         

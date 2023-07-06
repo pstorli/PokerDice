@@ -1,16 +1,21 @@
 package com.pstorli.pokerdice.ui.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.Board
 import com.pstorli.pokerdice.ui.composeables.HandToBeat
 import com.pstorli.pokerdice.ui.composeables.Instructions
 import com.pstorli.pokerdice.ui.composeables.PlayerRow
-import com.pstorli.pokerdice.ui.composeables.SnackBar
+import com.pstorli.pokerdice.ui.composeables.Scoring
 import com.pstorli.pokerdice.ui.composeables.Suits
+import com.pstorli.pokerdice.util.Consts.NO_TEXT
 
 /**
  * Show initial poker screen.
@@ -24,18 +29,21 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
         HandToBeat (pokerViewModel)
     }*/
 
-    // Two rows in a column.
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
+    Scaffold(scaffoldState = scaffoldState, drawerContent={Scoring()}) {padding->
+        Column(modifier=Modifier.padding(padding)) {
+            PlayerRow(pokerViewModel)
+            Board(pokerViewModel)
+            Instructions(pokerViewModel)
+            HandToBeat(pokerViewModel)
+            Suits(pokerViewModel)
+        }
 
-    Column () {
-        PlayerRow       (pokerViewModel)
-        Board           (pokerViewModel)
-        HandToBeat      (pokerViewModel)
-        Suits           (pokerViewModel)
-        Instructions    (pokerViewModel)
-        SnackBar        (pokerViewModel)
-
-        Snackbar {
-            Text(text = "Hello")
+        if (pokerViewModel.snackBarText.isNotEmpty()) {
+            LaunchedEffect(pokerViewModel.snackBarText) {
+                scaffoldState.snackbarHostState.showSnackbar (pokerViewModel.snackBarText)
+                pokerViewModel.snackBarText = NO_TEXT
+            }
         }
     }
 }

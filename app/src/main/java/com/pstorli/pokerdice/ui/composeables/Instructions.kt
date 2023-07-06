@@ -18,8 +18,7 @@ fun Instructions (pokerViewModel: PokerViewModel) {
     LabeledRow(
         title       = stringResource(id = R.string.instructions),
         titleColor  = LocalContext.current.color(Colors.Title),
-        maxWidth    = true,
-        maxHeight   = true
+        maxWidth    = true
     ) {
         Text (pokerViewModel.getInstructions())
     }
