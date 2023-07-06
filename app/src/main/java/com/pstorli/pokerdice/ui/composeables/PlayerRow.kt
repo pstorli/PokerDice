@@ -83,7 +83,7 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     })
 
                 // Settings
-                if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
+                /*if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
                     PokerButton(
                         name = LocalContext.current.resources.getString(R.string.state_settings),
                         textColor = LocalContext.current.color(Colors.Btn),
@@ -93,7 +93,7 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                             // They clicked the button.
                             pokerViewModel.onEvent(PokerEvent.SettingsEvent)
                         })
-                }
+                }*/
             }
 
             Row() {

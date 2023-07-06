@@ -24,6 +24,7 @@ import com.pstorli.pokerdice.util.Consts.NUM_SQUARES
 import com.pstorli.pokerdice.util.Consts.ROLLS_MAX
 import com.pstorli.pokerdice.util.Consts.SQUARE_BET_COST
 import com.pstorli.pokerdice.util.Consts.SUIT_NONE_VAL
+import com.pstorli.pokerdice.util.Consts.WIN_LEVEL_MOD
 import com.pstorli.pokerdice.util.Consts.ZERO
 import com.pstorli.pokerdice.util.Consts.randomRank
 import com.pstorli.pokerdice.util.Consts.randomSuit
@@ -60,7 +61,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     val handToBeat              = mutableStateOf(Array<Die>(DICE_IN_HAND){Die()})
 
     // What level are we on?
-    var level                   by mutableStateOf<Int>(0)
+    var level                   by mutableStateOf<Int>(99)
 
     // Set this to show snackbar text.
     var snackBarText            by mutableStateOf<String> (NO_TEXT)
@@ -219,7 +220,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 Persist.COLOR_SUIT_DIAMOND  -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_diamond.second   else pokerDAO.color_suit_diamond.first)
                 Persist.COLOR_SUIT_CLUB     -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_club.second      else pokerDAO.color_suit_club.first)
                 Persist.COLOR_SUIT_SPADE    -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_spade.second     else pokerDAO.color_suit_spade.first)
-                Persist.LEVEL               -> level     = pokerDAO.level
+                Persist.LEVEL               -> level     = 99 // pokerDAO.level
             }
         }
     }
@@ -434,7 +435,20 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         // Increase the level
         level++
 
+        // Show a snack bar about winning the level
+        snackBarText = if (freeGameOffer ()) app.resources.getString(R.string.won_level_prize, level.toString()) else NO_TEXT
+
+        // Save the game.
+        saveGame ()
+
         reset ()
+    }
+
+    /**
+     * Show free game offer?
+     */
+    fun freeGameOffer (): Boolean {
+        return level>ZERO && ZERO == (level % WIN_LEVEL_MOD)
     }
 
     /**
@@ -490,9 +504,23 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     /**
      * Save Settings!
      */
-    fun saveEvent (pokerEvent: PokerEvent.SaveEvent) {
+    fun saveGame () {
+        // Save game.
+        viewModelScope.launch {
+            pokerRepo.saveDAO(fromModel ())
+        }
+
+        // The game has been saved.
+        prefs.putBool(GAME_SAVED, true)
+
         _uiState.value = PokerUIState.Start
-        resetEvent (PokerEvent.ResetEvent)
+    }
+
+    /**
+     * Save Settings!
+     */
+    fun saveEvent (pokerEvent: PokerEvent.SaveEvent) {
+        saveGame ()
     }
 
     /**

@@ -20,9 +20,11 @@ Architecture notes:
     from the viewModel and have it emit actions back to the viewModel.
 
 2DO Issues:
-  0000 Add scaffolding, remove taost and use snackbar instead in SnackBar.kt.
+  0000 Add settings screen back in and allow to change colors.
+  0000 Make high score and level get saved.
 
 Resolved Issues Version 1005:
+  0000 Added scaffolding, removed taost and used snackbar instead in SnackBar.kt.
   0000 Added settings screen with scoring instructions.
   0000 Added scoring to hand to beat.
   0000 Added click and dice rolling sound effects.
@@ -30,6 +32,7 @@ Resolved Issues Version 1005:
   0000 Added sound effects.
   0000 Added snack bar.
   0000 Added side drawer for instructions / scoring.
+  0000 Added free stuff for level completion.
 
 Resolved Issues Version 1004:
   0000 Added board

@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.util.Log
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.pstorli.pokerdice.logError
 
 
@@ -63,6 +64,8 @@ object Consts {
     val SUIT_COLOR_CLUB                 = "Suit Color Club"
     val SUIT_COLOR_SPADE                = "Suit Color Spade"
 
+    val TITLE_HEIGHT_DP                 = 48.dp
+
     val DISABLED_ELEVATION_VAL_DP       = 0.dp
     val HAND_TO_BEAT_DICE_DP            = 48.dp
     val GAME_SAVED                      = "Game saved"
@@ -83,9 +86,12 @@ object Consts {
     val SPACE_TEXT                      = " "
     val SQUARE_BET_COST                 = 10 // Cost of eacg square to bet on.
     val TAG_NAME                        = "PokerDice"
+    val WIN_LEVEL_MOD                   = 100
+    val WON_FREE_STUFF_URL              = "https://sites.google.com/view/pstorlidesigns/home/freegifts4u"
     val WON_MIN_WIDTH_DP                = 42.dp
     val WON_NAME                        = "Won"
     val SUIT_NONE_VAL                   = 0
+    val URL_FONT_SIZE_SP                = 16.sp
     val ZERO                            = 0
 
     // *********************************************************************************************
