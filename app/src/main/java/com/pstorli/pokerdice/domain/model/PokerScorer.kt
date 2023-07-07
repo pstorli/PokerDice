@@ -263,7 +263,7 @@ class PokerScorer () {
      * 3 = three's count
      * 4 = four's count
      * 5 = five's count
-     * 6 = sixes count    O_RANK
+     * 6 = sixes count
      */
     fun getRankCount (dice: Array<Die>): IntArray {
         // Create and initialize the rank array.
