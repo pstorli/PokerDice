@@ -23,6 +23,7 @@ import com.pstorli.pokerdice.util.Consts.NO_TEXT
 import com.pstorli.pokerdice.util.Consts.NUM_SQUARES
 import com.pstorli.pokerdice.util.Consts.ROLLS_MAX
 import com.pstorli.pokerdice.util.Consts.SQUARE_BET_COST
+import com.pstorli.pokerdice.util.Consts.SQUARE_FIRST
 import com.pstorli.pokerdice.util.Consts.SUIT_NONE_VAL
 import com.pstorli.pokerdice.util.Consts.WIN_LEVEL_MOD
 import com.pstorli.pokerdice.util.Consts.ZERO
@@ -61,7 +62,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     val handToBeat              = mutableStateOf(Array<Die>(DICE_IN_HAND){Die()})
 
     // What level are we on?
-    var level                   by mutableStateOf<Int>(99)
+    var level                   by mutableStateOf<Int>(0)
 
     // Set this to show snackbar text.
     var snackBarText            by mutableStateOf<String> (NO_TEXT)
@@ -290,8 +291,12 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         updateHandToBeat ()
     }
 
-    fun getHandToBeatName (hand: Array<Die>): String {
-        return app.getHandToBeatName (pokerScorer.scoreHand (hand))
+    fun getHandName (hand: Array<Die>): String {
+        return getHandName (pokerScorer.scoreHand (hand))
+    }
+
+    fun getHandName (score: Int): String {
+        return app.getHandName (score)
     }
 
     /**
@@ -306,7 +311,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
         // If it has at least one value grater than zero, we can score it.
         if (game.hasValue (hand)) {
-            result = getHandToBeatName (hand)
+            result = getHandName (hand)
         }
 
         return result
@@ -318,29 +323,33 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     fun refreshEdgeSquareText () {
         won = 0
         for (pos in ZERO until NUM_SQUARES) {
-            if (game.isEdgeSquare (pos)) {
+            if (game.isEdgeSquare(pos)) {
+                // Show score, not text if bottom or right side.
+                val rowCol = game.rowCol(pos)
+
                 // The hand.
-                val hand = game.getHand (pos)
+                val hand = game.getHand(pos)
+
+                // The hand score.
+                val handScore = pokerScorer.scoreHand(hand)
+
+                // If it has at least one value grater than zero, we can score it.
+                var dieText = NO_TEXT
 
                 // The hand's value.
-                if (game.hasValue (hand)) {
-                    val score   = pokerScorer.scoreHand(hand)
-                    if (score > ZERO) {
-                        // They win if that square was selected.
-                        if (game.board[pos].selected) {
-                            // And it beats the square to beat.
-                            if (score > scoreHandToBeat()) {
-                                won = won + score
-                            }
-                        }
-
-                        var text = getHandToBeatName(hand)
-                        if (game.isEdgeSquareBottom(pos) || game.isEdgeSquareRight(pos)) {
-                            text = score.toString()
-                        }
-                        setDieText(pos, text)
+                if (game.hasValue(hand)) {
+                    // They win if that square was selected.
+                    if (game.board[pos].selected) {
+                        won = won + handScore
                     }
+
+                    dieText = getHandName(hand)
                 }
+
+                if (SQUARE_FIRST != rowCol.second && (game.isEdgeSquareRight(pos) || game.isEdgeSquareBottom(pos))) {
+                    dieText = handScore.toString()
+                }
+                setDieText(pos, dieText)
             }
         }
     }

@@ -6,11 +6,12 @@ import androidx.compose.ui.res.stringResource
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.domain.model.PokerViewModel
-import com.pstorli.pokerdice.getHandToBeatName
+import com.pstorli.pokerdice.getHandName
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.util.Consts.HAND_TO_BEAT_DICE_DP
-import com.pstorli.pokerdice.util.Consts.NOTHING
+import com.pstorli.pokerdice.util.Consts.NO_TEXT
+import com.pstorli.pokerdice.util.Consts.ZERO
 import com.pstorli.pokerdice.util.Consts.removeNewLines
 
 @Composable
@@ -18,17 +19,23 @@ fun HandToBeat (pokerViewModel: PokerViewModel) {
     // This will detect any changes to the board edge and recompose your composable.
     pokerViewModel.onUpdateHandToBeat.value
 
-    val handToBeatValue = pokerViewModel.scoreHandToBeat()
-    val handToBeatRealName: String
-    if (handToBeatValue > NOTHING) {
-        handToBeatRealName  = LocalContext.current.getHandToBeatName (handToBeatValue)
-    }
-    else {
-        handToBeatRealName  = LocalContext.current.resources.getString(R.string.nothing)
-    }
+    var handToBeatValue    = ZERO
+    var handToBeatRealName: String = NO_TEXT
+    var handToBeatTitle    = stringResource (id = R.string.hand_to_beat_none)
 
-    val handToBeatName  = handToBeatValue.toString() + ' ' + removeNewLines (handToBeatRealName)
-    val handToBeatTitle = stringResource (id = R.string.hand_to_beat, handToBeatName)
+    // Something in that hand?
+    if (pokerViewModel.game.hasValue(pokerViewModel.handToBeat.value)) {
+        handToBeatValue    = pokerViewModel.scoreHandToBeat()
+        handToBeatRealName = LocalContext.current.getHandName(handToBeatValue)
+
+        if (ZERO == handToBeatValue) {
+            handToBeatValue = pokerViewModel.pokerScorer.highest(pokerViewModel.handToBeat.value)
+        }
+
+        val handToBeatName = removeNewLines (handToBeatRealName) + " (" + handToBeatValue.toString() + ")"
+
+        handToBeatTitle = stringResource (id = R.string.hand_to_beat, handToBeatName)
+    }
 
     LabeledRow(
         title       = handToBeatTitle,

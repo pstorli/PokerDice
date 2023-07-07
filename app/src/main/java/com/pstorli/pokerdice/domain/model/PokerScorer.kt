@@ -1,5 +1,6 @@
 package com.pstorli.pokerdice.domain.model
 
+import com.pstorli.pokerdice.util.Consts.FIVE_OF_KIND
 import com.pstorli.pokerdice.util.Consts.FLUSH
 import com.pstorli.pokerdice.util.Consts.FOUR_OF_KIND
 import com.pstorli.pokerdice.util.Consts.FULL_HOUSE
@@ -7,14 +8,15 @@ import com.pstorli.pokerdice.util.Consts.MAX_RANK
 import com.pstorli.pokerdice.util.Consts.MAX_SUIT
 import com.pstorli.pokerdice.util.Consts.NOTHING
 import com.pstorli.pokerdice.util.Consts.ZERO
-import com.pstorli.pokerdice.util.Consts.NO_RANK
 import com.pstorli.pokerdice.util.Consts.NO_SUIT
 import com.pstorli.pokerdice.util.Consts.ONE_PAIR
 import com.pstorli.pokerdice.util.Consts.ROYAL_FLUSH
 import com.pstorli.pokerdice.util.Consts.STRAIGHT
 import com.pstorli.pokerdice.util.Consts.STRAIGHT_FLUSH
 import com.pstorli.pokerdice.util.Consts.THREE_OF_KIND
+import com.pstorli.pokerdice.util.Consts.TWO
 import com.pstorli.pokerdice.util.Consts.TWO_PAIRS
+import com.pstorli.pokerdice.util.Consts.debug
 
 class PokerScorer () {
 
@@ -23,16 +25,38 @@ class PokerScorer () {
     // *********************************************************************************************
     var level = 0
 
+    var royalFlush = false
     var flush = false
     var straight = false
     var fiveOfKind = false
     var fourOfKind = false
     var threeOfKind = false
     var pairCount = 0
-    var SUIT_NONE_COUNT = 0
+    var rankNoneCount = 0
     var rolledScore = 0
 
     var validStraight = true
+
+    /**
+     * Return the highest die's rank.
+     */
+    fun highest (dice: Array<Die>): Int {
+        return highestDie (dice).rank
+    }
+
+    /**
+     * Return the highest die.
+     */
+    fun highestDie (dice: Array<Die>): Die
+    {
+        var die = dice[0]
+        for (thisDie in dice) {
+            if (thisDie.rank>die.rank) {
+                die = thisDie
+            }
+        }
+        return die
+    }
 
     /**
      * Compute the value of this hand.
@@ -44,13 +68,14 @@ class PokerScorer () {
     fun scoreHand (dice: Array<Die>): Int
     {
         // Do we have a flush?
+        royalFlush = true
         flush = false
         straight = false
         fiveOfKind = false
         fourOfKind = false
         threeOfKind = false
         pairCount = 0
-        SUIT_NONE_COUNT = 0
+        rankNoneCount = 0
         rolledScore = 0
 
         // First look for a flush.
@@ -63,65 +88,63 @@ class PokerScorer () {
         }
 
         // Count how many of each dice.
-        val rankCounts = getRankCount(dice, MAX_RANK)
+        val rankCounts = getRankCount(dice)
 
         // Look for scores.
         // Search by how many things we have.
-        validStraight = true
         for (pos in rankCounts.indices) {
             val rankCount = rankCounts[pos]
             when (rankCount) {
-                1 ->                // A straight?
-                    if (validStraight) {
-                        straight = true
-                    }
-
+                1 -> {              // A straight?
+                    straight = true
+                    royalFlush = false
+                }
                 2 -> {
                     // No straight, but pair
                     straight = false
-                    validStraight = false
                     pairCount++
                 }
 
                 3 -> {
                     // No straight, but three of kind.
                     straight = false
-                    validStraight = false
                     threeOfKind = true
                 }
 
                 4 -> {
                     // No straight, but four of kind.
                     straight = false
-                    validStraight = false
                     fourOfKind = true
                 }
 
                 5 -> {
                     // No straight, but five of kind.
                     straight = false
-                    validStraight = false
                     fiveOfKind = true
                 }
 
                 else -> {
-                    SUIT_NONE_COUNT++
-                    if (SUIT_NONE_COUNT > 1 || pos > 0 && pos < MAX_RANK) {
-                        // No straight, no nothing.
-                        straight = false
-                        validStraight = false
-                    }
+                    rankNoneCount++
                 }
             }
         }
 
+        // Straight jacket check.
+        if (rankNoneCount > TWO) {
+            // No straight, no nothing.
+            straight = false
+        }
+
         // Any score?
-        rolledScore = if (fiveOfKind) {
+        rolledScore = if (fiveOfKind && flush && royalFlush) {
             // A five of a kind.
             ROYAL_FLUSH
-        } else if (straight && flush) {
+        } else if (straight) {
             // A straight flush?
             STRAIGHT_FLUSH
+        } else if (fiveOfKind) {
+            // Four of a kind.
+            FIVE_OF_KIND
         } else if (fourOfKind) {
             // Four of a kind.
             FOUR_OF_KIND
@@ -201,9 +224,9 @@ class PokerScorer () {
      * 5 = five's count
      * 6 = sixes count    O_RANK
      */
-    fun getRankCount (dice: Array<Die>, maxRank: Int): IntArray {
+    fun getRankCount (dice: Array<Die>): IntArray {
         // Create and initialize the rank array.
-        val ranks = IntArray(maxRank + 1) { NO_RANK }
+        val ranks = IntArray(MAX_RANK+1) { ZERO }
 
         // Go through the dice.
         for (pos in ZERO until dice.size) {
@@ -218,6 +241,8 @@ class PokerScorer () {
             if (card.suit > NO_SUIT) {
                 ranks[rank] = ranks[rank] + 1
             }
+
+            debug ("Pos: $pos Rank: $rank ")
         }
         return ranks
     }

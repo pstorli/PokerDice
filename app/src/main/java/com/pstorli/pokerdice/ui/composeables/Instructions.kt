@@ -24,7 +24,8 @@ fun Instructions (pokerViewModel: PokerViewModel) {
     LabeledCol(
         title       = stringResource(id = R.string.instructions),
         titleColor  = LocalContext.current.color(Colors.Title),
-        maxWidth    = true
+        maxWidth    = true,
+        maxHeight   = true
     ) {
         // Show instructions.
         Text (pokerViewModel.getInstructions())

@@ -6,7 +6,6 @@ import androidx.compose.ui.res.stringResource
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.domain.model.Die
-import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.util.Consts.HAND_TO_BEAT_DICE_DP
@@ -16,10 +15,7 @@ import com.pstorli.pokerdice.util.Consts.SUIT_HEART
 import com.pstorli.pokerdice.util.Consts.SUIT_SPADE
 
 @Composable
-fun Suits (pokerViewModel: PokerViewModel) {
-    // This will detect any changes to the board edge and recompose your composable.
-    pokerViewModel.onUpdateHandToBeat.value
-
+fun Suits () {
     LabeledRow(
         title       = stringResource(id = R.string.suits),
         titleColor  = LocalContext.current.color(Colors.Title),

@@ -21,25 +21,28 @@ val PurpleGrey40                = Color(0xFF625b71)
 val Pink40                      = Color(0xFF7D5260)
 
 val DarkGreen                   = Color(0xFF008000)
+val LightBlue                   = Color(0xFF3689E7)
+val LightGreen                  = Color(0xFF01FF01)
 val Orange                      = Color(0xFFF78621)
 val Pink                        = Color(0xFFFF00FF)
 val Silver                      = Color(0xFFC0C0C0)
 val PaleWhite                   = Color(0xFFDFDFDF)
+val PurpleDark                  = Color(0xFFA400A6)
 
 // *********************************************************************************************
 // Dark Colors
 // *********************************************************************************************
 
 // Named colors.
-val COLOR_DK_BACK               = PaleWhite
+val COLOR_DK_BACK               = Color.Black
 val COLOR_DK_BORDER             = Color.DarkGray
-val COLOR_DK_CASH_OUT           = DarkGreen
+val COLOR_DK_CASH_OUT           = LightGreen
 
 // The default dark colors.
 val COLOR_DK_SUIT_NONE          = Color.White
 val COLOR_DK_SUIT_HEART         = Color.Red
 val COLOR_DK_SUIT_DIAMOND       = Color.Yellow
-val COLOR_DK_SUIT_CLUB          = Color.Blue
+val COLOR_DK_SUIT_CLUB          = LightBlue
 val COLOR_DK_SUIT_SPADE         = Color.Green
 
 val COLOR_DK_EDGE               = Color.Black
@@ -47,14 +50,14 @@ val COLOR_DK_HELD_BORDER        = Pink
 val COLOR_DK_OUT_TEXT           = Color.White
 val COLOR_DK_ROLL_DICE          = Color.Red
 val COLOR_DK_SELECTED           = Color.Red
-val COLOR_DK_TEXT               = Color.White
-val COLOR_DK_TITLE              = Color.Blue
+val COLOR_DK_TEXT               = PaleWhite
+val COLOR_DK_TITLE              = Color.White
 
 // *********************************************************************************************
 // Light Colors
 // *********************************************************************************************
 
-val COLOR_LT_BACK               = PaleWhite
+val COLOR_LT_BACK               = Color.White
 val COLOR_LT_BORDER             = Color.DarkGray
 val COLOR_LT_CASH_OUT           = DarkGreen
 val COLOR_LT_EDGE               = Color.White
@@ -63,7 +66,7 @@ val COLOR_LT_EDGE               = Color.White
 val COLOR_LT_SUIT_NONE          = Color.White
 val COLOR_LT_SUIT_HEART         = Color.Red
 val COLOR_LT_SUIT_DIAMOND       = Color.Yellow
-val COLOR_LT_SUIT_CLUB          = Color.Blue
+val COLOR_LT_SUIT_CLUB          = LightBlue
 val COLOR_LT_SUIT_SPADE         = Color.Green
 
 val COLOR_LT_HELD_BORDER        = Pink

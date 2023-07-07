@@ -15,6 +15,7 @@ import com.pstorli.pokerdice.domain.model.MutablePair
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.ui.theme.getColor
 import com.pstorli.pokerdice.util.Consts
+import com.pstorli.pokerdice.util.Consts.FIVE_OF_KIND
 import com.pstorli.pokerdice.util.Consts.FLUSH
 import com.pstorli.pokerdice.util.Consts.FOUR_OF_KIND
 import com.pstorli.pokerdice.util.Consts.FULL_HOUSE
@@ -253,11 +254,12 @@ fun Context.suitName (die: Die): String {
 /**
  * Get the hand to beat name.
  */
-fun Context.getHandToBeatName (hand: Int): String {
+fun Context.getHandName (hand: Int): String {
     var result = NO_TEXT
     when (hand) {
         ROYAL_FLUSH     -> result = resources.getString(R.string.hand_royal_flush)
         STRAIGHT_FLUSH  -> result = resources.getString(R.string.hand_straight_flush)
+        FIVE_OF_KIND    -> result = resources.getString(R.string.hand_5_of_kind)
         FOUR_OF_KIND    -> result = resources.getString(R.string.hand_4_of_kind)
         FULL_HOUSE      -> result = resources.getString(R.string.hand_full_house)
         FLUSH           -> result = resources.getString(R.string.hand_flush)
@@ -265,7 +267,7 @@ fun Context.getHandToBeatName (hand: Int): String {
         THREE_OF_KIND   -> result = resources.getString(R.string.hand_3_of_kind)
         TWO_PAIRS       -> result = resources.getString(R.string.hand_two_pair)
         ONE_PAIR        -> result = resources.getString(R.string.hand_one_pair)
-        NOTHING         -> result = resources.getString(R.string.hand_highest)
+        NOTHING         -> result = NO_TEXT
     }
     result.debug()
     return result

@@ -34,8 +34,8 @@ fun PokerButton (name: String, textColor: Color, borderColor: Color=MaterialThem
             disabledElevation = Consts.DISABLED_ELEVATION_VAL_DP
         ),
         shape           = RoundedCornerShape(Consts.ROUNDED_CORNER_SHAPE_PCT_VAL),
-        modifier        = Modifier.padding(4.dp).requiredWidthIn(min = POKER_BTN_MIN_WIDTH_DP).widthIn(min = POKER_BTN_MIN_WIDTH_DP),
-        contentPadding  = PaddingValues(2.dp)
+        modifier        = Modifier.padding(2.dp).requiredWidthIn(min = POKER_BTN_MIN_WIDTH_DP).widthIn(min = POKER_BTN_MIN_WIDTH_DP),
+        contentPadding  = PaddingValues(1.dp)
     )
     {
         Text(text = name, color = textColor)

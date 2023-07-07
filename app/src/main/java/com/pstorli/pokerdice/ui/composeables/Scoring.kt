@@ -1,5 +1,7 @@
 package com.pstorli.pokerdice.ui.composeables
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -11,15 +13,25 @@ import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.color
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.theme.Colors
+import com.pstorli.pokerdice.util.Consts.SCORING_TEXT_FONT_SIZE_SP
 
 @Composable
 fun Scoring () {
-    LabeledRow(
-        title       = stringResource(id = R.string.scoring_title),
-        titleColor  = LocalContext.current.color(Colors.Title),
-        maxWidth    = true,
-        maxHeight   = true
+    Column(
+        modifier = Modifier.background(LocalContext.current.color(Colors.Back))
     ) {
-        Text (stringResource(id = R.string.scoring_text), color = LocalContext.current.color (Colors.Text), modifier = Modifier.verticalScroll(rememberScrollState()))
+        LabeledRow(
+            title = stringResource(id = R.string.scoring_title),
+            titleColor = LocalContext.current.color(Colors.Title),
+            maxWidth = true,
+            maxHeight = true
+        ) {
+            Text(
+                text     = stringResource(id = R.string.scoring_text),
+                color    = LocalContext.current.color(Colors.Text),
+                fontSize = SCORING_TEXT_FONT_SIZE_SP,
+                modifier = Modifier.verticalScroll(rememberScrollState())
+            )
+        }
     }
 }

@@ -7,9 +7,11 @@
     <string name="cash_out">Cash\nOut</string>
     <string name="dice_image">Dice Image %1$s</string>
 
-    <string name="hand_to_beat">Hand to Beat: %1$s </string>
+    <string name="hand_to_beat">Hand to Beat: %1$s</string>
+    <string name="hand_to_beat_none">Hand to Beat</string>
     <string name="hand_royal_flush">Royal\nFlush</string>
     <string name="hand_straight_flush">Straight Flush</string>
+    <string name="hand_5_of_kind">Five of\nKind</string>
     <string name="hand_4_of_kind">Four of\nKind</string>
     <string name="hand_full_house">Full\nHouse</string>
     <string name="hand_flush">Flush</string>
@@ -29,20 +31,21 @@
     <string name="rolls">Rolls</string>
     <string name="save">Save</string>
     <string name="scoring_title">Scoring:</string>
-    <string name="scoring_text">60 RoyalFlush\nFive die of same suit and \nhighest value in sequential order.
-        \n\n50 Straight Flush\nFive die same suit in seq order.
-        \n\n45 Four of a kind\nFour die with the same value.
-        \n\n40 Full House\nThree of a kind die with a pair of die.
-        \n\n30 Flush\nFive die of the same suit.
-        \n\n20 Straight\nFive die of any suit in sequential order.
-        \n\n15 Three of a Kind\nThree die with the same numeric value.
-        \n\n10 Two Pair\nTwo different pair of dice in the same hand.
-        \n\n5 One Pair\nOne pair of dice in a hand.
-        \n\nHighest Die\nThe highest die in the hand.</string>
+    <string name="scoring_text">RoyalFlush (60): Five die of same suit and highest in seq values.
+        \n\nStraight Flush (50): Five die same suit in seq order.
+        \n\nFive of a kind (45): Five die with the same value.
+        \n\nFour of a kind (40): Four die with the same value.
+        \n\nFull House (35): Three of a kind die with a pair of die.
+        \n\nFlush (30): Five die of the same suit.
+        \n\nStraight (20): Five die of any suit in sequential order.
+        \n\nThree of a Kind (15): Three die with the same numeric value.
+        \n\nTwo Pair (10): Two different pair of dice in the same hand.
+        \n\nOne Pair (5): One pair of dice in a hand.
+        \n\nHighest Die: The highest die in the hand.</string>
     <string name="start">Start</string>
     <string name="state_error">Error</string>
     <string name="state_settings">Settings</string>
-    <string name="state_start">Click squares on edge of board to place your bets.\nThen click Start.</string>
+    <string name="state_start">Click squares on edge of board to place your bets. Then click Start.</string>
     <string name="state_loading">Loading</string>
     <string name="state_rolling">To hold a dice, click on it. Border will turn pink.\nKeep clicking roll dice until you either cash out or have no more rolls.</string>
     <string name="suit_heart">Heart</string>

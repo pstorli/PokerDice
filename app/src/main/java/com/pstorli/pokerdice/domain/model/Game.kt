@@ -445,7 +445,7 @@ class Game () {
 
         // Ignore if this is not an edge?
         if (isEdgeSquare(index)) {
-            if (index>= ZERO && index< NUM_SQUARES) {
+            if (index>= SQUARE_FIRST && index< NUM_SQUARES) {
                 // This index is on the board.
                 val row = row(index)
                 val col = col(index)
@@ -455,19 +455,19 @@ class Game () {
                 // *****************************************************************************
 
                 // Upper Left?
-                if (ZERO == row && ZERO == col) {
+                if (SQUARE_FIRST == row && SQUARE_FIRST == col) {
                     hand = getHandDiagonalUpperLeftToLowerRight ()
                     debug ("getHandDiagonalUpperLeftToLowerRight $row $col Hand: $hand Index: $index")
                 }
 
                 // Lower left?
-                else if (LAST_ROW_COL == row && ZERO == col) {
+                else if (SQUARE_LAST == row && SQUARE_FIRST == col) {
                     hand = getHandDiagonalUpperRightToLowerLeft ()
                     debug ("getHandDiagonalUpperRightToLowerLeft $row $col Hand: $hand Index: $index")
                 }
 
                 // Upper Right?
-                else if (ZERO == row && SQUARE_LAST == col) {
+                else if (SQUARE_FIRST == row && SQUARE_LAST == col) {
                     hand = getHandDiagonalUpperRightToLowerLeft ()
                     debug ("getHandDiagonalUpperRightToLowerLeft $row $col Hand: $hand Index: $index")
                 }
@@ -479,7 +479,7 @@ class Game () {
                 }
 
                 // Horiz top?
-                else if (ZERO == row) {
+                else if (SQUARE_FIRST == row) {
                     hand = getHandByColumn (col)
                     debug ("getHandByColumn $row $col Hand: $hand Index: $index")
                 }
@@ -491,7 +491,7 @@ class Game () {
                 }
 
                 // Vert Left Side
-                else if (ZERO == col) {
+                else if (SQUARE_FIRST == col) {
                     hand = getHandByRow (row)
                     debug ("getHandByRow $row $col Hand: $hand Index: $index")
                 }

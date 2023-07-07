@@ -77,20 +77,22 @@ object Consts {
     val NO_TEXT                         = ""
     val ONE                             = 1
     val POKER_BORDER_SIZE_DP            = 2.dp
-    val POKER_BTN_MIN_WIDTH_DP          = 56.dp
+    val POKER_BTN_MIN_WIDTH_DP          = 48.dp
     val PRESSED_ELEVATION_VAL_DP        = 15.dp
     val RED_NAME                        = "Red"
     val ROLLS_BORDER_NAME               = "Rolls"
     val ROLLS_MIN_WIDTH_DP              = 48.dp
     val ROUNDED_CORNER_SHAPE_PCT_VAL    = 20
+    val SCORING_TEXT_FONT_SIZE_SP       = 16.sp
     val SPACE_TEXT                      = " "
     val SQUARE_BET_COST                 = 10 // Cost of eacg square to bet on.
     val TAG_NAME                        = "PokerDice"
-    val WIN_LEVEL_MOD                   = 100
+    val WIN_LEVEL_MOD                   = 10
     val WON_FREE_STUFF_URL              = "https://sites.google.com/view/pstorlidesigns/home/freegifts4u"
     val WON_MIN_WIDTH_DP                = 42.dp
     val WON_NAME                        = "Won"
     val SUIT_NONE_VAL                   = 0
+    val TWO                             = 2
     val URL_FONT_SIZE_SP                = 16.sp
     val ZERO                            = 0
 
@@ -101,8 +103,9 @@ object Consts {
     // The score data.
     val ROYAL_FLUSH                     = 60
     val STRAIGHT_FLUSH                  = 50
-    val FOUR_OF_KIND                    = 45
-    val FULL_HOUSE                      = 40
+    val FIVE_OF_KIND                    = 45
+    val FOUR_OF_KIND                    = 40
+    val FULL_HOUSE                      = 35
     val FLUSH                           = 30
     val STRAIGHT                        = 20
     val THREE_OF_KIND                   = 15
