@@ -19,14 +19,17 @@ import com.pstorli.pokerdice.ui.screens.LoadingScreen
 import com.pstorli.pokerdice.ui.screens.MainScreen
 import com.pstorli.pokerdice.ui.screens.SettingsScreen
 import com.pstorli.pokerdice.ui.theme.PokerDiceTheme
+
 class MainActivity : ComponentActivity() {
     // The one and only!
     val pokerViewModel: PokerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
             PokerDiceTheme {
+
                 // A surface container using the 'background' getColor from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),

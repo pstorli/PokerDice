@@ -29,6 +29,8 @@ val Silver                      = Color(0xFFC0C0C0)
 val PaleWhite                   = Color(0xFFDFDFDF)
 val PurpleDark                  = Color(0xFFA400A6)
 
+val Transparent                 = Color(0x00ffffff)
+
 // *********************************************************************************************
 // Dark Colors
 // *********************************************************************************************

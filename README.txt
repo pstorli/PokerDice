@@ -21,7 +21,6 @@ Architecture notes:
 
 2DO Issues:
   0000 Add settings screen back in and allow to change colors.
-  0000 Make high score and level get saved.
 
 Resolved Issues Version 1005:
   0000 Added scaffolding, removed taost and used snackbar instead in SnackBar.kt.
@@ -33,6 +32,8 @@ Resolved Issues Version 1005:
   0000 Added snack bar.
   0000 Added side drawer for instructions / scoring.
   0000 Added free stuff for level completion.
+  0000 Make high score and level get saved.
+  0000 Added junit test(s) for the scoring module
 
 Resolved Issues Version 1004:
   0000 Added board

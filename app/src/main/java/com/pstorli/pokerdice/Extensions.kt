@@ -269,7 +269,6 @@ fun Context.getHandName (hand: Int): String {
         ONE_PAIR        -> result = resources.getString(R.string.hand_one_pair)
         NOTHING         -> result = NO_TEXT
     }
-    result.debug()
     return result
 }
 
