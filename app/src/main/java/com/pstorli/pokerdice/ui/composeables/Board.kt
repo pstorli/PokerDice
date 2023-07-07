@@ -13,7 +13,6 @@ import com.pstorli.pokerdice.domain.model.PokerEvent
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.util.Consts
 import com.pstorli.pokerdice.util.Consts.BOARD_SIZE
-import com.pstorli.pokerdice.util.Consts.debug
 
 @Composable
 fun Board (pokerViewModel: PokerViewModel) {
@@ -44,16 +43,12 @@ fun Board (pokerViewModel: PokerViewModel) {
                     // This will detect any changes to the board edge and recompose your composable.
                     pokerViewModel.onUpdateBoardEdge.value
 
-                    debug ("Name: $die.name Index: $index.")
-
                     // Use PokerButton for edge squares.
                     PokerButton(
                         name        = die.name,
                         textColor   = color,
                         borderColor = bc,
                         onClick     = {
-                            debug ("They clicked on the edge $index.")
-
                             // Do a different sound if de-selecting the square.
                             die = pokerViewModel.game.getDie (index)
                             if (die.selected) {
@@ -76,8 +71,6 @@ fun Board (pokerViewModel: PokerViewModel) {
                     // Dice -> die: Die, backColor: Color=MaterialTheme.colorScheme.background, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp: Dp?=null, onClick: (() -> Unit?)?
                     Dice (die, bc, onClick =
                     {
-                        debug ("They clicked on the board at $index.")
-
                         // They clicked the button on a board square.
                         pokerViewModel.onEvent(PokerEvent.BoardClickEvent (index))
                     })

@@ -17,6 +17,7 @@ import com.pstorli.pokerdice.ui.composeables.HandToBeat
 import com.pstorli.pokerdice.ui.composeables.Instructions
 import com.pstorli.pokerdice.ui.composeables.PlayerRow
 import com.pstorli.pokerdice.ui.composeables.SideDrawer
+import com.pstorli.pokerdice.ui.composeables.Title
 import com.pstorli.pokerdice.ui.theme.Colors
 import com.pstorli.pokerdice.util.Consts.NO_TEXT
 
@@ -38,6 +39,7 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
         Column(
             modifier = Modifier.background(LocalContext.current.color(Colors.Back)).padding(padding)
         ) {
+            Title ()
             PlayerRow(pokerViewModel)
             Board(pokerViewModel)
             HandToBeat(pokerViewModel)

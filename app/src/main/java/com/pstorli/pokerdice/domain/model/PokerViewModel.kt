@@ -21,6 +21,7 @@ import com.pstorli.pokerdice.util.Consts.GAME_SAVED
 import com.pstorli.pokerdice.util.Consts.DICE_IN_HAND
 import com.pstorli.pokerdice.util.Consts.NO_TEXT
 import com.pstorli.pokerdice.util.Consts.NUM_SQUARES
+import com.pstorli.pokerdice.util.Consts.ONE
 import com.pstorli.pokerdice.util.Consts.ROLLS_MAX
 import com.pstorli.pokerdice.util.Consts.SQUARE_BET_COST
 import com.pstorli.pokerdice.util.Consts.SQUARE_FIRST
@@ -53,7 +54,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
     // How much cash, rolls and bets have we?
     var bet                     by mutableStateOf<Int>(0)
-    var cash                    by mutableStateOf<Int>(0)
+    var cash                    by mutableStateOf<Int>(CASH_INITIAL)
 
     // How many rolls do we have left.
     var rolls                   by mutableStateOf<Int>(0)
@@ -62,7 +63,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     val handToBeat              = mutableStateOf(Array<Die>(DICE_IN_HAND){Die()})
 
     // What level are we on?
-    var level                   by mutableStateOf<Int>(0)
+    var level                   by mutableStateOf<Int>(ONE)
 
     // Set this to show snackbar text.
     var snackBarText            by mutableStateOf<String> (NO_TEXT)
@@ -221,7 +222,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 Persist.COLOR_SUIT_DIAMOND  -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_diamond.second   else pokerDAO.color_suit_diamond.first)
                 Persist.COLOR_SUIT_CLUB     -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_club.second      else pokerDAO.color_suit_club.first)
                 Persist.COLOR_SUIT_SPADE    -> setColor (SUIT_NONE, if (app.inDarkMode ()) pokerDAO.color_suit_spade.second     else pokerDAO.color_suit_spade.first)
-                Persist.LEVEL               -> level     = 99 // pokerDAO.level
+                Persist.LEVEL               -> level     = pokerDAO.level
             }
         }
     }
@@ -338,8 +339,8 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
                 // The hand's value.
                 if (game.hasValue(hand)) {
-                    // They win if that square was selected.
-                    if (game.board[pos].selected) {
+                    // They win if that square was selected and they beat hand to beat.
+                    if (game.board[pos].selected && handScore > scoreHandToBeat ()) {
                         won = won + handScore
                     }
 
@@ -378,7 +379,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * User did something.
      */
     fun onEvent (pokerEvent: PokerEvent) {
-        "onEvent pokerEvent ${pokerEvent}".debug ()
         when (pokerEvent) {
             // Save button was pressed.
             is PokerEvent.StartEvent -> {

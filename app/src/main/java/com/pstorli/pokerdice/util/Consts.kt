@@ -64,7 +64,7 @@ object Consts {
     val SUIT_COLOR_CLUB                 = "Suit Color Club"
     val SUIT_COLOR_SPADE                = "Suit Color Spade"
 
-    val TITLE_HEIGHT_DP                 = 48.dp
+    val TITLE_FONT_SIZE_SP              = 30.sp
 
     val DISABLED_ELEVATION_VAL_DP       = 0.dp
     val HAND_TO_BEAT_DICE_DP            = 48.dp
@@ -134,7 +134,6 @@ object Consts {
      */
     fun randomRank (): Int {
         val num = (RANK_ONE..RANK_SIX).random()
-        debug("random () $num")
         return num
     }
 
@@ -143,7 +142,6 @@ object Consts {
      */
     fun randomSuit (): Int {
         val num = (SUIT_HEART..SUIT_SPADE).random()
-        debug("random () $num")
         return num
     }
 

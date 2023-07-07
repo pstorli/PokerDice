@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.color
-import com.pstorli.pokerdice.debug
 import com.pstorli.pokerdice.domain.model.PokerEvent
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.PokerButton
@@ -38,8 +37,6 @@ fun SettingsScreen (pokerViewModel: PokerViewModel) {
                 name = LocalContext.current.resources.getString(R.string.save),
                 textColor = LocalContext.current.color(Colors.Btn),
                 onClick = {
-                    "Save pressed.".debug()
-
                     // They clicked the button.
                     pokerViewModel.onEvent(PokerEvent.SaveEvent)
                 })
@@ -49,8 +46,6 @@ fun SettingsScreen (pokerViewModel: PokerViewModel) {
                 name = LocalContext.current.resources.getString(R.string.reset),
                 textColor = LocalContext.current.color(Colors.Wild),
                 onClick = {
-                    "Reset pressed.".debug()
-
                     // They clicked the button.
                     pokerViewModel.onEvent(PokerEvent.ResetEvent)
                 })
@@ -60,8 +55,6 @@ fun SettingsScreen (pokerViewModel: PokerViewModel) {
                 name = LocalContext.current.resources.getString(R.string.cancel),
                 textColor = LocalContext.current.color(Colors.Btn),
                 onClick = {
-                    "Cancel pressed.".debug()
-
                     // They clicked the button.
                     pokerViewModel.onEvent(PokerEvent.CancelEvent)
                 })

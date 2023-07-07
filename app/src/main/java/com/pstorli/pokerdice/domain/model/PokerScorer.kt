@@ -83,7 +83,7 @@ class PokerScorer () {
         // First look for a flush.
         val suitCounts = getSuitCount(dice)
         for (element in suitCounts) {
-            if (element >= MAX_SUIT) {
+            if (element >= DICE_IN_HAND) {
                 flush = true
                 break
             }
@@ -254,7 +254,6 @@ class PokerScorer () {
      *
      * @paarm start
      * @param dice
-     * @param maxRank
      *
      * @return an array with the rank counts.
      *

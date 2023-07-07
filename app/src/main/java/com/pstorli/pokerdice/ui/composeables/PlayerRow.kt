@@ -8,7 +8,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.color
-import com.pstorli.pokerdice.debug
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.composeables.core.OutlinedTextField
@@ -44,8 +43,6 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     name = rollTitle,
                     textColor = rollTextColor,
                     onClick = {
-                        "Roll dice pressed.".debug()
-
                         // They clicked roll.
                         playSound (R.raw.roll, pokerViewModel.getApplication())
 
@@ -64,8 +61,6 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                         name = LocalContext.current.resources.getString(R.string.cash_out),
                         textColor = LocalContext.current.color(Colors.Btn),
                         onClick = {
-                            "Cash out pressed.".debug()
-
                             // They clicked the button.
                             pokerViewModel.onEvent(PokerEvent.CashOutEvent)
                         })
@@ -76,8 +71,6 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                     name = LocalContext.current.resources.getString(R.string.reset),
                     textColor = LocalContext.current.color(Colors.Btn),
                     onClick = {
-                        "Reset pressed.".debug()
-
                         // They clicked the reset button.
                         pokerViewModel.onEvent(PokerEvent.ResetEvent)
                     })

@@ -1,7 +1,6 @@
 package com.pstorli.pokerdice.ui.theme
 
 import androidx.compose.ui.graphics.Color
-import com.pstorli.pokerdice.util.Consts
 import com.pstorli.pokerdice.util.Consts.SUIT_SPADE
 import com.pstorli.pokerdice.util.Consts.SUIT_HEART
 import com.pstorli.pokerdice.util.Consts.SUIT_CLUB
@@ -102,7 +101,6 @@ fun getColor (suit: Int, darkMode: Boolean=false): Color {
         SUIT_CLUB       -> if (darkMode) color = DICE_DK_SUIT_CLUB      else color = DICE_LT_SUIT_CLUB
         SUIT_SPADE      -> if (darkMode) color = DICE_DK_SUIT_SPADE     else color = DICE_LT_SUIT_SPADE
     }
-    Consts.debug("getColor $suit $darkMode"+color.toString())
     return color
 }
 
@@ -117,8 +115,6 @@ fun setColor (num: Int, color: Color, darkMode: Boolean=false) {
         SUIT_CLUB       -> if (darkMode) DICE_DK_SUIT_CLUB      = color else DICE_LT_SUIT_CLUB      = color
         SUIT_SPADE      -> if (darkMode) DICE_DK_SUIT_SPADE     = color else DICE_LT_SUIT_SPADE     = color
     }
-
-    Consts.debug("setColor $num $darkMode"+color.toString())
 }
 
 /**
@@ -143,7 +139,6 @@ fun getColor (name: Colors, darkMode: Boolean=false): Color {
         Colors.Text             -> if (darkMode) color = COLOR_DK_TEXT              else color = COLOR_LT_TEXT
         Colors.Title            -> if (darkMode) color = COLOR_DK_TITLE             else color = COLOR_LT_TITLE
     }
-    Consts.debug("getColor $name $darkMode"+color.toString())
     return color
 }
 

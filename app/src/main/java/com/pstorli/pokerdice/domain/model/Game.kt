@@ -11,7 +11,6 @@ import com.pstorli.pokerdice.util.Consts.SQUARE_BET_COST
 import com.pstorli.pokerdice.util.Consts.SQUARE_FIRST
 import com.pstorli.pokerdice.util.Consts.SUIT_NONE_VAL
 import com.pstorli.pokerdice.util.Consts.ZERO
-import com.pstorli.pokerdice.util.Consts.debug
 import com.pstorli.pokerdice.util.Consts.randomRank
 import com.pstorli.pokerdice.util.Consts.randomSuit
 
@@ -457,49 +456,41 @@ class Game () {
                 // Upper Left?
                 if (SQUARE_FIRST == row && SQUARE_FIRST == col) {
                     hand = getHandDiagonalUpperLeftToLowerRight ()
-                    debug ("getHandDiagonalUpperLeftToLowerRight $row $col Hand: $hand Index: $index")
                 }
 
                 // Lower left?
                 else if (SQUARE_LAST == row && SQUARE_FIRST == col) {
                     hand = getHandDiagonalUpperRightToLowerLeft ()
-                    debug ("getHandDiagonalUpperRightToLowerLeft $row $col Hand: $hand Index: $index")
                 }
 
                 // Upper Right?
                 else if (SQUARE_FIRST == row && SQUARE_LAST == col) {
                     hand = getHandDiagonalUpperRightToLowerLeft ()
-                    debug ("getHandDiagonalUpperRightToLowerLeft $row $col Hand: $hand Index: $index")
                 }
 
                 // Lower Right?
                 else if (SQUARE_LAST == row && SQUARE_LAST == col) {
                     hand = getHandDiagonalUpperLeftToLowerRight ()
-                    debug ("getHandDiagonalUpperLeftToLowerRight $row $col Hand: $hand Index: $index")
                 }
 
                 // Horiz top?
                 else if (SQUARE_FIRST == row) {
                     hand = getHandByColumn (col)
-                    debug ("getHandByColumn $row $col Hand: $hand Index: $index")
                 }
 
                 // Horiz Bottom
                 else if (SQUARE_LAST == row) {
                     hand = getHandByColumn (col)
-                    debug ("getHandByColumn $row $col Hand: $hand Index: $index")
                 }
 
                 // Vert Left Side
                 else if (SQUARE_FIRST == col) {
                     hand = getHandByRow (row)
-                    debug ("getHandByRow $row $col Hand: $hand Index: $index")
                 }
 
                 // Vert Right Side
                 else if (SQUARE_LAST == col) {
                     hand = getHandByRow (row)
-                    debug ("getHandByRow $row $col Hand: $hand Index: $index")
                 }
             }
         }
