@@ -31,7 +31,7 @@
     <string name="roll_dice">Roll\nDice</string>
     <string name="rolls">Rolls</string>
     <string name="save">Save</string>
-    <string name="scoring_title">Scoring:</string>
+    <string name="scoring_title">Scoring</string>
     <string name="scoring_text">RoyalFlush (60): Five die of same suit and highest in seq values.
         \n\nStraight Flush (50): Five die same suit in seq order.
         \n\nFive of a kind (45): Five die with the same value.

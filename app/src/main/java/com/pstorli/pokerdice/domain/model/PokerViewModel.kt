@@ -438,6 +438,10 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * Cash out!
      */
     fun cashOutEvent (pokerEvent: PokerEvent.CashOutEvent) {
+        cashOut ()
+    }
+
+    fun cashOut () {
         // Update cash
         cash = cash - bet + won
 
@@ -506,7 +510,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         }
         else {
             // Game over.
-            _uiState.value = PokerUIState.Start
+            cashOut ()
         }
     }
 
