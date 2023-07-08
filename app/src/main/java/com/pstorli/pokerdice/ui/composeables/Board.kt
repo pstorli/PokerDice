@@ -68,7 +68,7 @@ fun Board (pokerViewModel: PokerViewModel) {
 
                     // Now create the dice.
                     // Die  -> var num: Int=DICE_SUIT_NONE, var name: String=NO_TEXT, var held: Boolean=false, var selected: Boolean=false
-                    // Dice -> die: Die, backColor: Color=MaterialTheme.colorScheme.background, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp: Dp?=null, onClick: (() -> Unit?)?
+                    // Dice -> die: Die, backColor: Color=PokerTheme.colorScheme.background, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp: Dp?=null, onClick: (() -> Unit?)?
                     Dice (die, bc, onClick =
                     {
                         // They clicked the button on a board square.

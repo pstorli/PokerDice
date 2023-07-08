@@ -42,7 +42,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun PokerDiceTheme(
+fun PokerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic getColor is available on Android 12+
     dynamicColor: Boolean = true,
@@ -61,7 +61,7 @@ fun PokerDiceTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = if (darkTheme) COLOR_DK_BACK.toArgb() else COLOR_LT_BACK.toArgb()
+            window.statusBarColor = colorScheme.background.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

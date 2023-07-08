@@ -35,6 +35,8 @@ Resolved Issues Version 1005:
   0000 Make high score and level get saved.
   0000 Added junit test(s) for the scoring module
   0000 Added Poker Dice title in red at top.
+  0000 Added about page.
+  0000 Changed icon background to red.
 
 Resolved Issues Version 1004:
   0000 Added board

@@ -12,6 +12,7 @@ import com.pstorli.pokerdice.util.Consts.NO_SUIT
 import com.pstorli.pokerdice.util.Consts.ONE
 import com.pstorli.pokerdice.util.Consts.ONE_PAIR
 import com.pstorli.pokerdice.util.Consts.RANK_ONE
+import com.pstorli.pokerdice.util.Consts.RANK_SIX
 import com.pstorli.pokerdice.util.Consts.ROYAL_FLUSH
 import com.pstorli.pokerdice.util.Consts.STRAIGHT
 import com.pstorli.pokerdice.util.Consts.STRAIGHT_FLUSH
@@ -147,12 +148,29 @@ class PokerScorer () {
         }
 
         // Straight jacket check.
+        if (ONE == zeroCount && DICE_IN_HAND == rankOneCount) {
+            // Zero can only be in pos 1 or 6
+            if (ZERO != rankCounts[RANK_ONE] && ZERO != rankCounts[RANK_SIX]) {
+                // A zero was in the middle, not allowed.
+                straight = false
+            }
+        }
+
+        // Do a few royal flushes and some royalwind881
         if (rankOneCount < DICE_IN_HAND) {
             // No straight, no royal flush.
             royalFlush = false
             straight = false
         }
+
+        // If one pos filled, then not royal.
         else if (ONE == rankCounts[RANK_ONE]) {
+            // No royal flush.
+            royalFlush = false
+        }
+
+        // If no flush, no royal flush either.
+        if (!flush) {
             // No royal flush.
             royalFlush = false
         }

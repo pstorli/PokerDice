@@ -24,8 +24,12 @@ import org.junit.Test
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class PokerTest {
+
+    /**
+     * These are happy path tests, as they give good data and expect good results.
+     */
     @Test
-    fun poker () {
+    fun testGoodHands () {
         val pokerScorer    = PokerScorer ()
         var allTestsPassed = true
 
@@ -171,10 +175,181 @@ class PokerTest {
 
         // All Good?
         if (allTestsPassed) {
-            "All scoring tests have passed!".debug()
+            "All good scoring tests have passed!".debug()
         }
         else {
-            "One or more scoring tests have failed!".debug()
+            "One or more good scoring tests have failed!".debug()
+        }
+    }
+
+    /**
+     * These are not so happy path tests, as they give bad data and do not expect good results.
+     */
+    @Test
+    fun testBadHands () {
+        val pokerScorer    = PokerScorer ()
+        var allTestsPassed = true
+
+        // Not Royal flush due to no flush
+        var hand = arrayOf<Die> (
+            Die (2,SUIT_HEART),
+            Die (3,SUIT_CLUB),
+            Die (4,SUIT_HEART),
+            Die (5,SUIT_HEART),
+            Die (6,SUIT_HEART))
+
+        var score = pokerScorer.scoreHand (hand)
+        if (ROYAL_FLUSH == score) {
+            allTestsPassed = false
+            "Royal flush fail: $score".debug()
+        }
+
+        // Not Royal flush due to no straight
+        hand = arrayOf<Die> (
+            Die (1,SUIT_HEART),
+            Die (3,SUIT_HEART),
+            Die (4,SUIT_HEART),
+            Die (5,SUIT_HEART),
+            Die (6,SUIT_HEART))
+
+        score = pokerScorer.scoreHand (hand)
+        if (ROYAL_FLUSH == score) {
+            allTestsPassed = false
+            "Royal flush fail: $score".debug()
+        }
+
+        // Not Straight flush
+        hand = arrayOf<Die> (
+            Die (6,SUIT_HEART),
+            Die (2,SUIT_HEART),
+            Die (3,SUIT_HEART),
+            Die (4,SUIT_HEART),
+            Die (1,SUIT_HEART))
+
+        score = pokerScorer.scoreHand (hand)
+        if (STRAIGHT_FLUSH == score) {
+            allTestsPassed = false
+            "Straight flush fail: $score".debug()
+        }
+
+        // Not Five of a kind
+        hand = arrayOf<Die> (
+            Die (1,SUIT_HEART),
+            Die (1,SUIT_CLUB),
+            Die (5,SUIT_SPADE),
+            Die (1,SUIT_DIAMOND),
+            Die (1,SUIT_HEART))
+
+        score = pokerScorer.scoreHand (hand)
+        if (FIVE_OF_KIND == score) {
+            allTestsPassed = false
+            "Five of a kind fail: $score".debug()
+        }
+
+        // Not Four of a kind
+        hand = arrayOf<Die> (
+            Die (1,SUIT_HEART),
+            Die (1,SUIT_CLUB),
+            Die (2,SUIT_SPADE),
+            Die (3,SUIT_DIAMOND),
+            Die (1,SUIT_HEART))
+
+        score = pokerScorer.scoreHand (hand)
+        if (FOUR_OF_KIND == score) {
+            allTestsPassed = false
+            "Four of a kind fail: $score".debug()
+        }
+
+        // Not Full house
+        hand = arrayOf<Die> (
+            Die (1,SUIT_HEART),
+            Die (1,SUIT_CLUB),
+            Die (2,SUIT_SPADE),
+            Die (3,SUIT_DIAMOND),
+            Die (2,SUIT_HEART))
+
+        score = pokerScorer.scoreHand (hand)
+        if (FULL_HOUSE == score) {
+            allTestsPassed = false
+            "Full house fail: $score".debug()
+        }
+
+        // Not Flush
+        hand = arrayOf<Die> (
+            Die (1,SUIT_HEART),
+            Die (1,SUIT_CLUB),
+            Die (2,SUIT_HEART),
+            Die (3,SUIT_HEART),
+            Die (6,SUIT_HEART))
+
+        score = pokerScorer.scoreHand (hand)
+        if (FLUSH == score) {
+            allTestsPassed = false
+            "Flush fail: $score".debug()
+        }
+
+        // Not Straight
+        hand = arrayOf<Die> (
+            Die (1,SUIT_HEART),
+            Die (2,SUIT_CLUB),
+            Die (4,SUIT_HEART),
+            Die (5,SUIT_SPADE),
+            Die (6,SUIT_DIAMOND))
+
+        score = pokerScorer.scoreHand (hand)
+        if (STRAIGHT == score) {
+            allTestsPassed = false
+            "Straight fail: $score".debug()
+        }
+
+        // Not Three of a kind
+        hand = arrayOf<Die> (
+            Die (3,SUIT_HEART),
+            Die (2,SUIT_CLUB),
+            Die (3,SUIT_HEART),
+            Die (1,SUIT_SPADE),
+            Die (5,SUIT_DIAMOND))
+
+        score = pokerScorer.scoreHand (hand)
+        if (THREE_OF_KIND == score) {
+            allTestsPassed = false
+            "Three of a kind fail: $score".debug()
+        }
+
+        // Not Two pair
+        hand = arrayOf<Die> (
+            Die (6,SUIT_HEART),
+            Die (2,SUIT_CLUB),
+            Die (3,SUIT_HEART),
+            Die (4,SUIT_SPADE),
+            Die (5,SUIT_DIAMOND))
+
+        score = pokerScorer.scoreHand (hand)
+        if (TWO_PAIRS == score) {
+            allTestsPassed = false
+            "Two pair fail: $score".debug()
+        }
+
+        // Not One pair
+        hand = arrayOf<Die> (
+            Die (3,SUIT_HEART),
+            Die (6,SUIT_CLUB),
+            Die (0,SUIT_HEART),
+            Die (2,SUIT_SPADE),
+            Die (5,SUIT_DIAMOND))
+
+        score = pokerScorer.scoreHand (hand)
+        if (ONE_PAIR == score) {
+            allTestsPassed = false
+            "One pair fail: $score".debug()
+        }
+
+        // All Not Good?
+        if (allTestsPassed) {
+            "All bad scoring tests have passed!".debug()
+        }
+        else {
+            "One or more bad scoring tests have failed!".debug()
         }
     }
 }

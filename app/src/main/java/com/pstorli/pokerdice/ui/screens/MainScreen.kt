@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -37,7 +38,7 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
     Scaffold(
         scaffoldState = scaffoldState, drawerContent = { SideDrawer() }) { padding ->
         Column(
-            modifier = Modifier.background(LocalContext.current.color(Colors.Back)).padding(padding)
+            modifier = Modifier.background(colorScheme.background).padding(padding)
         ) {
             Title ()
             PlayerRow(pokerViewModel)

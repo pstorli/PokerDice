@@ -87,10 +87,11 @@ object Consts {
     val SQUARE_BET_COST                 = 10 // Cost of eacg square to bet on.
     val TAG_NAME                        = "PokerDice"
     val WIN_LEVEL_MOD                   = 10
-    val WON_FREE_STUFF_URL              = "https://sites.google.com/view/pstorlidesigns/home/freegifts4u"
     val WON_MIN_WIDTH_DP                = 42.dp
     val SUIT_NONE_VAL                   = 0
     val URL_FONT_SIZE_SP                = 16.sp
+    val URL_WON_FREE_STUFF              = "https://sites.google.com/view/pstorlidesigns/home/freegifts4u"
+    val URL_STORLI_DESIGNS              = "http://storlidesigns.com"
     val ZERO                            = 0
 
     // *********************************************************************************************

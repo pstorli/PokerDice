@@ -35,7 +35,6 @@ val Transparent                 = Color(0x00ffffff)
 // *********************************************************************************************
 
 // Named colors.
-val COLOR_DK_BACK               = Color.Black
 val COLOR_DK_BORDER             = Color.DarkGray
 val COLOR_DK_CASH_OUT           = LightGreen
 
@@ -58,7 +57,6 @@ val COLOR_DK_TITLE              = Color.White
 // Light Colors
 // *********************************************************************************************
 
-val COLOR_LT_BACK               = Color.White
 val COLOR_LT_BORDER             = Color.DarkGray
 val COLOR_LT_CASH_OUT           = DarkGreen
 val COLOR_LT_EDGE               = Color.White
@@ -123,7 +121,6 @@ fun setColor (num: Int, color: Color, darkMode: Boolean=false) {
 fun getColor (name: Colors, darkMode: Boolean=false): Color {
     var color = Color.White
     when (name) {
-        Colors.Back             -> if (darkMode) color = COLOR_DK_BACK              else color = COLOR_LT_BACK
         Colors.Border           -> if (darkMode) color = COLOR_DK_BORDER            else color = COLOR_LT_BORDER
         Colors.Btn              -> if (darkMode) color = COLOR_DK_CASH_OUT          else color = COLOR_LT_CASH_OUT
         Colors.Edge             -> if (darkMode) color = COLOR_DK_EDGE              else color = COLOR_LT_EDGE

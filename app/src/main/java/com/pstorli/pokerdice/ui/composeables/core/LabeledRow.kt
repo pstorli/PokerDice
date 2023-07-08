@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,7 +57,7 @@ fun LabeledRow (title: String, titleColor: Color, maxWidth: Boolean=false, maxHe
             TextMat(
                 text = title,
                 color = titleColor,
-                modifier = Modifier.padding(2.dp).background(color = MaterialTheme.colorScheme.background)
+                modifier = Modifier.padding(2.dp).background(color = colorScheme.background)
             )
         }
     }

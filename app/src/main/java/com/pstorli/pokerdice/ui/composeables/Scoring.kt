@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +19,7 @@ import com.pstorli.pokerdice.util.Consts.SCORING_TEXT_FONT_SIZE_SP
 @Composable
 fun Scoring () {
     Column(
-        modifier = Modifier.background(LocalContext.current.color(Colors.Back))
+        modifier = Modifier.background(colorScheme.background)
     ) {
         LabeledRow(
             title = stringResource(id = R.string.scoring_title),

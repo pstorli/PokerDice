@@ -44,7 +44,7 @@ fun HandToBeat (pokerViewModel: PokerViewModel) {
     ) {
         // Loop thru hand to beat.
         for (die in pokerViewModel.handToBeat.value) {
-            // Dice -> die: Die, backColor: Color=MaterialTheme.colorScheme.background, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp: Dp?=null, onClick: (() -> Unit?)?
+            // Dice -> die: Die, backColor: Color=PokerTheme.colorScheme.background, borderColor: Color=MaterialTheme.colorScheme.outline, sizeDp: Dp?=null, onClick: (() -> Unit?)?
             Dice (die, sizeDp=HAND_TO_BEAT_DICE_DP)
         }
     }

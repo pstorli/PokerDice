@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.pstorli.pokerdice.conditional
 import com.pstorli.pokerdice.util.Consts.POKER_BORDER_SIZE_DP
 import androidx.compose.material3.Text as TextMat
+import com.pstorli.pokerdice.ui.theme.PokerTheme
 
 @Composable
 fun LabeledCol (title: String, titleColor: Color, maxWidth: Boolean=false, maxHeight: Boolean=false, minWidth: Dp?=null, content: @Composable () -> Unit) {
@@ -58,7 +60,7 @@ fun LabeledCol (title: String, titleColor: Color, maxWidth: Boolean=false, maxHe
             TextMat(
                 text = title,
                 color = titleColor,
-                modifier = Modifier.padding(2.dp).background(color = MaterialTheme.colorScheme.background)
+                modifier = Modifier.padding(2.dp).background(color = colorScheme.background)
             )
         }
     }

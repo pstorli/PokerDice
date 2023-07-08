@@ -1,7 +1,6 @@
 package com.pstorli.pokerdice.ui.theme
 
 enum class Colors {
-    Back,
     Border,
     Btn,
     Edge,

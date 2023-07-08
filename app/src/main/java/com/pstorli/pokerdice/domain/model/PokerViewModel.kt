@@ -95,13 +95,13 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * TODO: Comsider using an enum instad of a seled class.
      */
     sealed class PokerUIState {
+        object About                        : PokerUIState()
+
         object Loading                      : PokerUIState()
 
         object Start                        : PokerUIState()
 
         object Rolling                      : PokerUIState()
-
-        object Settings                     : PokerUIState()
 
         class Error (val message: String)   : PokerUIState()
     }
@@ -137,7 +137,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
             cash = CASH_INITIAL
         }
 
-        resetEvent (PokerEvent.ResetEvent)
+        reset ()
     }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +173,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
             is PokerUIState.Start       -> result = app.resources.getString(R.string.state_start)
             is PokerUIState.Loading     -> result = app.resources.getString(R.string.state_loading)
             is PokerUIState.Rolling     -> result = app.resources.getString(R.string.state_rolling)
-            is PokerUIState.Settings    -> result = app.resources.getString(R.string.state_settings)
+            is PokerUIState.About    -> result = app.resources.getString(R.string.state_about)
         }
         return result
     }
@@ -390,8 +390,14 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 boardClickEvent (pokerEvent)
             }
 
-            is PokerEvent.CancelEvent -> {
-                cancelEvent (pokerEvent)
+            // About close button pressed.
+            is PokerEvent.AboutCloseEvent -> {
+                this.aboutCloseEvent(pokerEvent)
+            }
+
+            // About button pressed.
+            is PokerEvent.AboutBtnPressedEvent -> {
+                this.aboutBtnPressedEvent(pokerEvent)
             }
 
             // Place your bets!
@@ -404,19 +410,9 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 cashOutEvent (pokerEvent)
             }
 
-            // Reset button pressed.
-            is PokerEvent.ResetEvent -> {
-                resetEvent (pokerEvent)
-            }
-
             // Roll them bones.
             is PokerEvent.RollEvent -> {
                 rollEvent (pokerEvent)
-            }
-
-            // Settings button pressed.
-            is PokerEvent.SettingsEvent -> {
-                settingsEvent (pokerEvent)
             }
 
             // Save button was pressed.
@@ -424,14 +420,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 saveEvent (pokerEvent)
             }
         }
-    }
-
-    /**
-     * Cancel!
-     */
-    fun cancelEvent (pokerEvent: PokerEvent.CancelEvent) {
-        _uiState.value = PokerUIState.Start
-        resetEvent (PokerEvent.ResetEvent)
     }
 
     /**
@@ -465,6 +453,21 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     }
 
     /**
+     * About!
+     */
+    fun aboutBtnPressedEvent (pokerEvent: PokerEvent.AboutBtnPressedEvent) {
+        _uiState.value = PokerUIState.About
+    }
+
+    /**
+     * About Close
+     */
+    fun aboutCloseEvent (pokerEvent: PokerEvent.AboutCloseEvent) {
+        _uiState.value = PokerUIState.Start
+        reset ()
+    }
+
+    /**
      * Start the game.
      */
     fun startEvent (pokerEvent: PokerEvent.StartEvent) {
@@ -492,10 +495,11 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      * Roll them bones.
      */
     fun rollEvent (pokerEvent: PokerEvent.RollEvent) {
+        // Decrement the rolls.
+        rolls--
+
         // Got rolls?
-        if (rolls > SUIT_NONE_VAL) {
-            // Decrement the rolls.
-            rolls--
+        if (rolls > ZERO) {
 
             // Populate the board with dice.
             game.populateBoard()
@@ -539,13 +543,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
     /**
      * Reset!
      */
-    fun resetEvent (pokerEvent: PokerEvent.ResetEvent) {
-        reset ()
-    }
-
-    /**
-     * Reset!
-     */
     fun reset () {
         // Reset hand to beat.
         for (pos in 0 until DICE_IN_HAND) {
@@ -564,13 +561,6 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         _uiState.value = PokerUIState.Start
 
         updateGame ()
-    }
-
-    /**
-     * Settings!
-     */
-    fun settingsEvent (pokerEvent: PokerEvent.SettingsEvent) {
-        _uiState.value = PokerUIState.Settings
     }
 
     /**

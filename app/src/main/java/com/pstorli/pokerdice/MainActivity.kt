@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,8 +17,8 @@ import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.ErrorDialog
 import com.pstorli.pokerdice.ui.screens.LoadingScreen
 import com.pstorli.pokerdice.ui.screens.MainScreen
-import com.pstorli.pokerdice.ui.screens.SettingsScreen
-import com.pstorli.pokerdice.ui.theme.PokerDiceTheme
+import com.pstorli.pokerdice.ui.screens.AboutScreen
+import com.pstorli.pokerdice.ui.theme.PokerTheme
 
 class MainActivity : ComponentActivity() {
     // The one and only!
@@ -28,12 +28,12 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            PokerDiceTheme {
+            PokerTheme {
 
                 // A surface container using the 'background' getColor from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color    = MaterialTheme.colorScheme.background
+                    color    = colorScheme.background
                 )
                 {
                     ShowMainScreen(pokerViewModel)
@@ -71,8 +71,8 @@ class MainActivity : ComponentActivity() {
                     MainScreen (pokerViewModel)
 
                 // Settings.
-                is PokerViewModel.PokerUIState.Settings   ->
-                    SettingsScreen (pokerViewModel)
+                is PokerViewModel.PokerUIState.About   ->
+                    AboutScreen (pokerViewModel)
             }
         }
     }

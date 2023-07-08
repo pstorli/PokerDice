@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.pstorli.pokerdice.R
 import com.pstorli.pokerdice.color
+import com.pstorli.pokerdice.debug
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.core.LabeledRow
 import com.pstorli.pokerdice.ui.composeables.core.OutlinedTextField
@@ -66,27 +67,18 @@ fun PlayerRow (pokerViewModel: PokerViewModel) {
                         })
                 }
 
-                // Reset
-                PokerButton(
-                    name = LocalContext.current.resources.getString(R.string.reset),
-                    textColor = LocalContext.current.color(Colors.Btn),
-                    onClick = {
-                        // They clicked the reset button.
-                        pokerViewModel.onEvent(PokerEvent.ResetEvent)
-                    })
-
-                // Settings
-                /*if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
+                // About
+                if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()) {
                     PokerButton(
-                        name = LocalContext.current.resources.getString(R.string.state_settings),
+                        name = LocalContext.current.resources.getString(R.string.state_about),
                         textColor = LocalContext.current.color(Colors.Btn),
                         onClick = {
-                            "Settings pressed.".debug()
+                            "About pressed.".debug()
 
-                            // They clicked the button.
-                            pokerViewModel.onEvent(PokerEvent.SettingsEvent)
+                            // They clicked the about button.
+                            pokerViewModel.onEvent(PokerEvent.AboutBtnPressedEvent)
                         })
-                }*/
+                }
             }
 
             Row() {
