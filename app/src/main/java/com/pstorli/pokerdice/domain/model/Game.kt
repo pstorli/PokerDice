@@ -147,6 +147,38 @@ class Game () {
     }
 
     /**
+     * Is this the upper left corner square?
+     */
+    fun isCornerUL (index: Int): Boolean {
+        val rowCol = rowCol (index)
+        return SQUARE_FIRST == rowCol.first && SQUARE_FIRST == rowCol.second
+    }
+
+    /**
+     * Is this the upper right corner square?
+     */
+    fun isCornerUR (index: Int): Boolean {
+        val rowCol = rowCol (index)
+        return SQUARE_FIRST == rowCol.first && SQUARE_LAST == rowCol.second
+    }
+
+    /**
+     * Is this the lower left corner square?
+     */
+    fun isCornerLL (index: Int): Boolean {
+        val rowCol = rowCol (index)
+        return SQUARE_LAST == rowCol.first && SQUARE_FIRST == rowCol.second
+    }
+
+    /**
+     * Is this the lower right corner square?
+     */
+    fun isCornerLR (index: Int): Boolean {
+        val rowCol = rowCol (index)
+        return SQUARE_LAST == rowCol.first && SQUARE_LAST == rowCol.second
+    }
+
+    /**
      * Deterine the row,col from the index.
      */
     fun row (index: Int): Int {

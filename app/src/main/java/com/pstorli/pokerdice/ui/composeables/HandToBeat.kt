@@ -28,8 +28,10 @@ fun HandToBeat (pokerViewModel: PokerViewModel) {
         handToBeatValue    = pokerViewModel.scoreHandToBeat()
         handToBeatRealName = LocalContext.current.getHandName(handToBeatValue)
 
+        // Use highest value?
         if (ZERO == handToBeatValue) {
-            handToBeatValue = pokerViewModel.pokerScorer.highest(pokerViewModel.handToBeat.value)
+            handToBeatValue    = pokerViewModel.pokerScorer.highest(pokerViewModel.handToBeat.value)
+            handToBeatRealName = LocalContext.current.resources.getString(R.string.hand_highest)
         }
 
         val handToBeatName = removeNewLines (handToBeatRealName) + " (" + handToBeatValue.toString() + ")"

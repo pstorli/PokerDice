@@ -27,6 +27,7 @@ import com.pstorli.pokerdice.util.Consts.STRAIGHT
 import com.pstorli.pokerdice.util.Consts.STRAIGHT_FLUSH
 import com.pstorli.pokerdice.util.Consts.THREE_OF_KIND
 import com.pstorli.pokerdice.util.Consts.TWO_PAIRS
+import com.pstorli.pokerdice.util.Consts.ZERO
 
 // *********************************************************************************************
 // Extension Log helper functions
@@ -268,6 +269,11 @@ fun Context.getHandName (hand: Int): String {
         TWO_PAIRS       -> result = resources.getString(R.string.hand_two_pair)
         ONE_PAIR        -> result = resources.getString(R.string.hand_one_pair)
         NOTHING         -> result = NO_TEXT
+    }
+
+    // Check for highest dice.
+    if (hand>ZERO && hand<ONE_PAIR) {
+        result = resources.getString(R.string.hand_highest)
     }
     return result
 }

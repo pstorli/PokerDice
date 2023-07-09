@@ -39,6 +39,7 @@ object Consts {
     // *********************************************************************************************
     // More  Vars
     // *********************************************************************************************
+    val ABOUT_SPACER_WIDTH_DP           = 24.dp
     val BET_NAME                        = "Bet"
     val BET_MIN_WIDTH_DP                = 36.dp
     val BORDER_DEFAULT_WIDTH_VAL_DP     = 2.dp
@@ -83,6 +84,8 @@ object Consts {
     val ROLLS_MIN_WIDTH_DP              = 48.dp
     val ROUNDED_CORNER_SHAPE_PCT_VAL    = 20
     val SCORING_TEXT_FONT_SIZE_SP       = 16.sp
+    val SNACKBAR_MARGIN_DP              = 2.dp
+    val SNACKBAR_FONT_SIZE_SP           = 16.sp
     val SPACE_TEXT                      = " "
     val SQUARE_BET_COST                 = 10 // Cost of eacg square to bet on.
     val TAG_NAME                        = "PokerDice"
@@ -105,10 +108,10 @@ object Consts {
     val FOUR_OF_KIND                    = 40
     val FULL_HOUSE                      = 35
     val FLUSH                           = 30
-    val STRAIGHT                        = 20
-    val THREE_OF_KIND                   = 15
-    val TWO_PAIRS                       = 10
-    val ONE_PAIR                        = 5
+    val STRAIGHT                        = 25
+    val THREE_OF_KIND                   = 20
+    val TWO_PAIRS                       = 15
+    val ONE_PAIR                        = 10
     val NOTHING                         = 0
 
     // *********************************************************************************************
@@ -144,6 +147,13 @@ object Consts {
     fun randomSuit (): Int {
         val num = (SUIT_HEART..SUIT_SPADE).random()
         return num
+    }
+
+    /**
+     * Return a number between 0 and 100
+     */
+    fun randomHundred (): Int {
+        return (ZERO..HUNDRED_VAL).random()
     }
 
     // *********************************************************************************************

@@ -16,6 +16,7 @@ import com.pstorli.pokerdice.util.Consts.SUIT_HEART
 import com.pstorli.pokerdice.util.Consts.SUIT_SPADE
 import com.pstorli.pokerdice.util.Consts.THREE_OF_KIND
 import com.pstorli.pokerdice.util.Consts.TWO_PAIRS
+import com.pstorli.pokerdice.util.Consts.ZERO
 import org.junit.Test
 
 /**
@@ -33,15 +34,29 @@ class PokerTest {
         val pokerScorer    = PokerScorer ()
         var allTestsPassed = true
 
-        // Royal flush
+        // Nothing
         var hand = arrayOf<Die> (
+            Die (6,SUIT_HEART),
+            Die (3,SUIT_SPADE),
+            Die (5,SUIT_HEART),
+            Die (1,SUIT_CLUB),
+            Die (4,SUIT_HEART))
+
+        var score = pokerScorer.scoreHand (hand)
+        if (ZERO != score) {
+            allTestsPassed = false
+            "Nothing good fail: $score".debug()
+        }
+
+        // Royal flush
+        hand = arrayOf<Die> (
             Die (2,SUIT_HEART),
             Die (3,SUIT_HEART),
             Die (4,SUIT_HEART),
             Die (5,SUIT_HEART),
             Die (6,SUIT_HEART))
 
-        var score = pokerScorer.scoreHand (hand)
+        score = pokerScorer.scoreHand (hand)
         if (ROYAL_FLUSH != score) {
             allTestsPassed = false
             "Royal flush fail: $score".debug()

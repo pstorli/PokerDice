@@ -8,6 +8,8 @@ sealed class PokerEvent {
 
     object AboutBtnPressedEvent                 : PokerEvent()
 
+    object AddCashEvent                         : PokerEvent()
+
     data class BoardClickEvent(val index: Int)  : PokerEvent()
 
     data class EdgeClickEvent(val index: Int)   : PokerEvent()

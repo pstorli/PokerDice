@@ -5,13 +5,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import com.pstorli.pokerdice.color
+import androidx.compose.ui.res.stringResource
+import com.pstorli.pokerdice.R
+import com.pstorli.pokerdice.domain.model.PokerEvent
 import com.pstorli.pokerdice.domain.model.PokerViewModel
 import com.pstorli.pokerdice.ui.composeables.Board
 import com.pstorli.pokerdice.ui.composeables.HandToBeat
@@ -19,7 +22,9 @@ import com.pstorli.pokerdice.ui.composeables.Instructions
 import com.pstorli.pokerdice.ui.composeables.PlayerRow
 import com.pstorli.pokerdice.ui.composeables.SideDrawer
 import com.pstorli.pokerdice.ui.composeables.Title
-import com.pstorli.pokerdice.ui.theme.Colors
+import com.pstorli.pokerdice.ui.composeables.core.AlertDialog
+import com.pstorli.pokerdice.ui.composeables.core.PokerBar
+import com.pstorli.pokerdice.util.Consts.CASH_INITIAL
 import com.pstorli.pokerdice.util.Consts.NO_TEXT
 
 /**
@@ -33,12 +38,22 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
         PlayerRow  (pokerViewModel)
         HandToBeat (pokerViewModel)
     }*/
-
     val scaffoldState: ScaffoldState = rememberScaffoldState()
+
     Scaffold(
-        scaffoldState = scaffoldState, drawerContent = { SideDrawer() }) { padding ->
+        scaffoldState = scaffoldState,
+        snackbarHost  = {
+            // reuse default SnackbarHost to have default animation and timing handling
+            SnackbarHost(it) { data ->
+                // custom snackbar with the custom border and bc color
+                PokerBar (data)
+            }
+        },
+        drawerContent = { SideDrawer() }) { padding ->
         Column(
-            modifier = Modifier.background(colorScheme.background).padding(padding)
+            modifier = Modifier
+                .background(colorScheme.background)
+                .padding(padding)
         ) {
             Title ()
             PlayerRow(pokerViewModel)
@@ -47,11 +62,27 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
             Instructions(pokerViewModel)
         }
 
+        // Show a snack bar?
         if (pokerViewModel.snackBarText.isNotEmpty()) {
-            LaunchedEffect(pokerViewModel.snackBarText) {
-                scaffoldState.snackbarHostState.showSnackbar(pokerViewModel.snackBarText)
-                pokerViewModel.snackBarText = NO_TEXT
+            val text: String = pokerViewModel.snackBarText
+            pokerViewModel.snackBarText = NO_TEXT
+
+            LaunchedEffect(text) {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = text,
+                    duration = SnackbarDuration.Indefinite)
             }
+        }
+
+        // Do they need a loan?
+        // Need to be in Start state and outta cash.
+        else if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()
+            && pokerViewModel.outaCash
+            && pokerViewModel.cash<CASH_INITIAL/3) {
+            AlertDialog(text = stringResource(id = R.string.low_on_cash),
+            {
+                pokerViewModel.onEvent (PokerEvent.AddCashEvent)
+            })
         }
     }
 }

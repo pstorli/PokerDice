@@ -23,7 +23,7 @@ Architecture notes:
   0000 Add settings screen back in and allow to change colors.
 
 Resolved Issues Version 1005:
-  0000 Added scaffolding, removed taost and used snackbar instead in SnackBar.kt.
+  0000 Added scaffolding, removed toast and used snackbar instead in SnackBar.kt.
   0000 Added settings screen with scoring instructions.
   0000 Added scoring to hand to beat.
   0000 Added click and dice rolling sound effects.
@@ -37,6 +37,9 @@ Resolved Issues Version 1005:
   0000 Added Poker Dice title in red at top.
   0000 Added about page.
   0000 Changed icon background to red.
+  0000 Fixed hand to beat logic so compare highest die values
+  0000 Fixed aboit screen logo.
+  0000 Customized the snackbar, cuz the default one is pretty ugly!
 
 Resolved Issues Version 1004:
   0000 Added board

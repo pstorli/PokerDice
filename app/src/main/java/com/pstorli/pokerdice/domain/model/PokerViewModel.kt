@@ -25,7 +25,6 @@ import com.pstorli.pokerdice.util.Consts.ONE
 import com.pstorli.pokerdice.util.Consts.ROLLS_MAX
 import com.pstorli.pokerdice.util.Consts.SQUARE_BET_COST
 import com.pstorli.pokerdice.util.Consts.SQUARE_FIRST
-import com.pstorli.pokerdice.util.Consts.SUIT_NONE_VAL
 import com.pstorli.pokerdice.util.Consts.WIN_LEVEL_MOD
 import com.pstorli.pokerdice.util.Consts.ZERO
 import com.pstorli.pokerdice.util.Consts.randomRank
@@ -86,6 +85,9 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
 
     // The game with a board
     var game = Game ()
+
+    // Don't offer money unless they get out of cash message.
+    var outaCash = false
 
     // /////////////////////////////////////////////////////////////////////////////////////////////
     // Game State
@@ -331,25 +333,39 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 // The hand.
                 val hand = game.getHand(pos)
 
-                // The hand score.
-                val handScore = pokerScorer.scoreHand(hand)
-
                 // If it has at least one value grater than zero, we can score it.
-                var dieText = NO_TEXT
+                var dieText = getHandName(hand)
+
+                // The hand score.
+                var handScore = pokerScorer.scoreHand(hand)
+                if (ZERO == handScore) {
+                    dieText   = app.resources.getString (R.string.hand_highest)
+                    handScore = pokerScorer.highest(hand)
+                }
 
                 // The hand's value.
                 if (game.hasValue(hand)) {
-                    // They win if that square was selected and they beat hand to beat.
-                    if (game.board[pos].selected && handScore > scoreHandToBeat ()) {
-                        won = won + handScore
+                    var handToBeatScore = scoreHandToBeat ()
+                    if (0 == handToBeatScore) {
+                        //se highest die, in this case.
+                        handToBeatScore = pokerScorer.highest(handToBeat.value)
                     }
 
-                    dieText = getHandName(hand)
+                    // They win if that square was selected and they beat hand to beat.
+                    if (game.board[pos].selected && handScore > handToBeatScore) {
+                        // Only add winnings if square is top or left, and not upper right
+                        if (!game.isCornerUR(pos) && (game.isEdgeSquareLeft(pos) || game.isEdgeSquareTop(pos))) {
+                            won = won + handScore
+                        }
+                    }
                 }
 
+                // Should we show hand value or hand name?
                 if (SQUARE_FIRST != rowCol.second && (game.isEdgeSquareRight(pos) || game.isEdgeSquareBottom(pos))) {
                     dieText = handScore.toString()
                 }
+
+                // Set the text now.
                 setDieText(pos, dieText)
             }
         }
@@ -380,6 +396,11 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      */
     fun onEvent (pokerEvent: PokerEvent) {
         when (pokerEvent) {
+            // Give them some more cash.
+            PokerEvent.AddCashEvent -> {
+                addCash ()
+            }
+
             // Save button was pressed.
             is PokerEvent.StartEvent -> {
                 startEvent (pokerEvent)
@@ -427,6 +448,17 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
      */
     fun cashOutEvent (pokerEvent: PokerEvent.CashOutEvent) {
         cashOut ()
+    }
+
+    /**
+     * Add some cash.
+     */
+    fun addCash () {
+        cash += CASH_INITIAL
+
+        outaCash = false
+
+        updatePlayer()
     }
 
     fun cashOut () {
@@ -615,6 +647,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         else if (cash < betsCost) {
             // Out of cash!
             snackBarText = app.resources .getString(R.string.outta_cash)
+            outaCash = true
         }
 
         // Reset the bet.

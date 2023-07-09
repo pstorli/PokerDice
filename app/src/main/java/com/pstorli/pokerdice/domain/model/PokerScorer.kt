@@ -230,6 +230,11 @@ class PokerScorer () {
             // Nothing :(
             NOTHING
         }
+
+        // Last chance summer dance!
+        if (ZERO == rolledScore) {
+            rolledScore = highest (dice)
+        }
         return rolledScore
     }
 
