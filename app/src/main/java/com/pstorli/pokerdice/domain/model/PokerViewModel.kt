@@ -337,19 +337,11 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 var dieText = getHandName(hand)
 
                 // The hand score.
-                var handScore = pokerScorer.scoreHand(hand)
-                if (ZERO == handScore) {
-                    dieText   = app.resources.getString (R.string.hand_highest)
-                    handScore = pokerScorer.highest(hand)
-                }
+                val handScore = pokerScorer.scoreHand(hand)
 
                 // The hand's value.
                 if (game.hasValue(hand)) {
-                    var handToBeatScore = scoreHandToBeat ()
-                    if (0 == handToBeatScore) {
-                        //se highest die, in this case.
-                        handToBeatScore = pokerScorer.highest(handToBeat.value)
-                    }
+                    val handToBeatScore = scoreHandToBeat ()
 
                     // They win if that square was selected and they beat hand to beat.
                     if (game.board[pos].selected && handScore > handToBeatScore) {
