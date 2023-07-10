@@ -15,7 +15,7 @@ fun OutlinedTextField (text: String, value: String, textColor: Color, titleColor
         title = text,
         titleColor
     ) {
-        Text(
+        Text (
             text = value,
             color = textColor,
             modifier = Modifier

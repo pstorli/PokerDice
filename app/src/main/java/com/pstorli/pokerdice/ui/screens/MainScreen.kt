@@ -23,7 +23,7 @@ import com.pstorli.pokerdice.ui.composeables.PlayerRow
 import com.pstorli.pokerdice.ui.composeables.SideDrawer
 import com.pstorli.pokerdice.ui.composeables.Title
 import com.pstorli.pokerdice.ui.composeables.core.AlertDialog
-import com.pstorli.pokerdice.ui.composeables.core.PokerBar
+import com.pstorli.pokerdice.ui.composeables.PokerBar
 import com.pstorli.pokerdice.util.Consts.CASH_INITIAL
 import com.pstorli.pokerdice.util.Consts.NO_TEXT
 
@@ -32,12 +32,7 @@ import com.pstorli.pokerdice.util.Consts.NO_TEXT
  */
 @Composable
 fun MainScreen (pokerViewModel: PokerViewModel) {
-    // Side by side rows the same height
-    // make these two rows, the children, the same height.
-    /*Row(modifier = Modifier.height(IntrinsicSize.Min)) {
-        PlayerRow  (pokerViewModel)
-        HandToBeat (pokerViewModel)
-    }*/
+
     val scaffoldState: ScaffoldState = rememberScaffoldState()
 
     Scaffold(
@@ -65,12 +60,12 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
         // Show a snack bar?
         if (pokerViewModel.snackBarText.isNotEmpty()) {
             val text: String = pokerViewModel.snackBarText
-            pokerViewModel.snackBarText = NO_TEXT
 
             LaunchedEffect(text) {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = text,
-                    duration = SnackbarDuration.Indefinite)
+                    duration = SnackbarDuration.Short)
+                pokerViewModel.snackBarText = NO_TEXT
             }
         }
 
@@ -79,10 +74,12 @@ fun MainScreen (pokerViewModel: PokerViewModel) {
         else if (PokerViewModel.PokerUIState.Start == pokerViewModel.getState()
             && pokerViewModel.outaCash
             && pokerViewModel.cash<CASH_INITIAL/3) {
-            AlertDialog(text = stringResource(id = R.string.low_on_cash),
-            {
-                pokerViewModel.onEvent (PokerEvent.AddCashEvent)
-            })
+            AlertDialog(
+                title   = stringResource(id = R.string.question),
+                text    = stringResource(id = R.string.low_on_cash),
+                clicked = {
+                    pokerViewModel.onEvent (PokerEvent.AddCashEvent)
+                })
         }
     }
 }

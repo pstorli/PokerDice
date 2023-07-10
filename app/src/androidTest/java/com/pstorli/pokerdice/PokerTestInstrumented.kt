@@ -16,7 +16,7 @@ import org.junit.Assert.*
 @RunWith(AndroidJUnit4::class)
 class PokerTestInstrumented {
     @Test
-    fun useAppContext() {
+    fun useAppConText () {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.pstorli.pokerdice", appContext.packageName)

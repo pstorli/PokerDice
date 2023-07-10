@@ -65,7 +65,8 @@ object Consts {
     val SUIT_COLOR_CLUB                 = "Suit Color Club"
     val SUIT_COLOR_SPADE                = "Suit Color Spade"
 
-    val TITLE_FONT_SIZE_SP              = 30.sp
+    val TEXT_FONT_SIZE_SP               = 18.sp
+    val TITLE_FONT_SIZE_SP              = 28.sp
 
     val DISABLED_ELEVATION_VAL_DP       = 0.dp
     val HAND_TO_BEAT_DICE_DP            = 48.dp
@@ -84,8 +85,6 @@ object Consts {
     val ROLLS_MIN_WIDTH_DP              = 48.dp
     val ROUNDED_CORNER_SHAPE_PCT_VAL    = 20
     val SCORING_TEXT_FONT_SIZE_SP       = 16.sp
-    val SNACKBAR_MARGIN_DP              = 2.dp
-    val SNACKBAR_FONT_SIZE_SP           = 16.sp
     val SPACE_TEXT                      = " "
     val SQUARE_BET_COST                 = 10 // Cost of eacg square to bet on.
     val TAG_NAME                        = "PokerDice"

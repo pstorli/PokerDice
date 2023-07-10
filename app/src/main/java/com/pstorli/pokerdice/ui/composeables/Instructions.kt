@@ -34,7 +34,7 @@ fun Instructions (pokerViewModel: PokerViewModel) {
         if (pokerViewModel.freeGameOffer()) {
             val localUriHandler = LocalUriHandler.current
             val clickText = stringResource(id = R.string.won_level_prize, pokerViewModel.level)
-            ClickableText(text = AnnotatedString (clickText), style = TextStyle(fontSize = URL_FONT_SIZE_SP, color = LocalContext.current.color(Colors.Wild))) {
+            ClickableText (text = AnnotatedString (clickText), style = TextStyle(fontSize = URL_FONT_SIZE_SP, color = LocalContext.current.color(Colors.Wild))) {
                 localUriHandler.openUri (URL_WON_FREE_STUFF)
             }
         }

@@ -19,7 +19,7 @@ fun Title () {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
+        Text (
             stringResource(R.string.app_name_readable),
             color           = Color.Red,
             fontSize        = Consts.TITLE_FONT_SIZE_SP

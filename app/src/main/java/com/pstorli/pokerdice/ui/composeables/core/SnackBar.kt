@@ -16,18 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.pstorli.pokerdice.util.Consts
-import com.pstorli.pokerdice.util.Consts.SNACKBAR_FONT_SIZE_SP
+import androidx.compose.ui.unit.sp
+
+val SNACKBAR_FONT_SIZE_SP           = 20.sp
+val ROUNDED_CORNER_SHAPE_PCT_VAL    = 20
 
 @Composable
 fun SnackBar (
     snackbarData: SnackbarData,
-    backgroundColor: Color = SnackbarDefaults.backgroundColor,
-    borderColor: Color = androidx.compose.material3.MaterialTheme.colorScheme.outline,
-    contentColor: Color = MaterialTheme.colors.surface) {
+    backgroundColor: Color  = SnackbarDefaults.backgroundColor,
+    borderColor: Color      = androidx.compose.material3.MaterialTheme.colorScheme.outline,
+    contentColor: Color     = MaterialTheme.colors.surface) {
 
     Card(
-        shape = RoundedCornerShape(Consts.ROUNDED_CORNER_SHAPE_PCT_VAL),
+        shape = RoundedCornerShape(ROUNDED_CORNER_SHAPE_PCT_VAL),
         border = BorderStroke(2.dp, borderColor),
         backgroundColor = backgroundColor,
         modifier = Modifier
@@ -39,7 +41,7 @@ fun SnackBar (
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
+            Text (
                 text     = snackbarData.message,
                 color    = contentColor,
                 fontSize = SNACKBAR_FONT_SIZE_SP

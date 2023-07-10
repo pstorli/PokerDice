@@ -38,6 +38,6 @@ fun PokerButton (name: String, textColor: Color, borderColor: Color=MaterialThem
         contentPadding  = PaddingValues(1.dp)
     )
     {
-        Text(text = name, color = textColor)
+        Text (text = name, color = textColor)
     }
 }

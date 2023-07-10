@@ -2,7 +2,7 @@
     <string name="about">About</string>
     <string name="app_name">PokerDice</string>
     <string name="app_name_readable">Poker Dice</string>
-    <string name="about_text">Game: Poker Dice\n\nVersion: 1005\n\nDate: 07/07/2023\n\nAuthor: Pete Storli\n\nRole: Senior Android Software Engineer\n\nEmail: pstorli@gmail.com\n\nURL: http://storlidesigns.com</string>
+    <string name="about_text">Game: Poker Dice\n\nVersion: 1006\n\nDate: 07/09/2023\n\nAuthor: Pete Storli\n\nRole: Senior Android Software Engineer\n\nEmail: pstorli@gmail.com\n\nURL: http://storlidesigns.com</string>
     <string name="bet">Bet</string>
     <string name="board">Board</string>
     <string name="cancel">Cancel</string>
@@ -32,7 +32,8 @@
     <string name="ok">OK</string>
     <string name="outta_cash">Not enough cash to place that bet!</string>
     <string name="player">Player</string>
-    <string name="portfolio_click">Resume / Portfolio</string>
+    <string name="portfolio_click">Resume</string>
+    <string name="question">Question</string>
     <string name="reset">Reset</string>
     <string name="roll_dice">Roll\nDice</string>
     <string name="rolls">Rolls</string>

@@ -15,11 +15,11 @@ fun ErrorDialog(message: String) {
                 openDialog.value = false
             },
             title = {
-                Text(text = "Error")
+                Text (text = "Error")
 
             },
             text = {
-                Text(message)
+                Text (message)
             },
             confirmButton = {
                 openDialog.value = false

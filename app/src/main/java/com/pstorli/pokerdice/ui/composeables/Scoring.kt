@@ -27,7 +27,7 @@ fun Scoring () {
             maxWidth = true,
             maxHeight = true
         ) {
-            Text(
+            Text (
                 text     = stringResource(id = R.string.scoring_text),
                 color    = LocalContext.current.color(Colors.Text),
                 fontSize = SCORING_TEXT_FONT_SIZE_SP,

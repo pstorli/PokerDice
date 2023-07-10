@@ -3,10 +3,12 @@ package com.pstorli.pokerdice.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Text
@@ -66,19 +68,19 @@ fun AboutScreen (pokerViewModel: PokerViewModel) {
             // Show instructions.
             Text (stringResource(id = R.string.about_text))
 
-            Row(
-                modifier                = Modifier.fillMaxWidth(),
+            // Side by side rows the same height
+            // make these two rows, the children, the same height.
+            Row(modifier = Modifier.height(IntrinsicSize.Min).fillMaxWidth(),
                 horizontalArrangement   = Arrangement.Center,
-                verticalAlignment       = Alignment.Top
+                verticalAlignment       = Alignment.Bottom) {
 
-            ) {
                 LabeledRow(
                     title       = NO_TEXT,
                     titleColor  = LocalContext.current.color(Colors.Title)
                 ) {
                     val localUriHandler = LocalUriHandler.current
                     val clickText = stringResource(id = R.string.portfolio_click)
-                    ClickableText(
+                    ClickableText (
                         text = AnnotatedString(clickText),
                         style = TextStyle(
                             fontSize = Consts.URL_FONT_SIZE_SP,

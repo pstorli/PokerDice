@@ -358,7 +358,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
                 }
 
                 // Set the text now.
-                setDieText(pos, dieText)
+                setDieText (pos, dieText)
             }
         }
     }
@@ -639,7 +639,7 @@ class PokerViewModel (val app: Application) : AndroidViewModel(app) {
         else if (cash < betsCost) {
             // Out of cash!
             snackBarText = app.resources .getString(R.string.outta_cash)
-            outaCash = true
+            outaCash     = true
         }
 
         // Reset the bet.
