@@ -11,8 +11,8 @@ android {
         applicationId "com.pstorli.pokerdice"
         minSdk 24
         targetSdk 33
-        versionCode 1007
-        versionName "1007"
+        versionCode 1008
+        versionName "1008"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
