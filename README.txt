@@ -22,6 +22,9 @@ Architecture notes:
 2DO Issues:
   0000 Add settings screen back in and allow to change colors.
 
+Resolved Issues Version 1007:
+  0000 Updated gradle dependancies.
+
 Resolved Issues Version 1006:
   0000 Fixed issues with alert dialog and snackbar.
   0000 Hopefully last of bugs that need fixing.
